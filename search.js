@@ -52,18 +52,20 @@ const SEARCH = {
     products.map((product) => {
       let productKeyWords = product.keywords;
       productKeyWords.forEach((keyword) => {
-        if (
-          keyword.includes(searchArr) &&
-          !this.searchResults.includes(product)
-        ) {
-          this.searchResults.push(product);
-        } else {
-          return;
-        }
+        searchArr.forEach((searchWord) => {
+          if (
+            searchWord.includes(keyword) &&
+            !this.searchResults.includes(product)
+          ) {
+            this.searchResults.push(product);
+          } else {
+            return;
+          }
+        });
       });
-    });
 
-    this.displaySearchProducts(this.searchResults);
+      this.displaySearchProducts(this.searchResults);
+    });
   },
 
   displaySearchProducts: function (searchResults) {
@@ -83,3 +85,6 @@ const SEARCH = {
 };
 
 export { SEARCH };
+
+//make it so a second keyword typed it search bar is also filtered
+//and shown
