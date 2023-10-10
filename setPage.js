@@ -3,6 +3,7 @@ import { BUTTONS } from "./buttons.js";
 import { OPTIONS } from "./options.js";
 
 const SET_UP_DATA = {
+  BODY: document.querySelector("body"),
   ERROR_DIV: document.querySelector(".error-div"),
   PRODUCT_GRID: document.querySelector(".product-grid"),
   setUpPage: function (products) {
@@ -56,6 +57,8 @@ const SET_UP_DATA = {
     });
     this.PRODUCT_GRID.innerHTML = product_html;
     this.addAndLoopAddedDivs();
+    this.createNOT_FOUND();
+    this.postNOT_FOUND();
   },
   addAndLoopAddedDivs: function () {
     const ADD_DIVS = BUTTONS.getADD_DIVS();
@@ -102,6 +105,18 @@ const SET_UP_DATA = {
     const ALL_STYLE_DIVS = OPTIONS.getALL_STYLE_DIVS();
     OPTIONS.highlightFirstStyleOption(ALL_STYLE_DIVS);
     OPTIONS.addStyleEventToOptionBTNS(ALL_OPTION_BTNS);
+  },
+  createNOT_FOUND: function () {
+    const NOT_FOUND = document.createElement("div");
+    NOT_FOUND.classList.add("not-found");
+    NOT_FOUND.textContent =
+      "Item Not Found. Please Refine Your Search and Try Again";
+    return NOT_FOUND;
+  },
+  postNOT_FOUND: function () {
+    let NOT_FOUND = this.createNOT_FOUND();
+    SET_UP_DATA.BODY.appendChild(NOT_FOUND);
+    NOT_FOUND.hidden = true;
   },
 };
 

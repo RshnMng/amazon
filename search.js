@@ -3,6 +3,7 @@ import { products } from "./product.js";
 
 const SEARCH = {
   searchResults: [],
+  empty: null,
   getSEARCH_BTN: function () {
     const SEARCH_BTN = document.querySelector(".search-btn");
     return SEARCH_BTN;
@@ -61,11 +62,23 @@ const SEARCH = {
         }
       });
     });
+
     this.displaySearchProducts(this.searchResults);
   },
 
   displaySearchProducts: function (searchResults) {
-    SET_UP_DATA.setUpPage(searchResults);
+    let notFound = document.querySelector(".not-found");
+    if (searchResults.length == 0 && this.empty == true) {
+      return;
+    } else if (searchResults.length == 0) {
+      SET_UP_DATA.PRODUCT_GRID.innerHTML = "";
+      this.empty == true;
+      notFound.hidden = false;
+    } else {
+      this.empty == false;
+      notFound.hidden = true;
+      SET_UP_DATA.setUpPage(searchResults);
+    }
   },
 };
 
