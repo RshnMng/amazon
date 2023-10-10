@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MY AMAZON - Buy Yo' Shit Here, Cuh!</title>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="nav-bar">
+      <div class="logo-div">
+        <a href="index.html" class="amazon-link">
+          <img
+            class="amazon-logo-img"
+            src="https://supersimple.dev/projects/amazon/images/amazon-logo-white.png"
+            alt="amazon logo"
+          />
+        </a>
+      </div>
+      <div class="search-div">
+        <input class="search-bar" placeholder="Search" />
+        <button class="search-btn">
+          <img
+            class="search-img"
+            src="https://supersimple.dev/projects/amazon/images/icons/search-icon.png"
+          />
+        </button>
+      </div>
+      <div class="cart-div">
+        <div class="left-div">
+          <a href="#" class="return-link">
+            <p class="return-text">Returns</p>
+            <p class="order-text">& Orders</p>
+          </a>
+        </div>
+        <div class="right-div">
+          <a href="checkout.html" class="cart-link">
+            <img
+              class="cart-img"
+              src="https://supersimple.dev/projects/amazon/images/icons/cart-icon.png"
+            />
+          </a>
+          <div class="cart-count">0</div>
+          <div class="cart-name">Cart</div>
+        </div>
+      </div>
+    </nav>
+    <div class="error-div"></div>
+    <main class="product-grid js-product-grid"></main>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
