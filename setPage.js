@@ -1,4 +1,4 @@
-import { CART } from "./index_Cart.js";
+import { CART } from "./cart.js";
 import { BUTTONS } from "./buttons.js";
 import { OPTIONS } from "./options.js";
 
@@ -82,6 +82,7 @@ const SET_UP_DATA = {
         this.showAdded(event.target.id - 1, ADD_DIVS);
         let newQuantity = CART.updatePageCartQuantity(event);
         CART.setLocalStorageCartQuantity(newQuantity);
+        CART.manageCartItems(event, newQuantity);
       });
     });
   },

@@ -11,46 +11,29 @@
     />
   </head>
   <body>
-    <nav>
-      <div class="logo-div">
-        <a href="index.html" class="amazon-link">
+    <nav class="header-content">
+      <div class="logo-container">
+        <a href="index.html">
           <img
-            class="amazon-logo-img"
-            src="https://supersimple.dev/projects/amazon/images/amazon-logo-white.png"
-            alt="amazon logo"
+            class="checkout-logo"
+            src="https://supersimple.dev/projects/amazon/images/amazon-logo.png"
           />
         </a>
       </div>
-      <div class="search-div">
-        <input class="search-bar" placeholder="Search" />
-        <button class="search-btn">
-          <img
-            class="search-img"
-            src="https://supersimple.dev/projects/amazon/images/icons/search-icon.png"
-          />
-        </button>
+      <div class="checkout-div">
+        <div class="checkout-header">Checkout(4 items)</div>
       </div>
-      <div class="cart-div">
-        <div class="left-div">
-          <a href="#" class="return-link">
-            <div class="return-text">Returns</div>
-            <div class="order-text">& Orders</div>
-          </a>
-        </div>
-        <div class="right-div">
-          <a href="checkout.html" class="cart-link">
-            <img
-              class="cart-img"
-              src="https://supersimple.dev/projects/amazon/images/icons/cart-icon.png"
-            />
-          </a>
-          <div class="cart-count">0</div>
-          <div class="cart-name">Cart</div>
-        </div>
+      <div class="lock-div">
+        <img
+          class="lock-img"
+          src="https://supersimple.dev/projects/amazon/images/icons/checkout-lock-icon.png"
+        />
       </div>
     </nav>
-    <a href="index.html">keep shopping</a>
     <div class="cart-display js-cart-display"></div>
-    <script type="module" src="checkout.js"></script>
+    <script type="module" src="index_checkout.js"></script>
   </body>
 </html>
+
+**redo the checkout html so it matches our model page, add cart items and
+calculation functionality, style with css
