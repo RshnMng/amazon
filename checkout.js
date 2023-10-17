@@ -144,9 +144,24 @@ const CHECKOUT = {
   },
   showEmpty: function () {
     const ESTIMATED_TAX = document.querySelector(".tax-total-price");
-    ESTIMATED_TAX.textContent = `$0.00`;
     const BEFORE_TAX_DIV = document.querySelector(".before-tax-total");
+    ESTIMATED_TAX.textContent = `$0.00`;
     BEFORE_TAX_DIV.textContent = `$0.00`;
+
+    const EMPTY_DIV = document.createElement("div");
+    EMPTY_DIV.classList.add("empty");
+    const EMPTY_HEADER = document.createElement("div");
+    EMPTY_HEADER.classList.add("empty-header");
+    EMPTY_HEADER.textContent = "Your cart is empty.";
+    const EMPTY_BUTTON = document.createElement("button");
+    EMPTY_BUTTON.classList.add("empty-button");
+    EMPTY_BUTTON.textContent = "View Products";
+
+    EMPTY_DIV.append(EMPTY_HEADER);
+    EMPTY_DIV.append(EMPTY_BUTTON);
+    this.BODY.append(EMPTY_DIV);
+    const ADD_CART_BTN = document.querySelector(".place-order");
+    ADD_CART_BTN.setAttribute("disabled", "");
   },
   addEventsToRadioBtn: function () {
     let RADIO_BTS = document.querySelectorAll(".radio-btn");
