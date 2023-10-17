@@ -100,7 +100,6 @@ body {
   }
 
 
-
   .cart-count-over-100 {
       font-size: 13px;
       bottom: 39px;
@@ -113,6 +112,10 @@ body {
   }
 
   .checkout-logo {
+    width: 100px;
+  }
+
+  .checkout-img {
     width: 100px;
   }
 
