@@ -81,9 +81,12 @@ const CHECKOUT = {
   displayCart: function (cartItems) {
     let html = "";
     let i = 1;
-    cartItems.map((product) => {
-      i += 1;
-      html += `
+    if (cartItems == null) {
+      this.showEmpty();
+    } else {
+      cartItems.map((product) => {
+        i += 1;
+        html += `
         <div class='product-display'>
         <div class='delivery-date'>Delivery date: Tuesday, October 24</div>
         <div class='product-img'>
@@ -106,7 +109,7 @@ const CHECKOUT = {
        </div>
        <div class='date-div'>
        <div class='date'>Tuesday, October 24</div>
-       <div class='shipping-price'>FREE Shipping</div>
+       <div class='shipping-cost'>FREE Shipping</div>
        </div>
         </div>
             <div class='option-2 option'>
@@ -115,7 +118,7 @@ const CHECKOUT = {
        </div>
        <div class='date-div'>
        <div class='date'>Wednesday, October 18</div>
-       <div class='shipping-price'>$4.99 Shipping</div>
+       <div class='shipping-cost'>$4.99 Shipping</div>
        </div>
        </div>
        <div class='option-3 option'>
@@ -124,7 +127,7 @@ const CHECKOUT = {
        </div>
        <div class='date-div'>
        <div class='date'>Monday, October 16</div>
-       <div class='shipping-price'>$9.99 Shipping</div>
+       <div class='shipping-cost'>$9.99 Shipping</div>
        </div>
        </div>
        </div>
@@ -132,10 +135,18 @@ const CHECKOUT = {
         </div>
         </div> 
       `;
-    });
-    let CART_DISPLAY = document.querySelector(".cart-display");
-    CART_DISPLAY.innerHTML = html;
+      });
+      let CART_DISPLAY = document.querySelector(".cart-display");
+      CART_DISPLAY.innerHTML = html;
+    }
+
     this.addEventsToRadioBtn();
+  },
+  showEmpty: function () {
+    const ESTIMATED_TAX = document.querySelector(".tax-total-price");
+    ESTIMATED_TAX.textContent = `$0.00`;
+    const BEFORE_TAX_DIV = document.querySelector(".before-tax-total");
+    BEFORE_TAX_DIV.textContent = `$0.00`;
   },
   addEventsToRadioBtn: function () {
     let RADIO_BTS = document.querySelectorAll(".radio-btn");
@@ -182,27 +193,28 @@ const CHECKOUT = {
       return total;
     }, 0);
     this.shippingTotal = total;
-    this.displayShippingTotal(total);
+    this.displayShippingTotal(this.shippingTotal);
   },
   displayShippingTotal(shippingTotal) {
     let SHIPPING_PRICE_DIV = document.querySelector(".shipping-price");
     if (shippingTotal == 0 || shippingTotal == null) {
-      this.shippingTotal = 0;
       SHIPPING_PRICE_DIV.innerText = "$0.00";
     } else {
-      this.shippingTotal = shippingTotal;
       SHIPPING_PRICE_DIV.innerText = `$${shippingTotal}`;
     }
     this.calculateTotal(this.tax, this.itemPrice, this.shippingTotal);
   },
   getPriceBeforeTaxArr: function (itemsInCart) {
-    itemsInCart.forEach((item) => {
-      let itemPrice = Number(
-        (item.itemQuantity * item.chosenProduct.priceCents) / 100
-      ).toFixed(2);
-      this.priceArr.push(itemPrice);
-    });
-    this.getTotalBeforeTax(this.priceArr);
+    if (itemsInCart == null) {
+    } else {
+      itemsInCart.forEach((item) => {
+        let itemPrice = Number(
+          (item.itemQuantity * item.chosenProduct.priceCents) / 100
+        ).toFixed(2);
+        this.priceArr.push(itemPrice);
+      });
+      this.getTotalBeforeTax(this.priceArr);
+    }
   },
   getTotalBeforeTax: function (priceArr) {
     let sum = priceArr.reduce((total, price) => {
@@ -220,7 +232,9 @@ const CHECKOUT = {
   calculateTax: function (total) {
     let tenPercent = total * 0.1;
     this.tax = tenPercent.toFixed(2);
+
     const ESTIMATED_TAX = document.querySelector(".tax-total-price");
+    ESTIMATED_TAX.textContent = `$0.00`;
     ESTIMATED_TAX.textContent = `$${this.tax}`;
     this.calculateTotal(this.tax, this.itemPrice, this.shippingTotal);
   },
@@ -230,7 +244,7 @@ const CHECKOUT = {
     let price = taxTotal + itemTotal + shippingTotal;
     this.totalPrice = price.toFixed(2);
     const TOTAL_COST_DIV = document.querySelector(".total-cost");
-    TOTAL_COST_DIV.textContent = this.totalPrice;
+    TOTAL_COST_DIV.textContent = `$${this.totalPrice}`;
   },
 };
 
