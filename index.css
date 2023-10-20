@@ -379,6 +379,15 @@ p {
     padding-left: 3px;
    }
 
+   .update-link , .delete-link, .save-link {
+    cursor: pointer;
+   }
+
+   .update {
+    display: none;
+   }
+ 
+
 
 
 
