@@ -38,18 +38,17 @@ const TOTALS = {
     let taxTotal = Number(tax);
     let itemTotal = Number(total);
     let price = taxTotal + itemTotal + shippingTotal;
-    this.totalPrice = price.toFixed(2);
+    CHECKOUT.totalPrice = price.toFixed(2);
     const TOTAL_COST_DIV = document.querySelector(".total-cost");
-    TOTAL_COST_DIV.textContent = `$${this.totalPrice}`;
+    TOTAL_COST_DIV.textContent = `$${CHECKOUT.totalPrice}`;
   },
   calculateTax: function (total) {
     let tenPercent = total * 0.1;
-    this.tax = tenPercent.toFixed(2);
+    CHECKOUT.tax = tenPercent.toFixed(2);
 
     const ESTIMATED_TAX = document.querySelector(".tax-total-price");
     ESTIMATED_TAX.textContent = `$0.00`;
-    ESTIMATED_TAX.textContent = `$${this.tax}`;
-    this.calculateTotal(this.tax, this.itemPrice, this.shippingTotal);
+    ESTIMATED_TAX.textContent = `$${CHECKOUT.tax}`;
   },
 };
 

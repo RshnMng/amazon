@@ -18,23 +18,23 @@ const CHECKOUT = {
   loadCheckoutPage: function () {
     DISPLAY.hideHomePage();
     DISPLAY.loadHeader();
-    this.cartQuantity = TOTALS.getCartQuantity();
+    CHECKOUT.cartQuantity = TOTALS.getCartQuantity();
     DISPLAY.displayCheckoutAmount(this.cartQuantity);
-    this.cartItems = DISPLAY.getCartItems();
-    DISPLAY.displayCart(this.cartItems);
+    CHECKOUT.cartItems = DISPLAY.getCartItems();
+    DISPLAY.displayCart(CHECKOUT.cartItems);
     DISPLAY.hideUpdateDropMenu();
-    TOTALS.getPriceBeforeTaxArr(this.cartItems);
+    TOTALS.getPriceBeforeTaxArr(CHECKOUT.cartItems);
     TOTALS.getTotalBeforeTax(CHECKOUT.priceArr);
     DISPLAY.displayTotalBeforeTax(CHECKOUT.itemPrice);
     TOTALS.getShippingTotal(CHECKOUT.priceArr);
     DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
+    TOTALS.calculateTax(CHECKOUT.itemPrice);
+    TOTALS.calculateTotal(
+      CHECKOUT.tax,
+      CHECKOUT.itemPrice,
+      CHECKOUT.shippingTotal
+    );
     UPDATE.addEventsToBtns();
-
-    // CHECKOUT.getTotalBeforeTax(this.priceArr);
-
-    // CHECKOUT.displayShippingTotal(this.shippingTotal);
-
-    // UPDATE.addEventsToBtns();
   },
 };
 

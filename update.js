@@ -3,6 +3,7 @@ import { TOTALS } from "./totals.js";
 import { DISPLAY } from "./display.js";
 
 const UPDATE = {
+  localStorageIndex: 0,
   addEventsToBtns: function () {
     let SHIPPING_BTNS = document.querySelectorAll(".radio-btn");
     let UPDATE_LINK = document.querySelectorAll(".update-link");
@@ -25,6 +26,11 @@ const UPDATE = {
     let shippingArr = this.getSelectedShippingOptions(optionBtn);
     CHECKOUT.shippingTotal = TOTALS.getShippingTotal(shippingArr);
     DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
+    TOTALS.calculateTotal(
+      CHECKOUT.tax,
+      CHECKOUT.itemPrice,
+      CHECKOUT.shippingTotal
+    );
   },
   getOptionArr: function (optionDiv) {
     let options = optionDiv.children;
@@ -60,19 +66,16 @@ const UPDATE = {
   addEventsToUpdateLinks: function (UPDATE_LINK) {
     UPDATE_LINK.forEach((link) => {
       link.addEventListener("click", (event) => {
-        console.log(event.target);
         this.handleUpdateDropMenu(event);
       });
     });
   },
   handleUpdateDropMenu: function (event) {
     let clickedLink = event.target;
-    let localStorageIndex = event.target.getAttribute("localStorageIndex");
+    this.localStorageIndex = event.target.getAttribute("localStorageIndex");
     let updateDropMenu =
       clickedLink.parentElement.parentElement.parentElement.childNodes[3];
     this.toggleSavedAndUpdate(clickedLink, updateDropMenu);
-    let newItemQuantity = this.getNewQuantity(updateDropMenu);
-    this.updatePageInfo(newItemQuantity, localStorageIndex);
   },
   toggleSavedAndUpdate(clickedLink, updateDropMenu) {
     if (clickedLink.classList.contains("update-link")) {
@@ -85,12 +88,18 @@ const UPDATE = {
       clickedLink.classList.add("update-link");
       clickedLink.textContent = "Update";
       updateDropMenu.style.display = "none";
-      this.getNewQuantity(updateDropMenu);
+      let newQuantity = this.getNewQuantity(updateDropMenu);
+      let updatedCart = this.updateCartItemInfo(
+        newQuantity,
+        this.localStorageIndex
+      );
+      this.saveUpdatedCart(updatedCart);
+
+      UPDATE.updateCheckOutPage();
     }
   },
 
   getNewQuantity: function (updateDropMenu) {
-    console.log(updateDropMenu);
     let menuValue = updateDropMenu.firstChild.value;
     return menuValue;
   },
@@ -104,9 +113,9 @@ const UPDATE = {
     let newCartQuantity = this.updateCartCount();
     DISPLAY.setLocalCartQuantity(newCartQuantity);
   },
-  updateCartItemInfo: function (newItemQuantity, localStorageIndex) {
+  updateCartItemInfo: function (newQuantity, localStorageIndex) {
     let itemsInCart = DISPLAY.getCartItems();
-    itemsInCart[localStorageIndex].itemQuantity = Number(newItemQuantity);
+    itemsInCart[localStorageIndex].itemQuantity = Number(newQuantity);
     return itemsInCart;
   },
   updateCartCount: function () {
@@ -116,6 +125,30 @@ const UPDATE = {
       total += item.itemQuantity;
     });
     return total;
+  },
+  saveUpdatedCart: function (updatedCart) {
+    CHECKOUT.cartItems = updatedCart;
+    DISPLAY.setCartItems(updatedCart);
+  },
+  updateCheckOutPage() {
+    UPDATE.emptyValues();
+    TOTALS.getPriceBeforeTaxArr(CHECKOUT.cartItems);
+    TOTALS.getTotalBeforeTax(CHECKOUT.priceArr);
+    DISPLAY.displayTotalBeforeTax(CHECKOUT.itemPrice);
+    TOTALS.getShippingTotal(CHECKOUT.priceArr);
+    DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
+    TOTALS.calculateTax(CHECKOUT.itemPrice);
+    TOTALS.calculateTotal(
+      CHECKOUT.tax,
+      CHECKOUT.itemPrice,
+      CHECKOUT.shippingTotal
+    );
+  },
+  emptyValues: function () {
+    CHECKOUT.priceArr = [];
+    CHECKOUT.itemPrice = 0;
+    CHECKOUT.totalPrice = 0;
+    CHECKOUT.tax = 0;
   },
 };
 
