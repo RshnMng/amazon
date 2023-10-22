@@ -58,7 +58,7 @@ const DISPLAY = {
     <h1> Review your Order </h1>
     <div class='order-summary'>
     <h2> Order Summary </h2>
-    <div class='items'>items(${TOTALS.getCartQuantity()})</div>
+    <div class='items'>Items(${DISPLAY.getLocalCartQuantity()})</div>
     <div class='shipping'>Shipping & handling</div>
     <div class='shipping-price'></div>
     <div class='before-tax'>Total before tax</div>
@@ -187,7 +187,6 @@ const DISPLAY = {
     } else {
       SHIPPING_PRICE_DIV.innerText = `$${shippingTotal}`;
     }
-    // this.calculateTotal(this.tax, this.itemPrice, this.shippingTotal);
   },
 };
 

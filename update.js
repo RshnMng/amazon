@@ -89,10 +89,12 @@ const UPDATE = {
       clickedLink.textContent = "Update";
       updateDropMenu.style.display = "none";
       let newQuantity = this.getNewQuantity(updateDropMenu);
+
       let updatedCart = this.updateCartItemInfo(
         newQuantity,
         this.localStorageIndex
       );
+      this.updateProductCount(newQuantity, clickedLink);
       this.saveUpdatedCart(updatedCart);
 
       UPDATE.updateCheckOutPage();
@@ -130,8 +132,17 @@ const UPDATE = {
     CHECKOUT.cartItems = updatedCart;
     DISPLAY.setCartItems(updatedCart);
   },
+
+  updateProductCount: function (newQuantity, clickedLink) {
+    let itemCount =
+      clickedLink.parentElement.parentElement.parentElement.children[0];
+    itemCount.innerHTML = `Quantity: ${newQuantity}`;
+  },
   updateCheckOutPage() {
     UPDATE.emptyValues();
+    let newCartQuantity = UPDATE.getUpdatedCartQuantity();
+    DISPLAY.setLocalCartQuantity(newCartQuantity);
+    UPDATE.updateTotalItemCount();
     TOTALS.getPriceBeforeTaxArr(CHECKOUT.cartItems);
     TOTALS.getTotalBeforeTax(CHECKOUT.priceArr);
     DISPLAY.displayTotalBeforeTax(CHECKOUT.itemPrice);
@@ -149,6 +160,20 @@ const UPDATE = {
     CHECKOUT.itemPrice = 0;
     CHECKOUT.totalPrice = 0;
     CHECKOUT.tax = 0;
+  },
+  getUpdatedCartQuantity() {
+    let total = CHECKOUT.cartItems.reduce((total, item) => {
+      total += item.itemQuantity;
+      return total;
+    }, 0);
+    return total;
+  },
+  updateTotalItemCount: function () {
+    let currentItemCount = DISPLAY.getLocalCartQuantity();
+    let checkOutHeader = document.querySelector(".checkout-header");
+    let itemsDisplay = document.querySelector(".items");
+    checkOutHeader.innerHTML = `Checkout <span class= 'checkout-count'>${currentItemCount} items </span>`;
+    itemsDisplay.innerHTML = `Items(${currentItemCount})`;
   },
 };
 
