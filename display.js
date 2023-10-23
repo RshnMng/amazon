@@ -1,9 +1,14 @@
 import { CHECKOUT } from "./checkout.js";
-import { TOTALS } from "./totals.js";
+import { UPDATE } from "./update.js";
 
 const DISPLAY = {
   hideHomePage: function () {
     CHECKOUT.HOME_PAGE.hidden = true;
+  },
+  setUpPage: function () {
+    DISPLAY.hideHomePage();
+    DISPLAY.loadHeader();
+    DISPLAY.hideUpdateDropMenu();
   },
   displayCheckoutAmount: function (cartQuantity) {
     let checkOutHeader = document.querySelector(".checkout-header");
@@ -17,6 +22,8 @@ const DISPLAY = {
   setCartItems: function (cartItems) {
     let cartItemsJSON = JSON.stringify(cartItems);
     localStorage.setItem("cartItems", cartItemsJSON);
+    let newCount = UPDATE.updateCartCount();
+    this.setLocalCartQuantity(newCount);
   },
   getLocalCartQuantity: function () {
     let cartQuantityJSON = localStorage.getItem("cartQuantity");
@@ -36,7 +43,9 @@ const DISPLAY = {
   loadHeader: function () {
     let CHECKOUT_PAGE = document.createElement("div");
     CHECKOUT_PAGE.classList.add("checkout-page");
-    let headerHtml = `<nav class="header-content">
+    let headerHtml = `
+    <div class='checkout-page'>
+    <nav class="header-content">
       <div class="logo-container">
         <a href="index.html">
           <img
@@ -71,7 +80,9 @@ const DISPLAY = {
     <input type='checkbox'></input>
     <button class='place-order'>place your order</button>
     </div>
-    <div class="cart-display js-cart-display"></div>`;
+    <div class="cart-display js-cart-display"></div>
+    </div>
+    `;
     CHECKOUT_PAGE.innerHTML = headerHtml;
     CHECKOUT.BODY.append(CHECKOUT_PAGE);
   },
@@ -112,7 +123,11 @@ const DISPLAY = {
        </div>
        <div class='link-div'>
        <div class='update-link-div'><a class='update-link' localStorageIndex=${i}> Update</a></div>
-       <div class='delete'><a class='delete-link'>Delete</a></div>
+       <div class='delete' id='${
+         product.chosenProduct.id
+       }' ><a class='delete-link' id='${
+          product.chosenProduct.id
+        }' >Delete</a></div>
        </div>
        <div class='delivery-div'>
        <h3 class='delivery-header'>Choose a delivery option:</h3>
@@ -160,21 +175,7 @@ const DISPLAY = {
     const BEFORE_TAX_DIV = document.querySelector(".before-tax-total");
     ESTIMATED_TAX.textContent = `$0.00`;
     BEFORE_TAX_DIV.textContent = `$0.00`;
-
-    const EMPTY_DIV = document.createElement("div");
-    EMPTY_DIV.classList.add("empty");
-    const EMPTY_HEADER = document.createElement("div");
-    EMPTY_HEADER.classList.add("empty-header");
-    EMPTY_HEADER.textContent = "Your cart is empty.";
-    const EMPTY_BUTTON = document.createElement("button");
-    EMPTY_BUTTON.classList.add("empty-button");
-    EMPTY_BUTTON.textContent = "View Products";
-
-    EMPTY_DIV.append(EMPTY_HEADER);
-    EMPTY_DIV.append(EMPTY_BUTTON);
-    CHECKOUT.BODY.append(EMPTY_DIV);
-    const ADD_CART_BTN = document.querySelector(".place-order");
-    ADD_CART_BTN.setAttribute("disabled", "");
+    DISPLAY.addEmptyCart();
   },
   displayTotalBeforeTax(total) {
     const BEFORE_TAX_DIV = document.querySelector(".before-tax-total");
@@ -188,6 +189,30 @@ const DISPLAY = {
       SHIPPING_PRICE_DIV.innerText = `$${shippingTotal}`;
     }
   },
+  addEmptyCart: function () {
+    let CHECKOUT_PAGE = document.querySelector(".checkout-page");
+    const CART_DISPLAY = document.querySelector(".cart-display");
+    const EMPTY_DIV = document.createElement("div");
+    EMPTY_DIV.classList.add("empty");
+    const EMPTY_HEADER = document.createElement("div");
+    EMPTY_HEADER.classList.add("empty-header");
+    EMPTY_HEADER.textContent = "Your cart is empty.";
+    const EMPTY_BUTTON = document.createElement("button");
+    EMPTY_BUTTON.classList.add("empty-button");
+    EMPTY_BUTTON.textContent = "View Products";
+
+    EMPTY_DIV.append(EMPTY_HEADER);
+    EMPTY_DIV.append(EMPTY_BUTTON);
+    CART_DISPLAY.append(EMPTY_DIV);
+    const ADD_CART_BTN = document.querySelector(".place-order");
+    ADD_CART_BTN.setAttribute("disabled", "");
+    EMPTY_BUTTON.addEventListener("click", () => {
+      CHECKOUT.HOME_PAGE.hidden = false;
+      CHECKOUT_PAGE.hidden = true;
+    });
+  },
 };
 
 export { DISPLAY };
+
+//NEXT STEPS : MAKE IT SO CHECKOUT PAGE IS HIDDEN WHEN VIEW PRODUCTS IS BUTTON IS CLICKED

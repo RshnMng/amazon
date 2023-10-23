@@ -3,6 +3,7 @@ import { SET_UP_DATA } from "./setPage.js";
 import { CART } from "./cart.js";
 import { SEARCH } from "./search.js";
 import { CHECKOUT } from "./checkout.js";
+import { LOCAL_STORAGE } from "./localStorage.js";
 
 const APP = (function () {
   // EVENTS HAPPENING ON PAGE LOAD //
@@ -10,7 +11,7 @@ const APP = (function () {
 
   // CART //
   let savedCartQuantity = CART.getLocalStorageCartQuantity();
-  CART.getCartStyling(savedCartQuantity);
+  LOCAL_STORAGE.getCartStyling(savedCartQuantity);
 
   // SEARCH //
   const SEARCH_BAR = SEARCH.getSEARCH_BAR();

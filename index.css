@@ -149,6 +149,10 @@ body {
       outline-color: rgb(231, 117, 2);
   }
 
+  .empty-button {
+    cursor: pointer;
+  }
+
 html {
     margin: 0;
 }
@@ -255,6 +259,7 @@ html {
 p {
     margin: 5px;
 }
+
 
 .product-grid {
     display: grid;
@@ -386,6 +391,8 @@ p {
    .update {
     display: none;
    }
+
+   
  
 
 

@@ -16,25 +16,8 @@ const CHECKOUT = {
   totalPrice: 0,
   priceArr: [],
   loadCheckoutPage: function () {
-    DISPLAY.hideHomePage();
-    DISPLAY.loadHeader();
-    CHECKOUT.cartQuantity = TOTALS.getCartQuantity();
-    DISPLAY.displayCheckoutAmount(this.cartQuantity);
-    CHECKOUT.cartItems = DISPLAY.getCartItems();
-    DISPLAY.displayCart(CHECKOUT.cartItems);
-    DISPLAY.hideUpdateDropMenu();
-    TOTALS.getPriceBeforeTaxArr(CHECKOUT.cartItems);
-    TOTALS.getTotalBeforeTax(CHECKOUT.priceArr);
-    DISPLAY.displayTotalBeforeTax(CHECKOUT.itemPrice);
-    TOTALS.getShippingTotal(CHECKOUT.priceArr);
-    DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
-    TOTALS.calculateTax(CHECKOUT.itemPrice);
-    TOTALS.calculateTotal(
-      CHECKOUT.tax,
-      CHECKOUT.itemPrice,
-      CHECKOUT.shippingTotal
-    );
-    UPDATE.addEventsToBtns();
+    DISPLAY.setUpPage();
+    UPDATE.updateTotals();
   },
 };
 
@@ -42,9 +25,8 @@ export { CHECKOUT };
 
 //NEXT STEPS :
 
-// go through last few functions of CHECKOUT PAGE that handle shipping, tax and overall cost
-// make sure all displays of price and item count are being saved and then updated through the local storage
-// handle delete link
+//figure out why local storage isnt loading on initial page load
+// handle delete links
 // go through code once more to optimize organization and make sure we arent repeating ourselves, (might have
 // to refacto the fact that our code updates the local storage of cart quantity in two different ways. make so
 // the cart quantity is coming from the cart items local storage itself) Also rename variables if needed, we

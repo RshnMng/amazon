@@ -10,6 +10,7 @@ const UPDATE = {
     let DELETE_LINK = document.querySelectorAll(".delete-link");
     this.addEventsToRadioBtns(SHIPPING_BTNS);
     this.addEventsToUpdateLinks(UPDATE_LINK);
+    this.addEventsToDeleteLinks(DELETE_LINK);
   },
   addEventsToRadioBtns: function (SHIPPING_BTNS) {
     SHIPPING_BTNS.forEach((button) => {
@@ -141,8 +142,10 @@ const UPDATE = {
   updateCheckOutPage() {
     UPDATE.emptyValues();
     let newCartQuantity = UPDATE.getUpdatedCartQuantity();
+    console.log(newCartQuantity);
     DISPLAY.setLocalCartQuantity(newCartQuantity);
-    UPDATE.updateTotalItemCount();
+    let newQuantity = UPDATE.updateTotalItemCount();
+    console.log(newQuantity);
     TOTALS.getPriceBeforeTaxArr(CHECKOUT.cartItems);
     TOTALS.getTotalBeforeTax(CHECKOUT.priceArr);
     DISPLAY.displayTotalBeforeTax(CHECKOUT.itemPrice);
@@ -174,6 +177,48 @@ const UPDATE = {
     let itemsDisplay = document.querySelector(".items");
     checkOutHeader.innerHTML = `Checkout <span class= 'checkout-count'>${currentItemCount} items </span>`;
     itemsDisplay.innerHTML = `Items(${currentItemCount})`;
+  },
+  addEventsToDeleteLinks: function (DELETE_LINK) {
+    DELETE_LINK.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        this.filterDeleted(event, CHECKOUT.cartItems);
+      });
+    });
+  },
+
+  filterDeleted(event, cartItems) {
+    let deletedProduct = event.target;
+    let newCartItems = cartItems.filter((item) => {
+      return deletedProduct.id != item.chosenProduct.id;
+    });
+
+    DISPLAY.setCartItems(newCartItems);
+    UPDATE.updateTotals();
+  },
+  updateTotals: function () {
+    CHECKOUT.cartItems = DISPLAY.getCartItems();
+    UPDATE.emptyValues();
+    DISPLAY.displayCart(CHECKOUT.cartItems);
+    let itemsInCart = UPDATE.getUpdatedCartQuantity();
+    UPDATE.updateTotalItemCount();
+    TOTALS.getPriceBeforeTaxArr(CHECKOUT.cartItems);
+    TOTALS.getTotalBeforeTax(CHECKOUT.priceArr);
+    DISPLAY.displayTotalBeforeTax(CHECKOUT.itemPrice);
+    TOTALS.getShippingTotal(CHECKOUT.priceArr);
+    DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
+    TOTALS.calculateTax(CHECKOUT.itemPrice);
+    TOTALS.calculateTotal(
+      CHECKOUT.tax,
+      CHECKOUT.itemPrice,
+      CHECKOUT.shippingTotal
+    );
+    UPDATE.addEventsToBtns();
+    if (itemsInCart == 0) {
+      DISPLAY.addEmptyCart();
+    } else {
+      const EMPTY_DIV = document.createElement("div");
+      EMPTY_DIV.hidden = true;
+    }
   },
 };
 

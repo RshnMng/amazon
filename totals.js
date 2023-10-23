@@ -53,5 +53,3 @@ const TOTALS = {
 };
 
 export { TOTALS };
-
-////

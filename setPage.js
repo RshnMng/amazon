@@ -1,6 +1,9 @@
 import { CART } from "./cart.js";
 import { BUTTONS } from "./buttons.js";
 import { OPTIONS } from "./options.js";
+import { products } from "./product.js";
+import { CHECKOUT } from "./checkout.js";
+import { LOCAL_STORAGE } from "./localStorage.js";
 
 const SET_UP_DATA = {
   BODY: document.querySelector("body"),
@@ -76,13 +79,12 @@ const SET_UP_DATA = {
     const ADDED_LABEL = div.childNodes[3];
     (CHECKMARK.hidden = true), (ADDED_LABEL.hidden = true);
   },
+
   addClickEvent: function (ADD_BTNS, ADD_DIVS) {
     ADD_BTNS.forEach((button) => {
       button.addEventListener("click", (event) => {
         this.showAdded(event.target.id - 1, ADD_DIVS);
-        let newQuantity = CART.updatePageCartQuantity(event);
-        CART.setLocalStorageCartQuantity(newQuantity);
-        CART.manageCartItems(event, newQuantity);
+        LOCAL_STORAGE.addSelectedItemToStorage();
       });
     });
   },
