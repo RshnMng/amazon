@@ -63,8 +63,8 @@ const LOCAL_STORAGE = {
       itemQuantity: itemAmount,
       chosenProduct: product,
       id: productID,
-    });
-    this.setLocalStorageCartItems(cartItems);
+    }),
+      this.setLocalStorageCartItems(cartItems);
   },
   addItemAmountToExistingProduct: function (cartItems, productID, itemAmount) {
     cartItems.forEach((item) => {
