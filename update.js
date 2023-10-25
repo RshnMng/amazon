@@ -147,6 +147,7 @@ const UPDATE = {
     let cartItems = LOCAL_STORAGE.getCartItems();
     UPDATE.emptyValues();
     DISPLAY.displayCheckoutAmount();
+    LOCAL_STORAGE.getCartStyling();
     DISPLAY.displayCart(cartItems);
     TOTALS.getPriceBeforeTaxArr(cartItems);
     TOTALS.getTotalBeforeTax(CHECKOUT.priceArr);

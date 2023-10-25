@@ -89,7 +89,12 @@ const LOCAL_STORAGE = {
     }
   },
   getCartStyling: function (numberOfItemsInCart) {
-    if (numberOfItemsInCart < 10) {
+    if (numberOfItemsInCart == null || numberOfItemsInCart == undefined) {
+      numberOfItemsInCart = 0;
+      this.cartCount.classList.add("cart-count-under-ten");
+      this.cartCount.classList.remove("cart-count-over-100");
+      this.cartCount.classList.remove("cart-count-over-ten");
+    } else if (numberOfItemsInCart < 10) {
       this.cartCount.classList.add("cart-count-under-ten");
       this.cartCount.classList.remove("cart-count-over-100");
       this.cartCount.classList.remove("cart-count-over-ten");
