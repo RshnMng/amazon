@@ -1,5 +1,3 @@
-import { BUTTONS } from "./buttons.js";
-
 const OPTIONS = {
   STYLE_DIV: [],
   getOPTION_DIVS: function () {

@@ -1,10 +1,7 @@
-import { CART } from "./cart.js";
-import { BUTTONS } from "./buttons.js";
 import { OPTIONS } from "./options.js";
 import { products } from "./product.js";
-import { CHECKOUT } from "./checkout.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
-
+import { DISPLAY } from "./display.js";
 const SET_UP_DATA = {
   BODY: document.querySelector("body"),
   ERROR_DIV: document.querySelector(".error-div"),
@@ -32,9 +29,9 @@ const SET_UP_DATA = {
           product.rating.count
         }</div>
         </div>
-        <div class='product-price js-product-price'>$${Number(
-          product.priceCents / 100
-        ).toFixed(2)}</div>
+        <div class='product-price js-product-price'>$${DISPLAY.convertIntoFloatNumber(
+          product.priceCents
+        )}</div>
         <div id=${id} class='quantity-div js-quantity-div'>
         <select class='drop-menu js-drop-menu'>
         <option value="1">1</option>
@@ -60,12 +57,13 @@ const SET_UP_DATA = {
     });
     this.PRODUCT_GRID.innerHTML = product_html;
     this.addAndLoopAddedDivs();
+    this.handleOptions();
     this.createNOT_FOUND();
     this.postNOT_FOUND();
   },
   addAndLoopAddedDivs: function () {
-    const ADD_DIVS = BUTTONS.getADD_DIVS();
-    const ALL_BTNS = BUTTONS.getALL_BTNS();
+    const ADD_DIVS = this.getADD_DIVS();
+    const ALL_BTNS = this.getALL_BTNS();
     this.loopAddDiv(ADD_DIVS);
     this.addClickEvent(ALL_BTNS, ADD_DIVS);
   },
@@ -84,7 +82,7 @@ const SET_UP_DATA = {
     ADD_BTNS.forEach((button) => {
       button.addEventListener("click", (event) => {
         this.showAdded(event.target.id - 1, ADD_DIVS);
-        LOCAL_STORAGE.addSelectedItemToStorage();
+        LOCAL_STORAGE.addSelectedItemToStorage(event);
       });
     });
   },
@@ -120,6 +118,14 @@ const SET_UP_DATA = {
     let NOT_FOUND = this.createNOT_FOUND();
     SET_UP_DATA.BODY.appendChild(NOT_FOUND);
     NOT_FOUND.hidden = true;
+  },
+  getADD_DIVS: function () {
+    const ADD_DIVS = document.querySelectorAll(".added-div");
+    return ADD_DIVS;
+  },
+  getALL_BTNS: function () {
+    const ADD_BTNS = document.querySelectorAll(".add-btn");
+    return ADD_BTNS;
   },
 };
 

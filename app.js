@@ -1,6 +1,5 @@
 import { products } from "./product.js";
 import { SET_UP_DATA } from "./setPage.js";
-import { CART } from "./cart.js";
 import { SEARCH } from "./search.js";
 import { CHECKOUT } from "./checkout.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
@@ -10,7 +9,7 @@ const APP = (function () {
   SET_UP_DATA.setUpPage(products);
 
   // CART //
-  let savedCartQuantity = CART.getLocalStorageCartQuantity();
+  let savedCartQuantity = LOCAL_STORAGE.getNumberOfCartItems();
   LOCAL_STORAGE.getCartStyling(savedCartQuantity);
 
   // SEARCH //

@@ -56,7 +56,7 @@ body {
   }
 
   .clicked {
-      border: 2px solid rgb(231, 117, 2);
+      border: 2px solid rgb(231, 117, 2) !important; 
   }
 
   .cart-img {

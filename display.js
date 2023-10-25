@@ -1,5 +1,5 @@
 import { CHECKOUT } from "./checkout.js";
-import { UPDATE } from "./update.js";
+import { LOCAL_STORAGE } from "./localStorage.js";
 
 const DISPLAY = {
   hideHomePage: function () {
@@ -9,30 +9,13 @@ const DISPLAY = {
     DISPLAY.hideHomePage();
     DISPLAY.loadHeader();
     DISPLAY.hideUpdateDropMenu();
+    DISPLAY.displayCheckoutAmount();
   },
-  displayCheckoutAmount: function (cartQuantity) {
+  displayCheckoutAmount: function () {
     let checkOutHeader = document.querySelector(".checkout-header");
-    checkOutHeader.innerHTML = `Checkout (<span class= 'checkout-count'>${DISPLAY.getLocalCartQuantity()} items </span>)`;
-  },
-  getCartItems: function () {
-    let cartItems = localStorage.getItem("cartItems");
-    let itemsInCart = JSON.parse(cartItems);
-    return itemsInCart;
-  },
-  setCartItems: function (cartItems) {
-    let cartItemsJSON = JSON.stringify(cartItems);
-    localStorage.setItem("cartItems", cartItemsJSON);
-    let newCount = UPDATE.updateCartCount();
-    this.setLocalCartQuantity(newCount);
-  },
-  getLocalCartQuantity: function () {
-    let cartQuantityJSON = localStorage.getItem("cartQuantity");
-    let localCartQuantity = JSON.parse(cartQuantityJSON);
-    return localCartQuantity;
-  },
-  setLocalCartQuantity: function (localCartQuantity) {
-    let localCartQuantityJSON = JSON.stringify(localCartQuantity);
-    localStorage.setItem("cartQuantity", localCartQuantityJSON);
+    let itemsDisplay = document.querySelector(".items");
+    checkOutHeader.innerHTML = `Checkout (<span class= 'checkout-count'>${LOCAL_STORAGE.getNumberOfCartItems()} items </span>)`;
+    itemsDisplay.innerHTML = `Items(${LOCAL_STORAGE.getNumberOfCartItems()})`;
   },
   hideUpdateDropMenu: function () {
     const UPDATE_DIV = document.querySelectorAll(".update");
@@ -67,7 +50,7 @@ const DISPLAY = {
     <h1> Review your Order </h1>
     <div class='order-summary'>
     <h2> Order Summary </h2>
-    <div class='items'>Items(${DISPLAY.getLocalCartQuantity()})</div>
+    <div class='items'>Items(${LOCAL_STORAGE.getNumberOfCartItems()})</div>
     <div class='shipping'>Shipping & handling</div>
     <div class='shipping-price'></div>
     <div class='before-tax'>Total before tax</div>
@@ -211,8 +194,12 @@ const DISPLAY = {
       CHECKOUT_PAGE.hidden = true;
     });
   },
+  convertIntoFloatNumber: function (data) {
+    let number = Number(data);
+    let float = number / 100;
+    let price = float.toFixed(2);
+    return price;
+  },
 };
 
 export { DISPLAY };
-
-//NEXT STEPS : MAKE IT SO CHECKOUT PAGE IS HIDDEN WHEN VIEW PRODUCTS IS BUTTON IS CLICKED

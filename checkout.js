@@ -1,5 +1,4 @@
 import { DISPLAY } from "./display.js";
-import { TOTALS } from "./totals.js";
 import { UPDATE } from "./update.js";
 
 const CHECKOUT = {
@@ -22,12 +21,3 @@ const CHECKOUT = {
 };
 
 export { CHECKOUT };
-
-//NEXT STEPS :
-
-//figure out why local storage isnt loading on initial page load
-// handle delete links
-// go through code once more to optimize organization and make sure we arent repeating ourselves, (might have
-// to refacto the fact that our code updates the local storage of cart quantity in two different ways. make so
-// the cart quantity is coming from the cart items local storage itself) Also rename variables if needed, we
-// have a lot of similar ones on different pages

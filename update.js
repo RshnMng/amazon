@@ -1,6 +1,7 @@
 import { CHECKOUT } from "./checkout.js";
 import { TOTALS } from "./totals.js";
 import { DISPLAY } from "./display.js";
+import { LOCAL_STORAGE } from "./localStorage.js";
 
 const UPDATE = {
   localStorageIndex: 0,
@@ -95,10 +96,9 @@ const UPDATE = {
         newQuantity,
         this.localStorageIndex
       );
-      this.updateProductCount(newQuantity, clickedLink);
-      this.saveUpdatedCart(updatedCart);
 
-      UPDATE.updateCheckOutPage();
+      LOCAL_STORAGE.setLocalStorageCartItems(updatedCart);
+      UPDATE.updateTotals();
     }
   },
 
@@ -112,51 +112,12 @@ const UPDATE = {
       newItemQuantity,
       localStorageIndex
     );
-    DISPLAY.setCartItems(updatedCart);
-    let newCartQuantity = this.updateCartCount();
-    DISPLAY.setLocalCartQuantity(newCartQuantity);
+    LOCAL_STORAGE.setLocalStorageCartItems(updatedCart);
   },
   updateCartItemInfo: function (newQuantity, localStorageIndex) {
-    let itemsInCart = DISPLAY.getCartItems();
+    let itemsInCart = LOCAL_STORAGE.getCartItems();
     itemsInCart[localStorageIndex].itemQuantity = Number(newQuantity);
     return itemsInCart;
-  },
-  updateCartCount: function () {
-    let itemsInCart = DISPLAY.getCartItems();
-    let total = 0;
-    itemsInCart.forEach((item) => {
-      total += item.itemQuantity;
-    });
-    return total;
-  },
-  saveUpdatedCart: function (updatedCart) {
-    CHECKOUT.cartItems = updatedCart;
-    DISPLAY.setCartItems(updatedCart);
-  },
-
-  updateProductCount: function (newQuantity, clickedLink) {
-    let itemCount =
-      clickedLink.parentElement.parentElement.parentElement.children[0];
-    itemCount.innerHTML = `Quantity: ${newQuantity}`;
-  },
-  updateCheckOutPage() {
-    UPDATE.emptyValues();
-    let newCartQuantity = UPDATE.getUpdatedCartQuantity();
-    console.log(newCartQuantity);
-    DISPLAY.setLocalCartQuantity(newCartQuantity);
-    let newQuantity = UPDATE.updateTotalItemCount();
-    console.log(newQuantity);
-    TOTALS.getPriceBeforeTaxArr(CHECKOUT.cartItems);
-    TOTALS.getTotalBeforeTax(CHECKOUT.priceArr);
-    DISPLAY.displayTotalBeforeTax(CHECKOUT.itemPrice);
-    TOTALS.getShippingTotal(CHECKOUT.priceArr);
-    DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
-    TOTALS.calculateTax(CHECKOUT.itemPrice);
-    TOTALS.calculateTotal(
-      CHECKOUT.tax,
-      CHECKOUT.itemPrice,
-      CHECKOUT.shippingTotal
-    );
   },
   emptyValues: function () {
     CHECKOUT.priceArr = [];
@@ -164,24 +125,11 @@ const UPDATE = {
     CHECKOUT.totalPrice = 0;
     CHECKOUT.tax = 0;
   },
-  getUpdatedCartQuantity() {
-    let total = CHECKOUT.cartItems.reduce((total, item) => {
-      total += item.itemQuantity;
-      return total;
-    }, 0);
-    return total;
-  },
-  updateTotalItemCount: function () {
-    let currentItemCount = DISPLAY.getLocalCartQuantity();
-    let checkOutHeader = document.querySelector(".checkout-header");
-    let itemsDisplay = document.querySelector(".items");
-    checkOutHeader.innerHTML = `Checkout <span class= 'checkout-count'>${currentItemCount} items </span>`;
-    itemsDisplay.innerHTML = `Items(${currentItemCount})`;
-  },
   addEventsToDeleteLinks: function (DELETE_LINK) {
+    let cartItems = LOCAL_STORAGE.getCartItems();
     DELETE_LINK.forEach((link) => {
       link.addEventListener("click", (event) => {
-        this.filterDeleted(event, CHECKOUT.cartItems);
+        this.filterDeleted(event, cartItems);
       });
     });
   },
@@ -192,16 +140,15 @@ const UPDATE = {
       return deletedProduct.id != item.chosenProduct.id;
     });
 
-    DISPLAY.setCartItems(newCartItems);
+    LOCAL_STORAGE.setLocalStorageCartItems(newCartItems);
     UPDATE.updateTotals();
   },
   updateTotals: function () {
-    CHECKOUT.cartItems = DISPLAY.getCartItems();
+    let cartItems = LOCAL_STORAGE.getCartItems();
     UPDATE.emptyValues();
-    DISPLAY.displayCart(CHECKOUT.cartItems);
-    let itemsInCart = UPDATE.getUpdatedCartQuantity();
-    UPDATE.updateTotalItemCount();
-    TOTALS.getPriceBeforeTaxArr(CHECKOUT.cartItems);
+    DISPLAY.displayCheckoutAmount();
+    DISPLAY.displayCart(cartItems);
+    TOTALS.getPriceBeforeTaxArr(cartItems);
     TOTALS.getTotalBeforeTax(CHECKOUT.priceArr);
     DISPLAY.displayTotalBeforeTax(CHECKOUT.itemPrice);
     TOTALS.getShippingTotal(CHECKOUT.priceArr);
@@ -213,7 +160,8 @@ const UPDATE = {
       CHECKOUT.shippingTotal
     );
     UPDATE.addEventsToBtns();
-    if (itemsInCart == 0) {
+    let itemAmount = LOCAL_STORAGE.getNumberOfCartItems();
+    if (itemAmount == 0) {
       DISPLAY.addEmptyCart();
     } else {
       const EMPTY_DIV = document.createElement("div");
