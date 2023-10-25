@@ -37,11 +37,6 @@ const LOCAL_STORAGE = {
     let dropMenus = document.querySelectorAll(".drop-menu");
     return dropMenus;
   },
-  createSelectedItemArray: function (product, event) {
-    if (product.id == event.target.id) {
-      this.isItemAlreadyInCart(product.id, product, this.itemAmount);
-    }
-  },
   isItemAlreadyInCart: function (cartItems) {
     let productID = event.target.id;
     let itemInCart = cartItems.some((item) => {
