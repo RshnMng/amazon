@@ -85,6 +85,3 @@ const SEARCH = {
 };
 
 export { SEARCH };
-
-//make it so a second keyword typed it search bar is also filtered
-//and shown

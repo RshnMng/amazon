@@ -1,5 +1,6 @@
 import { CHECKOUT } from "./checkout.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
+import { DATES } from "./dates.js";
 
 const DISPLAY = {
   hideHomePage: function () {
@@ -10,6 +11,7 @@ const DISPLAY = {
     DISPLAY.loadHeader();
     DISPLAY.hideUpdateDropMenu();
     DISPLAY.displayCheckoutAmount();
+    DISPLAY.getDates();
   },
   displayCheckoutAmount: function () {
     let checkOutHeader = document.querySelector(".checkout-header");
@@ -22,6 +24,129 @@ const DISPLAY = {
     UPDATE_DIV.forEach((update) => {
       update.hidden = true;
     });
+  },
+  getDates: function () {
+    let currentDate = new Date();
+    let day = currentDate.getDay();
+    // let month = currentDate.getMonth();
+    let month = 1;
+    let date = 27;
+    // let date = currentDate.getDate();
+    this.getFutureDayOfWeek(day);
+    this.getFutureMonth(month, date);
+  },
+  getFutureDayOfWeek: function (day) {
+    // let currentDayOfWeek = DATES.days[day];
+    this.getNextDayDay(day);
+    this.getThreeDaysDay(day);
+    this.getFiveDaysDay(day);
+  },
+  getFutureMonth: function (month, date) {
+    if (
+      month == 0 ||
+      month == 2 ||
+      month == 4 ||
+      month == 6 ||
+      month == 7 ||
+      month == 9 ||
+      month == 11
+    ) {
+      this.handle31Days(month, date);
+    } else if (month == 1) {
+      this.handleNextDayFeb(month, date);
+    } else {
+      this.handle30Days(month, date);
+    }
+  },
+  handle31Days: function (month, date) {
+    this.nextDay31Month(month, date);
+  },
+  handle30Days: function (month, date) {
+    this.nextDay30month(month, date);
+  },
+  nextDay31Month: function (month, date) {
+    if (date == 31 && month == 11) {
+      let dateIndex = date + 1 - 31;
+      let monthIndex = month + 1 - 12;
+      let nextDayShippingMonth = DATES.months[monthIndex];
+      let nextDayShippingDate = dateIndex;
+      console.log(nextDayShippingMonth, nextDayShippingDate);
+    } else if (date == 31 && month != 11) {
+      let dateIndex = date + 1 - 31;
+      let monthIndex = month + 1;
+      let nextDayShippingMonth = DATES.months[monthIndex];
+      let nextDayShippingDate = dateIndex;
+      console.log(nextDayShippingMonth, nextDayShippingDate);
+    } else {
+      let dateIndex = date + 1;
+      let nextDayShippingMonth = DATES.months[month];
+      let nextDayShippingDate = dateIndex;
+      console.log(nextDayShippingMonth, nextDayShippingDate);
+    }
+  },
+  nextDay30month: function (month, date) {
+    if (date == 30 && month == 11) {
+      let dateIndex = date + 1 - 30;
+      let monthIndex = month + 1 - 12;
+      let nextDayShippingMonth = DATES.months[monthIndex];
+      let nextDayShippingDate = dateIndex;
+      console.log(nextDayShippingMonth, nextDayShippingDate);
+    } else if (date == 30 && month != 11) {
+      let dateIndex = date + 1 - 30;
+      let monthIndex = month + 1;
+      let nextDayShippingMonth = DATES.months[monthIndex];
+      let nextDayShippingDate = dateIndex;
+      console.log(nextDayShippingMonth, nextDayShippingDate);
+    } else {
+      let dateIndex = date + 1;
+      let nextDayShippingMonth = DATES.months[month];
+      let nextDayShippingDate = dateIndex;
+      console.log(nextDayShippingMonth, nextDayShippingDate);
+    }
+  },
+  handleNextDayFeb: function (month, date) {
+    if (date == 28) {
+      let nextDayShippingDate = 1;
+      let nextDayShippingMonth = DATES.months[2];
+      console.log(nextDayShippingMonth, nextDayShippingDate);
+    } else {
+      let nextDayShippingDate = date + 1;
+      let nextDayShippingMonth = DATES.months[month];
+      console.log(nextDayShippingMonth, nextDayShippingDate);
+    }
+  },
+  getNextDayDay: function (day) {
+    let nextDayShipping;
+    let newDayIndex = day + 1;
+    if (newDayIndex > 6) {
+      newDayIndex = newDayIndex - 7;
+      nextDayShipping = DATES.days[newDayIndex];
+    } else {
+      nextDayShipping = DATES.days[newDayIndex];
+    }
+    return nextDayShipping;
+  },
+  getThreeDaysDay: function (day) {
+    let threeDayShipping;
+    if (day >= 4) {
+      let threeDayIndex = day + 3 - 7;
+      threeDayShipping = DATES.days[threeDayIndex];
+    } else {
+      let threeDayIndex = day + 3;
+      threeDayShipping = DATES.days[threeDayIndex];
+    }
+    return threeDayShipping;
+  },
+  getFiveDaysDay: function (day) {
+    let fiveDayShipping;
+    if (day >= 2) {
+      let fiveDayIndex = day + 5 - 7;
+      fiveDayShipping = DATES.days[fiveDayIndex];
+    } else {
+      let fiveDayIndex = day + 5;
+      fiveDayShipping = DATES.days[fiveDayIndex];
+    }
+    return fiveDayShipping;
   },
   loadHeader: function () {
     let CHECKOUT_PAGE = document.createElement("div");
