@@ -53,7 +53,7 @@ const DISPLAY = {
     ) {
       this.handle31Days(month, date);
     } else if (month == 1) {
-      this.handleNextDayFeb(month, date);
+      this.handleFeb(month, date);
     } else {
       this.handle30Days(month, date);
     }
@@ -63,6 +63,9 @@ const DISPLAY = {
   },
   handle30Days: function (month, date) {
     this.nextDay30month(month, date);
+  },
+  handleFeb: function (month, date) {
+    this.handleNextDayFeb(month, date);
   },
   nextDay31Month: function (month, date) {
     if (date == 31 && month == 11) {
