@@ -11,7 +11,7 @@ const DISPLAY = {
     DISPLAY.loadHeader();
     DISPLAY.hideUpdateDropMenu();
     DISPLAY.displayCheckoutAmount();
-    DISPLAY.getDates();
+    DATES.getDates();
   },
   displayCheckoutAmount: function () {
     let checkOutHeader = document.querySelector(".checkout-header");
@@ -24,132 +24,6 @@ const DISPLAY = {
     UPDATE_DIV.forEach((update) => {
       update.hidden = true;
     });
-  },
-  getDates: function () {
-    let currentDate = new Date();
-    let day = currentDate.getDay();
-    // let month = currentDate.getMonth();
-    let month = 1;
-    let date = 27;
-    // let date = currentDate.getDate();
-    this.getFutureDayOfWeek(day);
-    this.getFutureMonth(month, date);
-  },
-  getFutureDayOfWeek: function (day) {
-    // let currentDayOfWeek = DATES.days[day];
-    this.getNextDayDay(day);
-    this.getThreeDaysDay(day);
-    this.getFiveDaysDay(day);
-  },
-  getFutureMonth: function (month, date) {
-    if (
-      month == 0 ||
-      month == 2 ||
-      month == 4 ||
-      month == 6 ||
-      month == 7 ||
-      month == 9 ||
-      month == 11
-    ) {
-      this.handle31Days(month, date);
-    } else if (month == 1) {
-      this.handleFeb(month, date);
-    } else {
-      this.handle30Days(month, date);
-    }
-  },
-  handle31Days: function (month, date) {
-    this.nextDay31Month(month, date);
-  },
-  handle30Days: function (month, date) {
-    this.nextDay30month(month, date);
-  },
-  handleFeb: function (month, date) {
-    this.handleNextDayFeb(month, date);
-  },
-  nextDay31Month: function (month, date) {
-    if (date == 31 && month == 11) {
-      let dateIndex = date + 1 - 31;
-      let monthIndex = month + 1 - 12;
-      let nextDayShippingMonth = DATES.months[monthIndex];
-      let nextDayShippingDate = dateIndex;
-      console.log(nextDayShippingMonth, nextDayShippingDate);
-    } else if (date == 31 && month != 11) {
-      let dateIndex = date + 1 - 31;
-      let monthIndex = month + 1;
-      let nextDayShippingMonth = DATES.months[monthIndex];
-      let nextDayShippingDate = dateIndex;
-      console.log(nextDayShippingMonth, nextDayShippingDate);
-    } else {
-      let dateIndex = date + 1;
-      let nextDayShippingMonth = DATES.months[month];
-      let nextDayShippingDate = dateIndex;
-      console.log(nextDayShippingMonth, nextDayShippingDate);
-    }
-  },
-  nextDay30month: function (month, date) {
-    if (date == 30 && month == 11) {
-      let dateIndex = date + 1 - 30;
-      let monthIndex = month + 1 - 12;
-      let nextDayShippingMonth = DATES.months[monthIndex];
-      let nextDayShippingDate = dateIndex;
-      console.log(nextDayShippingMonth, nextDayShippingDate);
-    } else if (date == 30 && month != 11) {
-      let dateIndex = date + 1 - 30;
-      let monthIndex = month + 1;
-      let nextDayShippingMonth = DATES.months[monthIndex];
-      let nextDayShippingDate = dateIndex;
-      console.log(nextDayShippingMonth, nextDayShippingDate);
-    } else {
-      let dateIndex = date + 1;
-      let nextDayShippingMonth = DATES.months[month];
-      let nextDayShippingDate = dateIndex;
-      console.log(nextDayShippingMonth, nextDayShippingDate);
-    }
-  },
-  handleNextDayFeb: function (month, date) {
-    if (date == 28) {
-      let nextDayShippingDate = 1;
-      let nextDayShippingMonth = DATES.months[2];
-      console.log(nextDayShippingMonth, nextDayShippingDate);
-    } else {
-      let nextDayShippingDate = date + 1;
-      let nextDayShippingMonth = DATES.months[month];
-      console.log(nextDayShippingMonth, nextDayShippingDate);
-    }
-  },
-  getNextDayDay: function (day) {
-    let nextDayShipping;
-    let newDayIndex = day + 1;
-    if (newDayIndex > 6) {
-      newDayIndex = newDayIndex - 7;
-      nextDayShipping = DATES.days[newDayIndex];
-    } else {
-      nextDayShipping = DATES.days[newDayIndex];
-    }
-    return nextDayShipping;
-  },
-  getThreeDaysDay: function (day) {
-    let threeDayShipping;
-    if (day >= 4) {
-      let threeDayIndex = day + 3 - 7;
-      threeDayShipping = DATES.days[threeDayIndex];
-    } else {
-      let threeDayIndex = day + 3;
-      threeDayShipping = DATES.days[threeDayIndex];
-    }
-    return threeDayShipping;
-  },
-  getFiveDaysDay: function (day) {
-    let fiveDayShipping;
-    if (day >= 2) {
-      let fiveDayIndex = day + 5 - 7;
-      fiveDayShipping = DATES.days[fiveDayIndex];
-    } else {
-      let fiveDayIndex = day + 5;
-      fiveDayShipping = DATES.days[fiveDayIndex];
-    }
-    return fiveDayShipping;
   },
   loadHeader: function () {
     let CHECKOUT_PAGE = document.createElement("div");
@@ -208,7 +82,9 @@ const DISPLAY = {
         <div class='product-display' productIndex=${
           product.chosenProduct.id
         } localStorageIndex=${i}>
-        <div class='delivery-date'>Delivery date: Tuesday, October 24</div>
+        <div class='delivery-date'>Delivery date: ${DATES.fiveDay}, ${
+          DATES.fiveDayMonth
+        } ${DATES.fiveDayDate}</div>
         <div class='product-img'>
         <img class='checkout-img' src="${product.chosenProduct.image}" />
         <div class='product-info'>
@@ -248,7 +124,9 @@ const DISPLAY = {
        <input type='radio' name='shipping-${i}' class='radio-btn' checked/>
        </div>
        <div class='date-div'>
-       <div class='date'>Tuesday, October 24</div>
+       <div class='date'>${DATES.fiveDay}, ${DATES.fiveDayMonth} ${
+          DATES.fiveDayDate
+        }</div>
        <div class='shipping-cost'>FREE Shipping</div>
        </div>
         </div>
@@ -257,7 +135,9 @@ const DISPLAY = {
        <input type='radio' name='shipping-${i}' class='radio-btn' />
        </div>
        <div class='date-div'>
-       <div class='date'>Wednesday, October 18</div>
+       <div class='date'>${DATES.threeDay}, ${DATES.threeDayMonth} ${
+          DATES.threeDayDate
+        }</div>
        <div class='shipping-cost'>$4.99 Shipping</div>
        </div>
        </div>
@@ -266,7 +146,9 @@ const DISPLAY = {
        <input type='radio' name='shipping-${i}' class='radio-btn' />
        </div>
        <div class='date-div'>
-       <div class='date'>Monday, October 16</div>
+       <div class='date'>${DATES.nextDay}, ${DATES.nextDayMonth} ${
+          DATES.nextDayDate
+        }</div>
        <div class='shipping-cost'>$9.99 Shipping</div>
        </div>
        </div>

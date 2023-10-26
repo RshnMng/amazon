@@ -2,6 +2,7 @@ import { CHECKOUT } from "./checkout.js";
 import { TOTALS } from "./totals.js";
 import { DISPLAY } from "./display.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
+import { DATES } from "./dates.js";
 
 const UPDATE = {
   localStorageIndex: 0,
@@ -17,6 +18,7 @@ const UPDATE = {
     SHIPPING_BTNS.forEach((button) => {
       button.addEventListener("click", (event) => {
         this.handleShippingEvents(event);
+        this.changeDeliveryDate(event);
       });
     });
   },
@@ -142,6 +144,27 @@ const UPDATE = {
 
     LOCAL_STORAGE.setLocalStorageCartItems(newCartItems);
     UPDATE.updateTotals();
+  },
+  changeDeliveryDate: function (event) {
+    let DATE_DIV = event.target.parentElement.parentElement;
+
+    let DATE_ELEM =
+      DATE_DIV.parentElement.parentElement.parentElement.parentElement
+        .parentElement.parentElement.childNodes[1];
+
+    let classes = DATE_DIV.getAttribute("class");
+    let classArr = classes.split(" ");
+    let buttonType = classArr[0];
+    this.getClickedButton(buttonType, DATE_ELEM);
+  },
+  getClickedButton: function (buttonType, DATE_ELEM) {
+    if (buttonType == "option-1") {
+      DATE_ELEM.innerHTML = `Delivery date: ${DATES.fiveDay}, ${DATES.fiveDayMonth} ${DATES.fiveDayDate}`;
+    } else if (buttonType == "option-2") {
+      DATE_ELEM.innerHTML = `Delivery date: ${DATES.threeDay}, ${DATES.threeDayMonth} ${DATES.threeDayDate}`;
+    } else {
+      DATE_ELEM.innerHTML = `Delivery date: ${DATES.nextDay}, ${DATES.nextDayMonth} ${DATES.nextDayDate}`;
+    }
   },
   updateTotals: function () {
     let cartItems = LOCAL_STORAGE.getCartItems();
