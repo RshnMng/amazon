@@ -21,14 +21,12 @@ const SEARCH = {
     );
   },
   handleSearch: function (searchBar) {
-    let searchArr = this.getSearchText(searchBar);
-
+    let searchArr = SEARCH.getSearchText(searchBar);
     if (event.key == " ") {
       this.disableSpaceBar();
-    } else if (searchBar.value.length < 4) {
+    } else if (searchBar.value.length <= 3) {
       this.emptySearchResultsArray();
       SET_UP_DATA.setUpPage(products);
-
       return;
     } else if (event.key === "Backspace") {
       this.emptySearchResultsArray();
@@ -63,9 +61,8 @@ const SEARCH = {
           }
         });
       });
-
-      this.displaySearchProducts(this.searchResults);
     });
+    this.displaySearchProducts(this.searchResults);
   },
 
   displaySearchProducts: function (searchResults) {

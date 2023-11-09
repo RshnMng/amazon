@@ -1,8 +1,13 @@
 const OPTIONS = {
+  OPTION_DIVS: "",
   STYLE_DIV: [],
   getOPTION_DIVS: function () {
     let OPTION_DIVS = document.querySelectorAll(".option-div");
     return OPTION_DIVS;
+  },
+  getOPTION_ID: function (product) {
+    let id = product.id;
+    return id;
   },
   makeOptionsArray: function (products) {
     let PRODUCT_OPTION_ARR = [];
@@ -15,12 +20,14 @@ const OPTIONS = {
         });
       }
     });
+
     return PRODUCT_OPTION_ARR;
   },
   filterProductsWithOptions: function (PRODUCT_OPTION_ARR, OPTION_DIVS) {
     let onlyProductsWithOptions = [];
     PRODUCT_OPTION_ARR.forEach((product) => {
       const optionDivByIndex = OPTION_DIVS[product.index];
+
       onlyProductsWithOptions.push({ optionDivByIndex, ...product.values });
     });
     return onlyProductsWithOptions;

@@ -2,11 +2,13 @@ import { OPTIONS } from "./options.js";
 import { products } from "./product.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
 import { DISPLAY } from "./display.js";
+import { SEARCH } from "./search.js";
+
 const SET_UP_DATA = {
   BODY: document.querySelector("body"),
   ERROR_DIV: document.querySelector(".error-div"),
   PRODUCT_GRID: document.querySelector(".product-grid"),
-  setUpPage: function (products) {
+  setUpPage(products) {
     let id = 0;
     let product_html = "";
     products.forEach((product) => {
@@ -46,21 +48,75 @@ const SET_UP_DATA = {
           <option value="10">10</option>
           </select>
           </div>
-          <div  id=${id} class='option-div'></div>
+          <div  id=${OPTIONS.getOPTION_ID(product)} class='option-div'></div>
           <div id=${id} class='added-div js-added-div'>
           <img class='checkmark' src='https://www.supersimple.dev/projects/amazon/images/icons/checkmark.png'>
           <p class='added-text'>Added</p>
           </div>
-          <button id=${id} class='add-btn js-add-btn'>Add to Cart</button>
+          <button id=${
+            product.id
+          } class='add-btn js-add-btn'>Add to Cart</button>
           </div>
           `;
     });
-    this.PRODUCT_GRID.innerHTML = product_html;
-    this.addAndLoopAddedDivs();
-    this.handleOptions();
-    this.createNOT_FOUND();
-    this.postNOT_FOUND();
+    SET_UP_DATA.PRODUCT_GRID.innerHTML = product_html;
+    SET_UP_DATA.addAndLoopAddedDivs();
+    SET_UP_DATA.createNOT_FOUND();
+    SET_UP_DATA.postNOT_FOUND();
+    // SET_UP_DATA.handleSearchBTNS();
+    SET_UP_DATA.ADD_OPTIONS();
   },
+  ADD_OPTIONS: function () {
+    let optionDivs = this.getAllOptionDivs();
+    this.getOptions(optionDivs, products);
+  },
+  getAllOptionDivs: function () {
+    let optionDiv = document.querySelectorAll(".option-div");
+    return optionDiv;
+  },
+  getOptions: function (optionDivs, products) {
+    optionDivs.forEach((optionDiv) => {
+      let id = optionDiv.id;
+      let selectedProduct = products[optionDiv.id - 1];
+      if (selectedProduct.options)
+        this.getStyleOptions(selectedProduct, optionDiv, id);
+    });
+  },
+  getStyleOptions: function (selectedProduct, optionDiv, id) {
+    let productOptions = selectedProduct.options;
+    this.displayOptions(productOptions, optionDiv, id);
+  },
+  displayOptions: function (productOptions, optionDiv, id) {
+    for (const style in productOptions) {
+      let options = productOptions[style];
+      const STYLE_DIV = document.createElement("div");
+      const STYLE = document.createElement("div");
+      STYLE_DIV.classList.add("option-div");
+      STYLE.setAttribute("id", id);
+      STYLE.classList.add("option-label");
+      STYLE.innerText = style;
+      STYLE_DIV.append(STYLE);
+      STYLE_DIV.classList.add("style-div");
+      STYLE.classList.add("style-type");
+
+      optionDiv.append(STYLE_DIV);
+      this.displayButtons(options, STYLE_DIV);
+      let optionBtns = OPTIONS.getALL_OPTION_BTNS();
+      let styleDivs = OPTIONS.getALL_STYLE_DIVS();
+      OPTIONS.highlightFirstStyleOption(styleDivs);
+      OPTIONS.addStyleEventToOptionBTNS(optionBtns);
+    }
+  },
+  displayButtons: function (options, styleCategory) {
+    options.forEach((option) => {
+      let optionButton = document.createElement("button");
+      optionButton.classList.add("style-choice");
+      optionButton.classList.add("option-button");
+      optionButton.innerText = option;
+      styleCategory.append(optionButton);
+    });
+  },
+
   addAndLoopAddedDivs: function () {
     const ADD_DIVS = this.getADD_DIVS();
     const ALL_BTNS = this.getALL_BTNS();
@@ -81,7 +137,8 @@ const SET_UP_DATA = {
   addClickEvent: function (ADD_BTNS, ADD_DIVS) {
     ADD_BTNS.forEach((button) => {
       button.addEventListener("click", (event) => {
-        this.showAdded(event.target.id - 1, ADD_DIVS);
+        let index = event.target.parentElement.id - 1;
+        this.showAdded(index, ADD_DIVS);
         LOCAL_STORAGE.addSelectedItemToStorage(event);
       });
     });
@@ -94,12 +151,12 @@ const SET_UP_DATA = {
       (CHECKMARK.hidden = true), (ADDED_LABEL.hidden = true);
     }, 2000);
   },
-  handleOptions: function () {
+  handleOptions: function (products) {
     const PRODUCT_OPTION_ARR = OPTIONS.makeOptionsArray(products);
-    const OPTION_DIVS = OPTIONS.getOPTION_DIVS();
+    OPTIONS.OPTION_DIVS = OPTIONS.getOPTION_DIVS();
     const onlyProductsWithOptions = OPTIONS.filterProductsWithOptions(
       PRODUCT_OPTION_ARR,
-      OPTION_DIVS
+      OPTIONS.OPTION_DIVS
     );
     OPTIONS.getOptionCategories(onlyProductsWithOptions);
     const ALL_OPTION_BTNS = OPTIONS.getALL_OPTION_BTNS();
@@ -126,6 +183,13 @@ const SET_UP_DATA = {
   getALL_BTNS: function () {
     const ADD_BTNS = document.querySelectorAll(".add-btn");
     return ADD_BTNS;
+  },
+  handleSearchBTNS: function () {
+    const SEARCH_BTN = SEARCH.getSEARCH_BTN();
+    const SEARCH_BAR = SEARCH.getSEARCH_BAR();
+    SEARCH_BTN.addEventListener("click", (event) => {
+      SEARCH.handleSearch(SEARCH_BAR);
+    });
   },
 };
 

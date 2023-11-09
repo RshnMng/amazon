@@ -1,4 +1,5 @@
 import { products } from "./product.js";
+import { SET_UP_DATA } from "./setPage.js";
 
 const LOCAL_STORAGE = {
   itemAmount: 0,
@@ -29,8 +30,11 @@ const LOCAL_STORAGE = {
     this.setLocalStorageCartItems(cartItems);
   },
   getChosenItemAmount: function (event) {
+    SET_UP_DATA.currentProductIndex = event.target.parentElement.id - 1;
     let dropMenus = this.getdropMenu();
-    let chosenItemQuantity = Number(dropMenus[event.target.id - 1].value);
+    let chosenItemQuantity = Number(
+      dropMenus[SET_UP_DATA.currentProductIndex].value
+    );
     return chosenItemQuantity;
   },
   getdropMenu: function () {
