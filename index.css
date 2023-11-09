@@ -67,7 +67,7 @@ body {
   }
 
   .cart-display {
-      padding-top: 50px;
+      padding-top: 15px;
   }
 
   .cart-name {
@@ -115,12 +115,17 @@ body {
     width: 100px;
   }
 
+  .checkout-main {
+      margin: 50px 130px 100px;
+  }
+
   .checkout-img {
     width: 100px;
   }
 
   .checkout-count {
     color: rgb(0, 113, 133);
+    font-size: 18px;
   }
 
   .checkout-div {
@@ -147,6 +152,14 @@ body {
 
   .drop-menu:focus {
       outline-color: rgb(231, 117, 2);
+  }
+
+  .delivery-date {
+    color: rgb(0, 118, 0);
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 19px;
+    margin-top: 7px;
   }
 
   .empty-button {
@@ -230,6 +243,13 @@ html {
      margin-top: 3.5px;
  }
 
+
+  .order-header {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+  }
+
  .option-label {
      font-size: 16px;
      color: rgb(33, 33, 33);
@@ -251,6 +271,12 @@ html {
      cursor: pointer;
  }
 
+ .order-total {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(177, 39, 4);
+ }
+
 
  .option-div {
      display: block;
@@ -258,6 +284,17 @@ html {
 
 p {
     margin: 5px;
+}
+
+.paypal-div {
+    display: flex;
+    margin-bottom: 20px;
+    
+}
+
+.paypal {
+    margin-right: 10px;
+    margin-top: 4px;
 }
 
 
@@ -323,6 +360,21 @@ p {
     margin-bottom: 1.5px;
 }
 
+  .paypal-checkbox {
+      height: 20px;
+      width: 20px;
+      display: inline-block
+  }
+
+  .place-order {
+    width: 95%;
+    margin-left: 10px;
+    height: 42px;
+    background-color: rgb(255, 216, 20);
+    border: 1px solid rgb(255, 216, 20);
+    border-radius: 5px;
+  }
+
  .return-text,
  .order-text {
      color: white;
@@ -338,12 +390,25 @@ p {
  .return-link {
      text-decoration: none;
  }
+ .review-header {
+     font-size: 22px;
+     font-weight: bold;
+    margin-bottom: 15px;
+ }
+
+
 
 .search-div {
         flex: 1;
         display: flex;
         padding-right: 26.5px;
        
+}
+
+.summary-border, .product-display {
+    border: 1px solid rgb(222, 222, 222);
+    padding: 15px;
+    border-radius: 5px;
 }
 
 .search-bar {
@@ -383,6 +448,20 @@ p {
     padding-top: 3px;
     padding-left: 3px;
    }
+
+   .shipping-div, .beforeTax-div, .tax-div, .order-total, .items {
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+   }
+
+   .shipping-price, .tax-div {
+    border-bottom: 1px solid rgb(222, 222, 222);
+    padding-bottom: 15px;
+   }
+
+ 
 
    .update-link , .delete-link, .save-link {
     cursor: pointer;

@@ -49,24 +49,39 @@ const DISPLAY = {
         />
       </div>
     </nav>
-    <h1> Review your Order </h1>
+    <main class='checkout-main'>
+  
+    <header class='review-header'> Review your Order </header>
+     <div class='summary-border'>
     <div class='order-summary'>
-    <h2> Order Summary </h2>
+    <header class='order-header'> Order Summary </header>
     <div class='items'>Items(${LOCAL_STORAGE.getNumberOfCartItems()})</div>
+    <div class='shipping-div'>
     <div class='shipping'>Shipping & handling</div>
     <div class='shipping-price'></div>
+    </div>
+    <div class='beforeTax-div'>
     <div class='before-tax'>Total before tax</div>
     <div class='before-tax-total'></div>
+    </div>
+    <div class='tax-div'>
     <div class='tax-total'>Estimated tax (10%)</div>
     <div class='tax-total-price'></div>
+    </div>
+    <div class='order-total'>
     <div class='total'>Order total:</div>
     <div class='total-cost'></div>
+    </div>
+    <div class='paypal-div'>
     <div class='paypal'>Use PayPal</div>
-    <input type='checkbox'></input>
+     <input class='paypal-checkbox' type='checkbox'></input>
+    </div>
     <button class='place-order'>place your order</button>
+    </div>
     </div>
     <div class="cart-display js-cart-display"></div>
     </div>
+    </main>
     `;
     CHECKOUT_PAGE.innerHTML = headerHtml;
     CHECKOUT.BODY.append(CHECKOUT_PAGE);
