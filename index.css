@@ -116,7 +116,7 @@ body {
   }
 
   .checkout-main {
-      margin: 50px 130px 100px;
+      margin: 50px 70px 100px;
   }
 
   .checkout-img {
@@ -134,6 +134,11 @@ body {
     font-size: 20px;
     font-family: 'Roboto', 'Arial';
     font-weight: 500;
+  }
+
+  .date {
+    color: rgb(0, 118, 0);
+    font-weight: bold;
   }
 
   .drop-menu {
@@ -282,6 +287,10 @@ html {
      display: block;
  }
 
+ .option {
+    display: flex;
+ }
+
 p {
     margin: 5px;
 }
@@ -319,15 +328,20 @@ p {
 
 }
 
-.product-img {
+.product-img, .checkout-img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
 }
 
+
 .product-name {
     font-size: 16px;
     margin: 0;
+}
+
+.product-name, .price, .product-quantity-div {
+    margin-bottom: 10px;
 }
 
 .product-review {
@@ -360,20 +374,51 @@ p {
     margin-bottom: 1.5px;
 }
 
-  .paypal-checkbox {
-      height: 20px;
-      width: 20px;
-      display: inline-block
-  }
+.product-info-div {
+    display: flex;
+}
+  
+.product-quantity-div {
+    display: flex;
+    
+}
 
-  .place-order {
-    width: 95%;
-    margin-left: 10px;
-    height: 42px;
-    background-color: rgb(255, 216, 20);
-    border: 1px solid rgb(255, 216, 20);
-    border-radius: 5px;
-  }
+.product-quantity, .update-link, .delete-link {
+    margin-right: 6px;
+}
+
+.price {
+    color: rgb(177, 39, 4);
+    font-weight: bold;
+}
+
+.product-info {
+    margin-left: 12px;
+}
+
+ .paypal-checkbox {
+     height: 20px;
+     width: 20px;
+     display: inline-block
+ }
+
+ .place-order {
+     width: 95%;
+     margin-left: 10px;
+     height: 42px;
+     background-color: rgb(255, 216, 20);
+     border: 1px solid rgb(255, 216, 20);
+     border-radius: 5px;
+ }
+
+.link-div {
+    display: flex;
+}
+
+.update-link, .delete {
+    text-decoration: none;
+    color: #017cb6;
+}
 
  .return-text,
  .order-text {
@@ -392,12 +437,20 @@ p {
  }
  .review-header {
      font-size: 22px;
-     font-weight: bold;
+     font-weight: 500;
     margin-bottom: 15px;
  }
 
+ .radio-btn {
+    margin-right: 15px;
+    margin-bottom: 35px;
+    transform: scale(1.5);
+ }
 
 
+.shipping-cost {
+    color: rgb(120, 120, 120);
+}
 .search-div {
         flex: 1;
         display: flex;
@@ -409,6 +462,10 @@ p {
     border: 1px solid rgb(222, 222, 222);
     padding: 15px;
     border-radius: 5px;
+}
+
+.summary-border {
+    margin-bottom: 15px;
 }
 
 .search-bar {
@@ -450,7 +507,6 @@ p {
    }
 
    .shipping-div, .beforeTax-div, .tax-div, .order-total, .items {
-    /* border: 1px solid red; */
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
@@ -460,8 +516,6 @@ p {
     border-bottom: 1px solid rgb(222, 222, 222);
     padding-bottom: 15px;
    }
-
- 
 
    .update-link , .delete-link, .save-link {
     cursor: pointer;
