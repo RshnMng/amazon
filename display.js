@@ -128,10 +128,10 @@ const DISPLAY = {
                 </div>
                  <div class='link-div'>
                     <div class='update-link-div'>
-                            <a class='update-link' href='#' localStorageIndex=${i}> Update</a>
+                            <span class='update-link' href='#' localStorageIndex=${i}> Update</span>
                     </div> 
                     <div class='delete' id='${product.chosenProduct.id}'>
-                            <a class='delete-link' id='${product.chosenProduct.id}'>Delete</a>
+                            <span class='delete-link' id='${product.chosenProduct.id}'>Delete</span>
                      </div>
                   </div> 
                                                                                                                             
