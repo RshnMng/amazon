@@ -68,6 +68,7 @@ const UPDATE = {
 		let clickedLink = event.target;
 		this.localStorageIndex = event.target.getAttribute("localStorageIndex");
 		let updateDropMenu = clickedLink.parentElement.parentElement.parentElement.childNodes[3];
+		console.log(updateDropMenu);
 		this.toggleSavedAndUpdate(clickedLink, updateDropMenu);
 	},
 	toggleSavedAndUpdate(clickedLink, updateDropMenu) {
@@ -86,12 +87,13 @@ const UPDATE = {
 			let updatedCart = this.updateCartItemInfo(newQuantity, this.localStorageIndex);
 
 			LOCAL_STORAGE.setLocalStorageCartItems(updatedCart);
-			UPDATE.s();
+			UPDATE.updateTotals();
 		}
 	},
 
 	getNewQuantity: function (updateDropMenu) {
-		let menuValue = updateDropMenu.firstChild.value;
+		let menuValue = updateDropMenu.childNodes[1].value;
+		console.log(menuValue);
 		return menuValue;
 	},
 
