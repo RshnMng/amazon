@@ -120,10 +120,13 @@ const UPDATE = {
 	},
 
 	filterDeleted(event, cartItems) {
+		let PRODUCT_DISPLAY_DIV = document.querySelector(".product-display-div");
 		let deletedProduct = event.target;
+
 		let newCartItems = cartItems.filter((item) => {
 			return deletedProduct.id != item.chosenProduct.id;
 		});
+		PRODUCT_DISPLAY_DIV.innerHTML = "";
 
 		LOCAL_STORAGE.setLocalStorageCartItems(newCartItems);
 		UPDATE.updateTotals();

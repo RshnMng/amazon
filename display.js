@@ -80,22 +80,22 @@ const DISPLAY = {
     </div>
     <button class='place-order'>place your order</button>
     </div>
-    
-    <div class="cart-display js-cart-display"></div>
+    <div class="product-display-div"></div>
     </div>
-    </main>
+   </main>
     `;
 		CHECKOUT_PAGE.innerHTML = headerHtml;
 		CHECKOUT.BODY.append(CHECKOUT_PAGE);
 	},
 	displayCart: function (cartItems) {
-		let productDisplay = document.createElement("div");
+		let PRODUCT_DISPLAY_DIV = document.querySelector(".product-display-div");
 		let i = 0;
 		if (cartItems == null || cartItems.length == 0) {
 			this.showEmpty();
 		} else {
+			let productHtml = "";
 			cartItems.map((product) => {
-				productDisplay.innerHTML += `
+				productHtml += `
         <div class='product-display' productIndex=${product.chosenProduct.id} localStorageIndex=${i}>
           <header class='delivery-date'>Delivery date: ${DATES.fiveDay}, ${DATES.fiveDayMonth} ${DATES.fiveDayDate}</header>  
               <div class='product-info-div'>
@@ -176,10 +176,12 @@ const DISPLAY = {
         </div> 
          </div>
       `;
+
 				i += 1;
+				PRODUCT_DISPLAY_DIV.innerHTML = productHtml;
+				let CHECKOUT_MAIN = document.querySelector(".checkout-main");
+				CHECKOUT_MAIN.append(PRODUCT_DISPLAY_DIV);
 			});
-			let CART_MAIN = document.querySelector(".checkout-main");
-			CART_MAIN.append(productDisplay);
 		}
 	},
 	showEmpty: function () {
