@@ -10,9 +10,11 @@ const UPDATE = {
 		let SHIPPING_BTNS = document.querySelectorAll(".radio-btn");
 		let UPDATE_LINK = document.querySelectorAll(".update-link");
 		let DELETE_LINK = document.querySelectorAll(".delete-link");
+		let CHECKOUT_AMZN_LOGO = document.querySelector(".checkout-logo");
 		this.addEventsToRadioBtns(SHIPPING_BTNS);
 		this.addEventsToUpdateLinks(UPDATE_LINK);
 		this.addEventsToDeleteLinks(DELETE_LINK);
+		CHECKOUT_AMZN_LOGO.addEventListener("click", DISPLAY.goToHomePage);
 	},
 	addEventsToRadioBtns: function (SHIPPING_BTNS) {
 		SHIPPING_BTNS.forEach((button) => {
@@ -40,21 +42,31 @@ const UPDATE = {
 	removeSelectedClass(optionsArr) {
 		optionsArr.forEach((button) => {
 			button.classList.remove("selected");
+			let buttonElem = button.childNodes[1].childNodes[1];
+			buttonElem.removeAttribute("checked");
 		});
 	},
 	getSelectedShippingOptions(optionBtn) {
 		let shippingArr = [];
+		let shippingChoice = [];
 		optionBtn.classList.add("selected");
 		let RADIO_BTNS_ON_PAGE = document.querySelectorAll(".option");
 		RADIO_BTNS_ON_PAGE.forEach((item) => {
 			if (item.classList.contains("selected") && item.classList.contains("option-2")) {
 				shippingArr.push(4.99);
+				shippingChoice.push("option-2");
 			} else if (item.classList.contains("selected") && item.classList.contains("option-3")) {
 				shippingArr.push(9.99);
-			} else {
-				return;
+				shippingChoice.push("option-3");
+			} else if (item.classList.contains("selected") && item.classList.contains("option-1")) {
+				shippingChoice.push("option-1");
+			} else if (item.childNodes[1].childNodes[1].hasAttribute("checked")) {
+				shippingChoice.push("option-1");
 			}
 		});
+
+		console.log(shippingArr, shippingChoice);
+		this.storeLocalShipping(shippingChoice);
 		return shippingArr;
 	},
 	addEventsToUpdateLinks: function (UPDATE_LINK) {
@@ -68,7 +80,6 @@ const UPDATE = {
 		let clickedLink = event.target;
 		this.localStorageIndex = event.target.getAttribute("localStorageIndex");
 		let updateDropMenu = clickedLink.parentElement.parentElement.parentElement.childNodes[3];
-		console.log(updateDropMenu);
 		this.toggleSavedAndUpdate(clickedLink, updateDropMenu);
 	},
 	toggleSavedAndUpdate(clickedLink, updateDropMenu) {
@@ -93,7 +104,6 @@ const UPDATE = {
 
 	getNewQuantity: function (updateDropMenu) {
 		let menuValue = updateDropMenu.childNodes[1].value;
-		console.log(menuValue);
 		return menuValue;
 	},
 
@@ -135,8 +145,7 @@ const UPDATE = {
 	},
 	changeDeliveryDate: function (event) {
 		let DATE_DIV = event.target.parentElement.parentElement;
-
-		let DATE_ELEM = DATE_DIV.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.childNodes[1];
+		let DATE_ELEM = DATE_DIV.parentElement.parentElement.childNodes[1];
 
 		let classes = DATE_DIV.getAttribute("class");
 		let classArr = classes.split(" ");
@@ -166,14 +175,25 @@ const UPDATE = {
 		TOTALS.calculateTax(CHECKOUT.itemPrice);
 		TOTALS.calculateTotal(CHECKOUT.tax, CHECKOUT.itemPrice, CHECKOUT.shippingTotal);
 		UPDATE.addEventsToBtns();
-		// let itemAmount = LOCAL_STORAGE.getNumberOfCartItems();
-		// if (itemAmount == 0) {
-		// DISPLAY.addEmptyCart();
-		// } else {
+		this.getDefaultShipping();
 		const EMPTY_DIV = document.createElement("div");
 		EMPTY_DIV.hidden = true;
-		// }
+	},
+	getDefaultShipping: function () {
+		const RADIO_BTNS = document.querySelectorAll(".radio-btn");
+		let selectedShipping = [];
+		RADIO_BTNS.forEach((button) => {
+			if (button.hasAttribute("checked")) {
+				let optionDiv = button.parentElement.parentElement;
+				selectedShipping.push(optionDiv.getAttribute("class"));
+			}
+		});
+		this.storeLocalShipping(selectedShipping);
+	},
+
+	storeLocalShipping: function (selectedShipping) {
+		let shippingJson = JSON.stringify(selectedShipping);
+		localStorage.setItem("selectedShipping", shippingJson);
 	},
 };
-
 export { UPDATE };

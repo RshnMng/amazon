@@ -24,7 +24,7 @@ const APP = (function () {
 			CHECKOUT.loadCheckoutPage();
 			SET_UP_DATA.firstLoad = false;
 		} else {
-			DISPLAY.hideCheckoutPage();
+			DISPLAY.goToCheckoutPage();
 		}
 	});
 })();

@@ -4,6 +4,7 @@ import { DATES } from "./dates.js";
 import { UPDATE } from "./update.js";
 
 const DISPLAY = {
+	firstLoad: true,
 	hideHomePage: function () {
 		CHECKOUT.HOME_PAGE.hidden = true;
 	},
@@ -34,12 +35,12 @@ const DISPLAY = {
     <div class='checkout-page'>
     <nav class="header-content">
       <div class="logo-container">
-        <a href="index.html">
-          <img
+        <span class='amazon-logo-link'>
+           <img
             class="checkout-logo"
             src="https://supersimple.dev/projects/amazon/images/amazon-logo.png"
           />
-        </a>
+        </span>
       </div>
       <div class="checkout-div">
         <div class="checkout-header"></div>
@@ -88,6 +89,7 @@ const DISPLAY = {
 		CHECKOUT.BODY.append(CHECKOUT_PAGE);
 	},
 	displayCart: function (cartItems) {
+		this.firstLoad = false;
 		let PRODUCT_DISPLAY_DIV = document.querySelector(".product-display-div");
 		let i = 0;
 		if (cartItems == null || cartItems.length == 0) {
@@ -208,7 +210,6 @@ const DISPLAY = {
 		}
 	},
 	addEmptyCart: function () {
-		let CHECKOUT_PAGE = document.querySelector(".checkout-page");
 		const CHECKOUT_MAIN = document.querySelector(".checkout-main");
 		const EMPTY_DIV = document.createElement("div");
 		EMPTY_DIV.classList.add("empty");
@@ -218,15 +219,14 @@ const DISPLAY = {
 		const EMPTY_BUTTON = document.createElement("button");
 		EMPTY_BUTTON.classList.add("empty-button");
 		EMPTY_BUTTON.textContent = "View Products";
-
 		EMPTY_DIV.append(EMPTY_HEADER);
 		EMPTY_DIV.append(EMPTY_BUTTON);
 		CHECKOUT_MAIN.append(EMPTY_DIV);
 		const ADD_CART_BTN = document.querySelector(".place-order");
 		ADD_CART_BTN.setAttribute("disabled", "");
 		EMPTY_BUTTON.addEventListener("click", () => {
-			CHECKOUT.HOME_PAGE.hidden = false;
-			CHECKOUT_PAGE.hidden = true;
+			DISPLAY.goToHomePage();
+			EMPTY_DIV.remove();
 		});
 	},
 	convertIntoFloatNumber: function (data) {
@@ -236,11 +236,16 @@ const DISPLAY = {
 		return price;
 	},
 
-	hideCheckoutPage: function () {
+	goToCheckoutPage: function () {
 		let CHECKOUT_PAGE = document.querySelector(".checkout-page");
 		CHECKOUT.HOME_PAGE.hidden = true;
 		CHECKOUT_PAGE.hidden = false;
 		UPDATE.updateTotals();
+	},
+	goToHomePage: function () {
+		let CHECKOUT_PAGE = document.querySelector(".checkout-page");
+		CHECKOUT.HOME_PAGE.hidden = false;
+		CHECKOUT_PAGE.hidden = true;
 	},
 };
 
