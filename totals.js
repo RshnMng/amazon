@@ -24,12 +24,14 @@ const TOTALS = {
 		CHECKOUT.itemPrice = total;
 	},
 	getShippingTotal: function (shippingArr) {
+		console.log(shippingArr, "get shipping total ran");
 		let totalStr = shippingArr.reduce((total, shippingPrice) => {
 			total += Number(shippingPrice);
 			return total;
 		}, 0);
 
 		let total = Number(totalStr.toFixed(2));
+		CHECKOUT.shippingTotal = total;
 		return total;
 	},
 	calculateTotal(tax, total, shippingTotal) {

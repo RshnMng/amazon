@@ -30,9 +30,7 @@ const UPDATE = {
 		let optionsArr = this.getOptionArr(optionDiv);
 		this.removeSelectedClass(optionsArr);
 		CHECKOUT.shippingArr = this.getSelectedShippingOptions(optionBtn);
-		// console.log(CHECKOUT.shippingArr);
-		CHECKOUT.shippingTotal = TOTALS.getShippingTotal(CHECKOUT.shippingArr);
-		// console.log(CHECKOUT.shippingTotal);
+		CHECKOUT.shippingTotal = TOTALS.getShippingTotal(CHECKOUT.shippingArr); // ran once here
 		DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
 		TOTALS.calculateTotal(CHECKOUT.tax, CHECKOUT.itemPrice, CHECKOUT.shippingTotal);
 	},
@@ -127,7 +125,6 @@ const UPDATE = {
 	},
 	addEventsToDeleteLinks: function (DELETE_LINK) {
 		let cartItems = LOCAL_STORAGE.getCartItems();
-
 		DELETE_LINK.forEach((link) => {
 			link.addEventListener("click", (event) => {
 				this.filterDeleted(event, cartItems);
@@ -146,26 +143,18 @@ const UPDATE = {
 		PRODUCT_DISPLAY_DIV.innerHTML = "";
 
 		LOCAL_STORAGE.setLocalStorageCartItems(newCartItems);
-		UPDATE.updateTotals();
 	},
 	deleteShipping: function (event) {
 		const SHIPPING_OPTIONS_JSON = localStorage.getItem("selectedShipping");
 		let shippingOptions = JSON.parse(SHIPPING_OPTIONS_JSON);
-
 		let productDisplay = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
 		let shippingIndex = productDisplay.getAttribute("localStorageIndex");
-
-		let newArr = shippingOptions.splice(shippingIndex, 1);
-
-		console.log(shippingIndex, Number(shippingIndex) + 1);
-		console.log(newArr, shippingOptions);
-
+		shippingOptions.splice(shippingIndex, 1);
 		this.storeLocalShipping(shippingOptions);
 		this.displayStoredShippingOptions(shippingOptions);
-
 		CHECKOUT.shippingArr.splice(shippingIndex, shippingIndex + 1);
-		CHECKOUT.shippingTotal = TOTALS.getShippingTotal(CHECKOUT.shippingArr);
-		DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
+
+		this.updateTotals(); // ran once here
 	},
 	changeDeliveryDate: function (event) {
 		let DATE_DIV = event.target.parentElement.parentElement;
@@ -187,6 +176,7 @@ const UPDATE = {
 	},
 	updateTotals: function () {
 		let cartItems = LOCAL_STORAGE.getCartItems();
+		console.log("update totals ran");
 		UPDATE.emptyValues();
 		DISPLAY.displayCheckoutAmount();
 		LOCAL_STORAGE.getCartStyling();
@@ -195,7 +185,6 @@ const UPDATE = {
 		TOTALS.getPriceBeforeTaxArr(cartItems);
 		TOTALS.getTotalBeforeTax(CHECKOUT.totalArr);
 		DISPLAY.displayTotalBeforeTax(CHECKOUT.itemPrice);
-		TOTALS.getShippingTotal(CHECKOUT.shippingArr);
 		DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
 		TOTALS.calculateTax(CHECKOUT.itemPrice);
 		TOTALS.calculateTotal(CHECKOUT.tax, CHECKOUT.itemPrice, CHECKOUT.shippingTotal);
@@ -253,16 +242,19 @@ const UPDATE = {
 				}
 			});
 		}
-
-		TOTALS.getShippingTotal(shippingArr);
+		TOTALS.getShippingTotal(shippingArr); // ran once here
 	},
 };
 export { UPDATE };
 
-// 3. delete link when clicked in order index 1234 or index 4321 works fine, when jumping around
-// it messes up, must be an issue with splice/splice
-// 3.5 calculations in order summary (total before tax, total etc) are compounding on delete link click
+// 3. fix so shipping cost is being calculated correctly when items are deleted
+// 3.5 calculations in order summary (total before tax, total etc) are compounding on cart link click
 // fix that //
+// 3.75 when there is already items in the cart that have saved selected shipping options, and we leave
+//checkout page and add more items, when we add shipping options to the new items, all the shipping options
+// for the old items get reset to option 1 - make sure that old items remain the same when new items are added
+// new items get appended to the end, so maybe we can push option-1's to the array saved in local storage and
+// resave it so the old values arent deleted
 // 4.when update is clicked make sure zero cant be selected, or delete it if selected
 // 5.make it so that cart counter updates on home page when checkout page
 //amazon logo is clicked // save cart information into local storage so it doesnt update on refresh
