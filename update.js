@@ -29,8 +29,10 @@ const UPDATE = {
 		let optionDiv = optionBtn.parentElement;
 		let optionsArr = this.getOptionArr(optionDiv);
 		this.removeSelectedClass(optionsArr);
-		let shippingArr = this.getSelectedShippingOptions(optionBtn);
-		CHECKOUT.shippingTotal = TOTALS.getShippingTotal(shippingArr);
+		CHECKOUT.shippingArr = this.getSelectedShippingOptions(optionBtn);
+		// console.log(CHECKOUT.shippingArr);
+		CHECKOUT.shippingTotal = TOTALS.getShippingTotal(CHECKOUT.shippingArr);
+		// console.log(CHECKOUT.shippingTotal);
 		DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
 		TOTALS.calculateTotal(CHECKOUT.tax, CHECKOUT.itemPrice, CHECKOUT.shippingTotal);
 	},
@@ -55,17 +57,18 @@ const UPDATE = {
 			if (item.classList.contains("selected") && item.classList.contains("option-2")) {
 				shippingArr.push(4.99);
 				shippingChoice.push("option-2");
+				item.childNodes[1].childNodes[1].checked = true;
 			} else if (item.classList.contains("selected") && item.classList.contains("option-3")) {
 				shippingArr.push(9.99);
 				shippingChoice.push("option-3");
+				item.childNodes[1].childNodes[1].checked = true;
 			} else if (item.classList.contains("selected") && item.classList.contains("option-1")) {
 				shippingChoice.push("option-1");
 			} else if (item.childNodes[1].childNodes[1].hasAttribute("checked")) {
 				shippingChoice.push("option-1");
+				item.childNodes[1].childNodes[1].checked = true;
 			}
 		});
-
-		console.log(shippingArr, shippingChoice);
 		this.storeLocalShipping(shippingChoice);
 		return shippingArr;
 	},
@@ -124,9 +127,11 @@ const UPDATE = {
 	},
 	addEventsToDeleteLinks: function (DELETE_LINK) {
 		let cartItems = LOCAL_STORAGE.getCartItems();
+
 		DELETE_LINK.forEach((link) => {
 			link.addEventListener("click", (event) => {
 				this.filterDeleted(event, cartItems);
+				this.deleteShipping(event);
 			});
 		});
 	},
@@ -142,6 +147,25 @@ const UPDATE = {
 
 		LOCAL_STORAGE.setLocalStorageCartItems(newCartItems);
 		UPDATE.updateTotals();
+	},
+	deleteShipping: function (event) {
+		const SHIPPING_OPTIONS_JSON = localStorage.getItem("selectedShipping");
+		let shippingOptions = JSON.parse(SHIPPING_OPTIONS_JSON);
+
+		let productDisplay = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+		let shippingIndex = productDisplay.getAttribute("localStorageIndex");
+
+		let newArr = shippingOptions.splice(shippingIndex, 1);
+
+		console.log(shippingIndex, Number(shippingIndex) + 1);
+		console.log(newArr, shippingOptions);
+
+		this.storeLocalShipping(shippingOptions);
+		this.displayStoredShippingOptions(shippingOptions);
+
+		CHECKOUT.shippingArr.splice(shippingIndex, shippingIndex + 1);
+		CHECKOUT.shippingTotal = TOTALS.getShippingTotal(CHECKOUT.shippingArr);
+		DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
 	},
 	changeDeliveryDate: function (event) {
 		let DATE_DIV = event.target.parentElement.parentElement;
@@ -167,33 +191,81 @@ const UPDATE = {
 		DISPLAY.displayCheckoutAmount();
 		LOCAL_STORAGE.getCartStyling();
 		DISPLAY.displayCart(cartItems);
+		this.getLocalShippingOptions();
 		TOTALS.getPriceBeforeTaxArr(cartItems);
-		TOTALS.getTotalBeforeTax(CHECKOUT.priceArr);
+		TOTALS.getTotalBeforeTax(CHECKOUT.totalArr);
 		DISPLAY.displayTotalBeforeTax(CHECKOUT.itemPrice);
-		TOTALS.getShippingTotal(CHECKOUT.priceArr);
+		TOTALS.getShippingTotal(CHECKOUT.shippingArr);
 		DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
 		TOTALS.calculateTax(CHECKOUT.itemPrice);
 		TOTALS.calculateTotal(CHECKOUT.tax, CHECKOUT.itemPrice, CHECKOUT.shippingTotal);
 		UPDATE.addEventsToBtns();
-		this.getDefaultShipping();
+
 		const EMPTY_DIV = document.createElement("div");
 		EMPTY_DIV.hidden = true;
 	},
-	getDefaultShipping: function () {
-		const RADIO_BTNS = document.querySelectorAll(".radio-btn");
-		let selectedShipping = [];
-		RADIO_BTNS.forEach((button) => {
-			if (button.hasAttribute("checked")) {
-				let optionDiv = button.parentElement.parentElement;
-				selectedShipping.push(optionDiv.getAttribute("class"));
-			}
-		});
-		this.storeLocalShipping(selectedShipping);
-	},
-
 	storeLocalShipping: function (selectedShipping) {
 		let shippingJson = JSON.stringify(selectedShipping);
 		localStorage.setItem("selectedShipping", shippingJson);
 	},
+	getLocalShippingOptions: function () {
+		const SHIPPING_OPTIONS_JSON = localStorage.getItem("selectedShipping");
+		let shippingOptions = JSON.parse(SHIPPING_OPTIONS_JSON);
+		let numOfItems = LOCAL_STORAGE.getNumberOfCartItems();
+		if (shippingOptions == null && numOfItems > 0) {
+			shippingOptions = [];
+			for (let i = 0; i < numOfItems; i++) {
+				shippingOptions.push("option-1");
+			}
+			this.storeLocalShipping(shippingOptions);
+		} else {
+			this.displayStoredShippingOptions(shippingOptions);
+		}
+	},
+
+	displayStoredShippingOptions: function (shippingOptions) {
+		let i = 0;
+		let shippingDivs = document.querySelectorAll(".shipping-option-div");
+		shippingDivs.forEach((div) => {
+			let childArr = Array.from(div.children);
+			childArr.forEach((element) => {
+				if (element.classList[0] == shippingOptions[i]) {
+					let buttonHTML = element.childNodes[1].childNodes[1];
+					buttonHTML.checked = true;
+				}
+			});
+			i += 1;
+		});
+		this.getShippingCost(shippingOptions);
+	},
+	getShippingCost: function (shippingOptions) {
+		let shippingArr = [];
+		if (shippingOptions == null) {
+			return;
+		} else {
+			shippingOptions.forEach((option) => {
+				if (option == "option-2") {
+					shippingArr.push(4.99);
+				} else if (option == "option-3") {
+					shippingArr.push(9.99);
+				} else {
+					return;
+				}
+			});
+		}
+
+		TOTALS.getShippingTotal(shippingArr);
+	},
 };
 export { UPDATE };
+
+// 3. delete link when clicked in order index 1234 or index 4321 works fine, when jumping around
+// it messes up, must be an issue with splice/splice
+// 3.5 calculations in order summary (total before tax, total etc) are compounding on delete link click
+// fix that //
+// 4.when update is clicked make sure zero cant be selected, or delete it if selected
+// 5.make it so that cart counter updates on home page when checkout page
+//amazon logo is clicked // save cart information into local storage so it doesnt update on refresh
+// 6. make it so place your order button goes back to being enabled after it is disabled so when
+// view an empty cart in checkout then go back to the home page and add items to the cart and then
+// go back to the checkout, the button is enabled..

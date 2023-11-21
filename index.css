@@ -284,7 +284,7 @@ html {
  }
 
 
- .option-div {
+ .shipping-option-div, .option-div {
      display: block;
  }
 

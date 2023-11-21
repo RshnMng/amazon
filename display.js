@@ -145,7 +145,7 @@ const DISPLAY = {
        </div>                         
        </div> 
        <h3 class='delivery-header'>Choose a delivery option:</h3>
-       <div class='option-div'>
+       <div class='shipping-option-div'>
        <div class='option-1 option'>
        <div class='checkbox-div'>
        <input type='radio' name='shipping-${i}' class='radio-btn' checked/>

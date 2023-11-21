@@ -81,7 +81,7 @@ const SET_UP_DATA = {
 			let options = productOptions[style];
 			const STYLE_DIV = document.createElement("div");
 			const STYLE = document.createElement("div");
-			STYLE_DIV.classList.add("option-div");
+			STYLE_DIV.classList.add(".option-div");
 			STYLE.setAttribute("id", id);
 			STYLE.classList.add("option-label");
 			STYLE.innerText = style;

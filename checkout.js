@@ -13,7 +13,8 @@ const CHECKOUT = {
 	cartItems: "",
 	itemPrice: 0,
 	totalPrice: 0,
-	priceArr: [],
+	totalArr: [],
+	shippingArr: [],
 	loadCheckoutPage: function () {
 		DISPLAY.setUpPage();
 	},

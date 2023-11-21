@@ -12,12 +12,12 @@ const TOTALS = {
 		} else {
 			itemsInCart.forEach((item) => {
 				let itemPrice = Number((item.itemQuantity * item.chosenProduct.priceCents) / 100).toFixed(2);
-				CHECKOUT.priceArr.push(itemPrice);
+				CHECKOUT.totalArr.push(itemPrice);
 			});
 		}
 	},
-	getTotalBeforeTax: function (priceArr) {
-		let sum = priceArr.reduce((total, price) => {
+	getTotalBeforeTax: function (totalArr) {
+		let sum = totalArr.reduce((total, price) => {
 			return (total += Number(price));
 		}, 0);
 		let total = sum.toFixed(2);
