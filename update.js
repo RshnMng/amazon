@@ -33,6 +33,7 @@ const UPDATE = {
 		CHECKOUT.shippingTotal = TOTALS.getShippingTotal(CHECKOUT.shippingArr); // ran once here
 		DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
 		TOTALS.calculateTotal(CHECKOUT.tax, CHECKOUT.itemPrice, CHECKOUT.shippingTotal);
+		TOTALS.saveLocalTotals();
 	},
 	getOptionArr: function (optionDiv) {
 		let options = optionDiv.children;
@@ -175,8 +176,8 @@ const UPDATE = {
 		}
 	},
 	updateTotals: function () {
+		console.log("update TOTALS RAN");
 		let cartItems = LOCAL_STORAGE.getCartItems();
-		console.log("update totals ran");
 		UPDATE.emptyValues();
 		DISPLAY.displayCheckoutAmount();
 		LOCAL_STORAGE.getCartStyling();
@@ -189,6 +190,7 @@ const UPDATE = {
 		TOTALS.calculateTax(CHECKOUT.itemPrice);
 		TOTALS.calculateTotal(CHECKOUT.tax, CHECKOUT.itemPrice, CHECKOUT.shippingTotal);
 		UPDATE.addEventsToBtns();
+		TOTALS.saveLocalTotals();
 
 		const EMPTY_DIV = document.createElement("div");
 		EMPTY_DIV.hidden = true;
@@ -242,12 +244,11 @@ const UPDATE = {
 				}
 			});
 		}
-		TOTALS.getShippingTotal(shippingArr); // ran once here
+		TOTALS.getShippingTotal(shippingArr);
 	},
 };
 export { UPDATE };
 
-// 3. fix so shipping cost is being calculated correctly when items are deleted
 // 3.5 calculations in order summary (total before tax, total etc) are compounding on cart link click
 // fix that //
 // 3.75 when there is already items in the cart that have saved selected shipping options, and we leave

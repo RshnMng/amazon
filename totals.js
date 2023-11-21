@@ -1,9 +1,27 @@
 import { CHECKOUT } from "./checkout.js";
+import { LOCAL_STORAGE } from "./localStorage.js";
 
 const TOTALS = {
+	saveLocalTotals: function () {
+		let currentTotals = {
+			cartQuantity: LOCAL_STORAGE.getNumberOfCartItems(),
+			shippingTotal: TOTALS.getShippingTotal(CHECKOUT.shippingArr),
+			tax: CHECKOUT.tax,
+			cartItems: LOCAL_STORAGE.getCartItems(),
+			itemPrice: CHECKOUT.itemPrice,
+			totalPrice: CHECKOUT.totalPrice,
+			totalArr: CHECKOUT.totalArr,
+			shippingArr: CHECKOUT.shippingArr,
+		};
+		console.log(currentTotals.cartQuantity);
+		let CURRENT_TOTALS_JSON = JSON.stringify(currentTotals);
+		localStorage.setItem("currentTotals", CURRENT_TOTALS_JSON);
+	},
 	getCartQuantity: function () {
 		let cartQuantityJson = localStorage.getItem("cartQuantity");
 		let cartQuantity = Number(JSON.parse(cartQuantityJson));
+		CHECKOUT.cartQuantity = cartQuantity;
+		console.log(CHECKOUT.cartQuantity);
 		return cartQuantity;
 	},
 	getPriceBeforeTaxArr: function (itemsInCart) {
@@ -24,14 +42,13 @@ const TOTALS = {
 		CHECKOUT.itemPrice = total;
 	},
 	getShippingTotal: function (shippingArr) {
-		console.log(shippingArr, "get shipping total ran");
 		let totalStr = shippingArr.reduce((total, shippingPrice) => {
 			total += Number(shippingPrice);
 			return total;
 		}, 0);
 
 		let total = Number(totalStr.toFixed(2));
-		CHECKOUT.shippingTotal = total;
+
 		return total;
 	},
 	calculateTotal(tax, total, shippingTotal) {
