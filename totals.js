@@ -8,12 +8,11 @@ const TOTALS = {
 			shippingTotal: TOTALS.getShippingTotal(CHECKOUT.shippingArr),
 			tax: CHECKOUT.tax,
 			cartItems: LOCAL_STORAGE.getCartItems(),
-			itemPrice: CHECKOUT.itemPrice,
+			preTaxPrice: CHECKOUT.preTaxPrice,
 			totalPrice: CHECKOUT.totalPrice,
 			totalArr: CHECKOUT.totalArr,
 			shippingArr: CHECKOUT.shippingArr,
 		};
-		console.log(currentTotals.cartQuantity);
 		let CURRENT_TOTALS_JSON = JSON.stringify(currentTotals);
 		localStorage.setItem("currentTotals", CURRENT_TOTALS_JSON);
 	},
@@ -29,8 +28,8 @@ const TOTALS = {
 			return;
 		} else {
 			itemsInCart.forEach((item) => {
-				let itemPrice = Number((item.itemQuantity * item.chosenProduct.priceCents) / 100).toFixed(2);
-				CHECKOUT.totalArr.push(itemPrice);
+				let preTaxPrice = Number((item.itemQuantity * item.chosenProduct.priceCents) / 100).toFixed(2);
+				CHECKOUT.totalArr.push(preTaxPrice);
 			});
 		}
 	},
@@ -39,7 +38,7 @@ const TOTALS = {
 			return (total += Number(price));
 		}, 0);
 		let total = sum.toFixed(2);
-		CHECKOUT.itemPrice = total;
+		CHECKOUT.preTaxPrice = total;
 	},
 	getShippingTotal: function (shippingArr) {
 		let totalStr = shippingArr.reduce((total, shippingPrice) => {
@@ -48,7 +47,7 @@ const TOTALS = {
 		}, 0);
 
 		let total = Number(totalStr.toFixed(2));
-
+		CHECKOUT.shippingTotal = total;
 		return total;
 	},
 	calculateTotal(tax, total, shippingTotal) {

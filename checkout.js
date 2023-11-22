@@ -11,7 +11,7 @@ const CHECKOUT = {
 	shippingTotal: 0,
 	tax: 0,
 	cartItems: "",
-	itemPrice: 0,
+	preTaxPrice: 0,
 	totalPrice: 0,
 	totalArr: [],
 	shippingArr: [],

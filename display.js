@@ -206,7 +206,7 @@ const DISPLAY = {
 		if (shippingTotal == 0 || shippingTotal == null) {
 			SHIPPING_PRICE_DIV.innerText = "$0.00";
 		} else {
-			SHIPPING_PRICE_DIV.innerText = `$${shippingTotal}`;
+			SHIPPING_PRICE_DIV.innerText = `$${CHECKOUT.shippingTotal}`;
 		}
 	},
 	addEmptyCart: function () {

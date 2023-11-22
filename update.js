@@ -32,7 +32,7 @@ const UPDATE = {
 		CHECKOUT.shippingArr = this.getSelectedShippingOptions(optionBtn);
 		CHECKOUT.shippingTotal = TOTALS.getShippingTotal(CHECKOUT.shippingArr); // ran once here
 		DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
-		TOTALS.calculateTotal(CHECKOUT.tax, CHECKOUT.itemPrice, CHECKOUT.shippingTotal);
+		TOTALS.calculateTotal(CHECKOUT.tax, CHECKOUT.preTaxPrice, CHECKOUT.shippingTotal);
 		TOTALS.saveLocalTotals();
 	},
 	getOptionArr: function (optionDiv) {
@@ -120,9 +120,10 @@ const UPDATE = {
 	},
 	emptyValues: function () {
 		CHECKOUT.priceArr = [];
-		CHECKOUT.itemPrice = 0;
+		CHECKOUT.preTaxPrice = 0;
 		CHECKOUT.totalPrice = 0;
 		CHECKOUT.tax = 0;
+		CHECKOUT.totalArr = [];
 	},
 	addEventsToDeleteLinks: function (DELETE_LINK) {
 		let cartItems = LOCAL_STORAGE.getCartItems();
@@ -130,8 +131,18 @@ const UPDATE = {
 			link.addEventListener("click", (event) => {
 				this.filterDeleted(event, cartItems);
 				this.deleteShipping(event);
+				this.updateOrderSummary(event);
 			});
 		});
+	},
+	updateOrderSummary: function (event) {
+		let productDisplay = event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+		let productPriceString = productDisplay.childNodes[3].childNodes[3].childNodes[3].innerText;
+		let productPriceArr = productPriceString.trim().split("$");
+		let productPrice = Number(productPriceArr[1]);
+
+		let newCartPrice = CHECKOUT.totalPrice - productPrice;
+		CHECKOUT.totalPrice = newCartPrice;
 	},
 
 	filterDeleted(event, cartItems) {
@@ -155,7 +166,7 @@ const UPDATE = {
 		this.displayStoredShippingOptions(shippingOptions);
 		CHECKOUT.shippingArr.splice(shippingIndex, shippingIndex + 1);
 
-		this.updateTotals(); // ran once here
+		this.updateTotals();
 	},
 	changeDeliveryDate: function (event) {
 		let DATE_DIV = event.target.parentElement.parentElement;
@@ -176,7 +187,6 @@ const UPDATE = {
 		}
 	},
 	updateTotals: function () {
-		console.log("update TOTALS RAN");
 		let cartItems = LOCAL_STORAGE.getCartItems();
 		UPDATE.emptyValues();
 		DISPLAY.displayCheckoutAmount();
@@ -185,10 +195,10 @@ const UPDATE = {
 		this.getLocalShippingOptions();
 		TOTALS.getPriceBeforeTaxArr(cartItems);
 		TOTALS.getTotalBeforeTax(CHECKOUT.totalArr);
-		DISPLAY.displayTotalBeforeTax(CHECKOUT.itemPrice);
+		DISPLAY.displayTotalBeforeTax(CHECKOUT.preTaxPrice);
 		DISPLAY.displayShippingTotal(CHECKOUT.shippingTotal);
-		TOTALS.calculateTax(CHECKOUT.itemPrice);
-		TOTALS.calculateTotal(CHECKOUT.tax, CHECKOUT.itemPrice, CHECKOUT.shippingTotal);
+		TOTALS.calculateTax(CHECKOUT.preTaxPrice);
+		TOTALS.calculateTotal(CHECKOUT.tax, CHECKOUT.preTaxPrice, CHECKOUT.shippingTotal);
 		UPDATE.addEventsToBtns();
 		TOTALS.saveLocalTotals();
 
@@ -249,8 +259,6 @@ const UPDATE = {
 };
 export { UPDATE };
 
-// 3.5 calculations in order summary (total before tax, total etc) are compounding on cart link click
-// fix that //
 // 3.75 when there is already items in the cart that have saved selected shipping options, and we leave
 //checkout page and add more items, when we add shipping options to the new items, all the shipping options
 // for the old items get reset to option 1 - make sure that old items remain the same when new items are added
