@@ -12,7 +12,7 @@ const DISPLAY = {
 		DISPLAY.hideHomePage();
 		DISPLAY.loadHeader();
 		DISPLAY.hideUpdateDropMenu();
-		// DISPLAY.displayCheckoutAmount();
+		DISPLAY.displayCheckoutAmount();
 		DATES.getDates();
 		UPDATE.updateTotals();
 	},
@@ -244,6 +244,10 @@ const DISPLAY = {
 	},
 	goToHomePage: function () {
 		let CHECKOUT_PAGE = document.querySelector(".checkout-page");
+		LOCAL_STORAGE.cartCount.textContent = LOCAL_STORAGE.getNumberOfCartItems();
+		CHECKOUT.cartQuantity = LOCAL_STORAGE.getNumberOfCartItems();
+		LOCAL_STORAGE.getCartStyling(CHECKOUT.cartQuantity);
+		console.log(CHECKOUT.cartQuantity);
 		CHECKOUT.HOME_PAGE.hidden = false;
 		CHECKOUT_PAGE.hidden = true;
 	},

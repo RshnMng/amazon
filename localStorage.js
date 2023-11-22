@@ -1,5 +1,6 @@
 import { products } from "./product.js";
 import { SET_UP_DATA } from "./setPage.js";
+import { CHECKOUT } from "./checkout.js";
 
 const LOCAL_STORAGE = {
 	itemAmount: 0,
@@ -14,8 +15,8 @@ const LOCAL_STORAGE = {
 		} else {
 			this.isItemAlreadyInCart(cartItems);
 		}
-		this.getNumberOfCartItems();
-		this.getCartStyling(this.numberOfItemsInCart);
+		CHECKOUT.cartQuantity = this.getNumberOfCartItems();
+		this.getCartStyling(CHECKOUT.cartQuantity);
 	},
 	addFirstProductToCart: function (cartItems) {
 		let productID = event.target.id;
@@ -82,7 +83,7 @@ const LOCAL_STORAGE = {
 
 				return total;
 			}, 0);
-			this.numberOfItemsInCart = total;
+			CHECKOUT.cartQusntity = total;
 			return total;
 		}
 	},
