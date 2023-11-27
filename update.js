@@ -48,26 +48,39 @@ const UPDATE = {
 		});
 	},
 	getSelectedShippingOptions(optionBtn) {
-		let shippingArr = [];
 		let shippingChoice = [];
+		let shippingArr = [];
+
+		// clicking radio buttons here are adding more than we intend, whay we want
+		// when a radio button is clicked is to take the saved values and keep them
+		// the same, while adjusting the newly added products...weve already figured
+		//out how to do this , we just need to access it from local storage first and
+		//preform the same function as before so that the whole array doesnt reset on
+		//radio button click
+
 		optionBtn.classList.add("selected");
 		let RADIO_BTNS_ON_PAGE = document.querySelectorAll(".option");
+		let i = 0;
 		RADIO_BTNS_ON_PAGE.forEach((item) => {
-			if (item.classList.contains("selected") && item.classList.contains("option-2")) {
+			console.log(item.childNodes[1].childNodes[1]);
+			if (item.childNodes[1].childNodes[1].checked == true && item.classList.contains("option-2")) {
 				shippingArr.push(4.99);
 				shippingChoice.push("option-2");
 				item.childNodes[1].childNodes[1].checked = true;
-			} else if (item.classList.contains("selected") && item.classList.contains("option-3")) {
+				item.childNodes[1].childNodes[1].setAttribute("checked", true);
+			} else if (item.childNodes[1].childNodes[1].checked == true && item.classList.contains("option-3")) {
 				shippingArr.push(9.99);
 				shippingChoice.push("option-3");
 				item.childNodes[1].childNodes[1].checked = true;
-			} else if (item.classList.contains("selected") && item.classList.contains("option-1")) {
-				shippingChoice.push("option-1");
-			} else if (item.childNodes[1].childNodes[1].hasAttribute("checked")) {
+				item.childNodes[1].childNodes[1].setAttribute("checked", true);
+			} else if (item.childNodes[1].childNodes[1].checked == true && item.classList.contains("option-1")) {
 				shippingChoice.push("option-1");
 				item.childNodes[1].childNodes[1].checked = true;
+				item.childNodes[1].childNodes[1].setAttribute("checked", true);
 			}
 		});
+		i++;
+		console.log(shippingChoice);
 		this.storeLocalShipping(shippingChoice);
 		return shippingArr;
 	},
@@ -259,14 +272,12 @@ const UPDATE = {
 };
 export { UPDATE };
 
-// 3.75 when there is already items in the cart that have saved selected shipping options, and we leave
+// 1. when there is already items in the cart that have saved selected shipping options, and we leave
 //checkout page and add more items, when we add shipping options to the new items, all the shipping options
 // for the old items get reset to option 1 - make sure that old items remain the same when new items are added
 // new items get appended to the end, so maybe we can push option-1's to the array saved in local storage and
 // resave it so the old values arent deleted
-// 4.when update is clicked make sure zero cant be selected, or delete it if selected
-// 5.make it so that cart counter updates on home page when checkout page
-//amazon logo is clicked // save cart information into local storage so it doesnt update on refresh
-// 6. make it so place your order button goes back to being enabled after it is disabled so when
+// 2.when update is clicked make sure zero cant be selected, or delete it if selected
+// 3. make it so place your order button goes back to being enabled after it is disabled so when
 // view an empty cart in checkout then go back to the home page and add items to the cart and then
 // go back to the checkout, the button is enabled..

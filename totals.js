@@ -20,7 +20,6 @@ const TOTALS = {
 		let cartQuantityJson = localStorage.getItem("cartQuantity");
 		let cartQuantity = Number(JSON.parse(cartQuantityJson));
 		CHECKOUT.cartQuantity = cartQuantity;
-		console.log(CHECKOUT.cartQuantity);
 		return cartQuantity;
 	},
 	getPriceBeforeTaxArr: function (itemsInCart) {

@@ -1,10 +1,12 @@
 import { products } from "./product.js";
 import { SET_UP_DATA } from "./setPage.js";
 import { CHECKOUT } from "./checkout.js";
+import { UPDATE } from "./update.js";
 
 const LOCAL_STORAGE = {
 	itemAmount: 0,
 	numberOfItemsInCart: 0,
+	cartNumber: 0,
 	cartCount: document.querySelector(".cart-count"),
 	addSelectedItemToStorage: function () {
 		this.itemAmount = this.getChosenItemAmount(event);
@@ -29,6 +31,7 @@ const LOCAL_STORAGE = {
 			id: productID,
 		});
 		this.setLocalStorageCartItems(cartItems);
+		this.cartNumber = 1;
 	},
 	getChosenItemAmount: function (event) {
 		SET_UP_DATA.currentProductIndex = event.target.parentElement.id - 1;
@@ -59,6 +62,7 @@ const LOCAL_STORAGE = {
 			id: productID,
 		}),
 			this.setLocalStorageCartItems(cartItems);
+		this.addDefaultShippingOptions();
 	},
 	addItemAmountToExistingProduct: function (cartItems, productID, itemAmount) {
 		cartItems.forEach((item) => {
@@ -83,7 +87,7 @@ const LOCAL_STORAGE = {
 
 				return total;
 			}, 0);
-			CHECKOUT.cartQusntity = total;
+			CHECKOUT.cartQuantity = total;
 			return total;
 		}
 	},
@@ -112,6 +116,21 @@ const LOCAL_STORAGE = {
 		let cartItems = localStorage.getItem("cartItems");
 		let itemsInCart = JSON.parse(cartItems);
 		return itemsInCart;
+	},
+	getLocalTotals: function () {
+		let totalsJSON = localStorage.getItem("currentTotals");
+		let currentTotals = JSON.parse(totalsJSON);
+		return currentTotals;
+	},
+	addDefaultShippingOptions: function () {
+		let currentTotals = LOCAL_STORAGE.getLocalTotals();
+		if (currentTotals == null) return;
+
+		const SHIPPING_OPTIONS_JSON = localStorage.getItem("selectedShipping");
+		let selectedShipping = JSON.parse(SHIPPING_OPTIONS_JSON);
+
+		selectedShipping.push("option-1");
+		UPDATE.storeLocalShipping(selectedShipping);
 	},
 };
 

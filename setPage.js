@@ -3,6 +3,7 @@ import { products } from "./product.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
 import { DISPLAY } from "./display.js";
 import { SEARCH } from "./search.js";
+import { CHECKOUT } from "./checkout.js";
 
 const SET_UP_DATA = {
 	BODY: document.querySelector("body"),

@@ -247,7 +247,6 @@ const DISPLAY = {
 		LOCAL_STORAGE.cartCount.textContent = LOCAL_STORAGE.getNumberOfCartItems();
 		CHECKOUT.cartQuantity = LOCAL_STORAGE.getNumberOfCartItems();
 		LOCAL_STORAGE.getCartStyling(CHECKOUT.cartQuantity);
-		console.log(CHECKOUT.cartQuantity);
 		CHECKOUT.HOME_PAGE.hidden = false;
 		CHECKOUT_PAGE.hidden = true;
 	},
