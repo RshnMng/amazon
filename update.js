@@ -50,19 +50,9 @@ const UPDATE = {
 	getSelectedShippingOptions(optionBtn) {
 		let shippingChoice = [];
 		let shippingArr = [];
-
-		// clicking radio buttons here are adding more than we intend, whay we want
-		// when a radio button is clicked is to take the saved values and keep them
-		// the same, while adjusting the newly added products...weve already figured
-		//out how to do this , we just need to access it from local storage first and
-		//preform the same function as before so that the whole array doesnt reset on
-		//radio button click
-
 		optionBtn.classList.add("selected");
 		let RADIO_BTNS_ON_PAGE = document.querySelectorAll(".option");
-		let i = 0;
 		RADIO_BTNS_ON_PAGE.forEach((item) => {
-			console.log(item.childNodes[1].childNodes[1]);
 			if (item.childNodes[1].childNodes[1].checked == true && item.classList.contains("option-2")) {
 				shippingArr.push(4.99);
 				shippingChoice.push("option-2");
@@ -79,7 +69,7 @@ const UPDATE = {
 				item.childNodes[1].childNodes[1].setAttribute("checked", true);
 			}
 		});
-		i++;
+
 		console.log(shippingChoice);
 		this.storeLocalShipping(shippingChoice);
 		return shippingArr;
@@ -272,12 +262,16 @@ const UPDATE = {
 };
 export { UPDATE };
 
-// 1. when there is already items in the cart that have saved selected shipping options, and we leave
-//checkout page and add more items, when we add shipping options to the new items, all the shipping options
-// for the old items get reset to option 1 - make sure that old items remain the same when new items are added
-// new items get appended to the end, so maybe we can push option-1's to the array saved in local storage and
-// resave it so the old values arent deleted
-// 2.when update is clicked make sure zero cant be selected, or delete it if selected
-// 3. make it so place your order button goes back to being enabled after it is disabled so when
-// view an empty cart in checkout then go back to the home page and add items to the cart and then
-// go back to the checkout, the button is enabled..
+//1. when use pay pal is clicked bring a paypal button and
+// and a credit card button instead of place order button
+
+//2. when paypal is clicked - go to pay pal page to login
+
+//3 when credit card button is clicked drop down a form that
+//takes user credit card information
+
+// 4. make ship to billing button in form. make checked by default
+// if unchecked drop down another form where a person can place
+// thier information =-- make items required to be filled out
+
+// 5. style new elements nad forms

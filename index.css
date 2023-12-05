@@ -410,6 +410,7 @@ p {
      background-color: rgb(255, 216, 20);
      border: 1px solid rgb(255, 216, 20);
      border-radius: 5px;
+     cursor: pointer;
  }
 
 .link-div {

@@ -3,7 +3,6 @@ import { products } from "./product.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
 import { DISPLAY } from "./display.js";
 import { SEARCH } from "./search.js";
-import { CHECKOUT } from "./checkout.js";
 
 const SET_UP_DATA = {
 	BODY: document.querySelector("body"),
@@ -131,6 +130,8 @@ const SET_UP_DATA = {
 				let index = event.target.parentElement.id - 1;
 				this.showAdded(index, ADD_DIVS);
 				LOCAL_STORAGE.addSelectedItemToStorage(event);
+				const ADD_CART_BTN = document.querySelector(".place-order");
+				ADD_CART_BTN.removeAttribute("disabled");
 			});
 		});
 	},

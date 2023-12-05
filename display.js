@@ -115,7 +115,6 @@ const DISPLAY = {
                 </div> 
                 <div class='update'>
                   <select class='select-update-number'>
-                    <option class='update-number'>0</option>
                     <option class='update-number'>1</option>
                     <option class='update-number'>2</option>
                     <option class='update-number'>3</option>
