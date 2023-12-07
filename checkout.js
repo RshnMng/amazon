@@ -1,5 +1,5 @@
 import { DISPLAY } from "./display.js";
-import { TOTALS } from "./totals.js";
+import { PAYMENT } from "./payment.js";
 
 const CHECKOUT = {
 	CART_LINK: document.querySelector(".cart-link"),
@@ -17,6 +17,7 @@ const CHECKOUT = {
 	shippingArr: [],
 	loadCheckoutPage: function () {
 		DISPLAY.setUpPage();
+		PAYMENT.addEventsToPayPal();
 	},
 };
 

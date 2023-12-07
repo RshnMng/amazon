@@ -75,11 +75,57 @@ const DISPLAY = {
     <div class='total'>Order total:</div>
     <div class='total-cost'></div>
     </div>
+    <div class='payment-div'>
     <div class='paypal-div'>
     <div class='paypal'>Use PayPal</div>
      <input class='paypal-checkbox' type='checkbox'></input>
     </div>
     <button class='place-order'>place your order</button>
+    <div class='paypal-credit-div'>
+     <a href='https://www.paypal.com/signin' target='_blank'>
+    <button class='paypal-link-btn'>
+    <img class='paypal-link-photo' src='Logo-PayPal-transparent-PNG.png'  />
+    </button>
+    </a>
+    <button class='credit-card-btn'>
+    <img class='credit-logo' src='white-visa-credit-card-payment-icon-png-img-21635327395glgmljx3da.png' height=45 />
+    <span class='credit-text'> Debit or Credit Card</span></button>
+    <form class='credit-form'>
+    <p class='x-out'> X </p>
+    <input type='tel' name='card-number' minlength=19 maxlength=19 placeholder='Card Number'required/>
+    <input type='tel' name='expires' minlength=3 maxlength=4 placeholder='Expires'required />
+    <input type='tel' name='cvv' minlength=3 maxlength=3 placeholder='CVV' required/>
+    <p> Billing Address </p>
+    <input name='first name' type='text' placeholder='First name' required/>
+    <input name='last name' type='text' placeholder='Last name' required/>
+    <input name='address' type='text' placeholder='Street address' required/>
+    <input name='apt' type='text' placeholder='Apt./ bldg.'/>
+    <input name='city' type='text' placeholder='City' required/>
+    <input name='state' type='text' placeholder='State' required/>
+     <input name='zip' type='tel' placeholder='ZIP code' minlength=5 maxlength=5 required/>
+     <input name='phone' type='tel' placeholder='Mobile' minlength=10 maxlength=10 required/>
+      <input name='email' type='text' placeholder='Email' required/>
+      <input type='checkbox' /><span>Ship to Shipping Address</span>
+    </form>
+    <form class='shipping-addy'>
+    <select class='country-select'> choose country </select>
+    <p>Shipping Address</p>
+    <input name='first name' type='text' placeholder='First name' required/>
+    <input name='last name' type='text' placeholder='Last name' required/>
+    <input name='address' type='text' placeholder='Street address' required/>
+    <input name='apt' type='text' placeholder='Apt./ bldg.'/>
+    <input name='city' type='text' placeholder='City' required/>
+    <input name='state' type='text' placeholder='State' required/>
+     <input name='zip' type='tel' placeholder='ZIP code' minlength=5 maxlength=5 required/>
+     <p class='age-disclaimer'>By continiuing, you confirm that you're 18 years or older.</p>
+     <button class='pay-now-btn'>Pay Now</button>
+    </form>
+      <div class='power-div'>
+    <span class='power-text'>Powered By</span><img class='power-logo' src='Logo-PayPal-transparent-PNG.png' width=50/> 
+    </div>
+    </div>
+    </div>
+    </div>
     </div>
     <div class="product-display-div"></div>
     </div>
@@ -252,3 +298,6 @@ const DISPLAY = {
 };
 
 export { DISPLAY };
+
+//when the item quantity is updated in the checkout display, the date goes to
+// free shipping/default value... make it so the date stays on whatever date is selected

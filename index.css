@@ -137,6 +137,33 @@ body {
     font-weight: 500;
   }
 
+  .credit-card-btn {
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: rgb(42, 38, 38);
+    vertical-align: bottom;
+  }
+
+  .credit-logo {
+    color: white;
+    position: relative;
+    top: 2px;
+  }
+
+  .credit-text {
+    position: relative;
+    bottom: 16px;
+  }
+
+  .credit-form {
+    border: 2px solid blue;
+  }
+
+  .shipping-addy {
+    border: 2px solid red;
+  }
+
   .date {
     color: rgb(0, 118, 0);
     font-weight: bold;
@@ -169,6 +196,12 @@ body {
   }
 
   .empty-button {
+    background-color: rgb(255, 216, 20);
+    border: 1px solid rgb(252, 210, 0);
+    margin-top: 10px;
+    padding: 8px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
     cursor: pointer;
   }
 
@@ -305,6 +338,40 @@ p {
 .paypal {
     margin-right: 10px;
     margin-top: 4px;
+}
+
+
+.paypal-link-btn, .credit-card-btn {
+    display: block;
+    height: 50px;
+    width: 100%;
+    margin-bottom:6px;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+}
+
+.paypal-link-btn {
+    background-color: rgb(255, 216, 20);
+}
+
+.paypal-link-photo {
+    height: 30px;
+    width: 100px;
+}
+
+.power-div {
+    display: flex;
+    margin-top: 12px;
+}
+
+.power-text {
+    font-size: 12px;
+    font-style: italic;
+    text-align: center;
+    margin-right: 3px;
+    color: #7b8388;
+    margin-left: 37%;
 }
 
 
