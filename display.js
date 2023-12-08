@@ -2,6 +2,7 @@ import { CHECKOUT } from "./checkout.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
 import { DATES } from "./dates.js";
 import { UPDATE } from "./update.js";
+import { PAYMENT } from "./payment.js";
 
 const DISPLAY = {
 	firstLoad: true,
@@ -92,17 +93,17 @@ const DISPLAY = {
     <span class='credit-text'> Debit or Credit Card</span></button>
     <form class='credit-form'>
     <p class='x-out'> X </p>
-    <input type='tel' name='card-number' minlength=19 maxlength=19 placeholder='Card Number'required/>
-    <input type='tel' name='expires' minlength=3 maxlength=4 placeholder='Expires'required />
-    <input type='tel' name='cvv' minlength=3 maxlength=3 placeholder='CVV' required/>
+    <input type='text' name='card-number' id='card-number' minlength=19 maxlength=19 placeholder='Card Number 'required />
+    <input type='text' name='expires' id='expires' minlength=3 maxlength=4 placeholder='Expires'required />
+    <input type='text' name='cvv' id='cvv' minlength=3 maxlength=3 placeholder='CVV' required/>
     <p> Billing Address </p>
-    <input name='first name' type='text' placeholder='First name' required/>
-    <input name='last name' type='text' placeholder='Last name' required/>
-    <input name='address' type='text' placeholder='Street address' required/>
-    <input name='apt' type='text' placeholder='Apt./ bldg.'/>
-    <input name='city' type='text' placeholder='City' required/>
-    <input name='state' type='text' placeholder='State' required/>
-     <input name='zip' type='tel' placeholder='ZIP code' minlength=5 maxlength=5 required/>
+    <input name='first name' id='first-name-billing' type='text' placeholder='First name' required/>
+    <input name='last name' id='last-name-billing' type='text' placeholder='Last name' required/>
+    <input name='address' id='address-billing' type='text' placeholder='Street address' required/>
+    <input name='apt' id='apt-billing' type='text' placeholder='Apt./ bldg.'/>
+    <input name='city' id='city-billing' type='text' placeholder='City' required/>
+    <input name='state' id='state-billing' type='text' placeholder='State' required/>
+     <input name='zip' id='zip-billing' type='tel' placeholder='ZIP code' minlength=5 maxlength=5 required/>
      <input name='phone' type='tel' placeholder='Mobile' minlength=10 maxlength=10 required/>
       <input name='email' type='text' placeholder='Email' required/>
       <input type='checkbox' /><span>Ship to Shipping Address</span>
@@ -110,13 +111,13 @@ const DISPLAY = {
     <form class='shipping-addy'>
     <select class='country-select'> choose country </select>
     <p>Shipping Address</p>
-    <input name='first name' type='text' placeholder='First name' required/>
-    <input name='last name' type='text' placeholder='Last name' required/>
-    <input name='address' type='text' placeholder='Street address' required/>
-    <input name='apt' type='text' placeholder='Apt./ bldg.'/>
-    <input name='city' type='text' placeholder='City' required/>
-    <input name='state' type='text' placeholder='State' required/>
-     <input name='zip' type='tel' placeholder='ZIP code' minlength=5 maxlength=5 required/>
+    <input name='first name' id='first-name-shipping' type='text' placeholder='First name' required/>
+    <input name='last name' id='last-name-shipping'  type='text' placeholder='Last name' required/>
+    <input name='address' id='address-shipping'  type='text' placeholder='Street address' required/>
+    <input name='apt' id='apt-shipping'  type='text' placeholder='Apt./ bldg.'/>
+    <input name='city' id='city-shipping' type='text' placeholder='City' required/>
+    <input name='state' id='state-shipping' type='text' placeholder='State' required/>
+     <input name='zip' id='zip-shipping' type='tel' placeholder='ZIP code' minlength=5 maxlength=5 required/>
      <p class='age-disclaimer'>By continiuing, you confirm that you're 18 years or older.</p>
      <button class='pay-now-btn'>Pay Now</button>
     </form>
@@ -298,6 +299,21 @@ const DISPLAY = {
 };
 
 export { DISPLAY };
+
+// {card number input}
+//1. Make it so that the spaces are automatically added to card number input
+
+//2. Make it so when card  number is clicked on - card number
+// placeholder becomes small and moves towards the top of the input bar
+
+//3. Make so card number input is left empty a red triangle shows up at the end of
+// input bar along with a tab that says required  at the bottom and a red border is shown
+
+//4. make it so if not all 19 spaces are filled up that the tab at the bottom says
+// 'please enter a valid credit card number'
+
+//5. if all the previous requirements are met - then make sure all red borders,
+//tabs and warning markings are gone
 
 //when the item quantity is updated in the checkout display, the date goes to
 // free shipping/default value... make it so the date stays on whatever date is selected
