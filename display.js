@@ -91,10 +91,19 @@ const DISPLAY = {
     <button class='credit-card-btn'>
     <img class='credit-logo' src='white-visa-credit-card-payment-icon-png-img-21635327395glgmljx3da.png' height=45 />
     <span class='credit-text'> Debit or Credit Card</span></button>
-    <form class='credit-form'>
+    <form class='credit-form' autocomplete='false'>
     <p class='x-out'> X </p>
-    <input type='text' name='card-number' id='card-number' minlength=19 maxlength=19 placeholder='Card Number 'required />
+    <div class='innocent-number-div'>
+    <input type='text' name='innocent-number' id='innocent-number' minlength=19 maxlength=19 placeholder='Enter Number' autocomplete='new-password' required />
+    <div class='innocent-number-float-label'>Enter #</div>
+    <img class='warning' id='card-warning-logo' src='warning.png' width=25 />
+    <div class='warning-label' id='card-warning-label'>Please Enter A Valid CC#</div>
+    </div>
+    <div class='expires-div'>
     <input type='text' name='expires' id='expires' minlength=3 maxlength=4 placeholder='Expires'required />
+     <div class='expires-float-label'>Expires</div>
+    <img class='warning' id='expires-warning-logo' src='warning.png' width=25 />
+    </div>
     <input type='text' name='cvv' id='cvv' minlength=3 maxlength=3 placeholder='CVV' required/>
     <p> Billing Address </p>
     <input name='first name' id='first-name-billing' type='text' placeholder='First name' required/>
@@ -106,6 +115,7 @@ const DISPLAY = {
      <input name='zip' id='zip-billing' type='tel' placeholder='ZIP code' minlength=5 maxlength=5 required/>
      <input name='phone' type='tel' placeholder='Mobile' minlength=10 maxlength=10 required/>
       <input name='email' type='text' placeholder='Email' required/>
+       <button class='pay-now-btn' id='shipping-pay-btn'>Pay Now</button>
       <input type='checkbox' /><span>Ship to Shipping Address</span>
     </form>
     <form class='shipping-addy'>
@@ -119,7 +129,7 @@ const DISPLAY = {
     <input name='state' id='state-shipping' type='text' placeholder='State' required/>
      <input name='zip' id='zip-shipping' type='tel' placeholder='ZIP code' minlength=5 maxlength=5 required/>
      <p class='age-disclaimer'>By continiuing, you confirm that you're 18 years or older.</p>
-     <button class='pay-now-btn'>Pay Now</button>
+     <button class='pay-now-btn' id='shipping-pay-btn'>Pay Now</button>
     </form>
       <div class='power-div'>
     <span class='power-text'>Powered By</span><img class='power-logo' src='Logo-PayPal-transparent-PNG.png' width=50/> 
@@ -299,21 +309,3 @@ const DISPLAY = {
 };
 
 export { DISPLAY };
-
-// {card number input}
-//1. Make it so that the spaces are automatically added to card number input
-
-//2. Make it so when card  number is clicked on - card number
-// placeholder becomes small and moves towards the top of the input bar
-
-//3. Make so card number input is left empty a red triangle shows up at the end of
-// input bar along with a tab that says required  at the bottom and a red border is shown
-
-//4. make it so if not all 19 spaces are filled up that the tab at the bottom says
-// 'please enter a valid credit card number'
-
-//5. if all the previous requirements are met - then make sure all red borders,
-//tabs and warning markings are gone
-
-//when the item quantity is updated in the checkout display, the date goes to
-// free shipping/default value... make it so the date stays on whatever date is selected

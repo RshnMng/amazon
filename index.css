@@ -48,6 +48,24 @@ body {
 
   }
 
+
+ #innocent-number {
+     padding: 20px;
+     width: 400px;
+     display: block;
+     cursor: pointer;
+ }
+
+    .innocent-number-float-label, .expires-float-label {
+        color:rgb(133, 133, 133);
+        position: relative;
+        bottom: 39px;
+        left: 21px;
+        font-size: 14px;
+        display: none;
+    }
+
+ 
   .checkmark {
       width: 20px;
       height: 20px;
@@ -58,6 +76,8 @@ body {
   .clicked {
       border: 2px solid rgb(231, 117, 2) !important; 
   }
+
+
 
   .cart-img {
       width: 50px;
@@ -160,6 +180,11 @@ body {
     border: 2px solid blue;
   }
 
+  .innocent-number-div {
+    position: relative;
+  }
+
+ 
   .shipping-addy {
     border: 2px solid red;
   }
@@ -204,6 +229,42 @@ body {
     box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
     cursor: pointer;
   }
+
+  .expires-div {
+    width: 40%;
+  }
+
+  #expires {
+    padding: 20px;
+    cursor: pointer;
+    position: relative;
+    
+  }
+
+
+    @keyframes float-label {
+     from {
+        bottom: 40px;
+        left: 35px;
+    }
+    
+     to {
+        bottom: 55px;
+        left: 25px;
+        font-size: 13px;
+            }
+ }
+    
+     .float-label {
+          color: rgb(184, 30, 30);
+          bottom: 55px;
+          left: 25px;
+          font-size: 13px;
+          animation-name: float-label;
+         animation-duration: .3s;
+         animation-timing-function: linear;
+          animation-fill-mode: forwards;
+     }
 
 html {
     margin: 0;
@@ -360,6 +421,10 @@ p {
     width: 100px;
 }
 
+.paypal-checkbox {
+    cursor: pointer;
+}
+
 .power-div {
     display: flex;
     margin-top: 12px;
@@ -468,6 +533,10 @@ p {
      height: 20px;
      width: 20px;
      display: inline-block
+ }
+
+ .pay-now-btn {
+    cursor: pointer;
  }
 
  .place-order {
@@ -595,7 +664,27 @@ p {
     display: none;
    }
 
+   .warning {
+    position: absolute;
+    right: 8px;
+    bottom: 36px;
+    display: none;
+   }
+
+   .warning-border {
+    border: 1.5px solid rgb(184, 30, 30) !important;
+   }
    
+   .warning-label {
+    background-color: rgb(184, 30, 30);
+    width: 42%;
+    position: relative;
+    right: 45px;
+    display: none;
+  
+
+
+   }
  
 
 
