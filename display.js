@@ -91,7 +91,8 @@ const DISPLAY = {
     <button class='credit-card-btn'>
     <img class='credit-logo' src='white-visa-credit-card-payment-icon-png-img-21635327395glgmljx3da.png' height=45 />
     <span class='credit-text'> Debit or Credit Card</span></button>
-    <form class='credit-form' autocomplete='false'>
+
+    <form class='billing-form' autocomplete='false'>
     <p class='x-out'> X </p>
     <div class='innocent-number-div'>
     <input type='text' name='innocent-number' id='innocent-number' minlength=19 maxlength=19 placeholder='Enter Number' autocomplete='new-password' required />
@@ -100,34 +101,120 @@ const DISPLAY = {
     <div class='warning-label' id='card-warning-label'>Please Enter A Valid CC#</div>
     </div>
     <div class='expires-div'>
-    <input type='text' name='expires' id='expires' minlength=3 maxlength=4 placeholder='Expires'required />
+    <input type='text' name='expires' id='expires' minlength=5 maxlength=5 placeholder='MM/YY' required />
      <div class='expires-float-label'>Expires</div>
     <img class='warning' id='expires-warning-logo' src='warning.png' width=25 />
+    <div class='warning-label' id='expires-warning-label'>Required</div>
     </div>
+    <div class='cvv-div'>
     <input type='text' name='cvv' id='cvv' minlength=3 maxlength=3 placeholder='CVV' required/>
+    <div class='cvv-float-label'>CVV</div>
+    <img class='warning' id='cvv-warning-logo' src='warning.png' width=25 />
+    <div class='warning-label' id='cvv-warning-label'>Required</div>
+    </div>
     <p> Billing Address </p>
+    <div class='fn-billing-div'>
     <input name='first name' id='first-name-billing' type='text' placeholder='First name' required/>
+    <div class='fn-billing-float-label'>First Name</div>
+     <img class='warning' id='fn-billing-warning-logo' src='warning.png' width=25 />
+     <div class='warning-label' id='fn-billing-warning-label'>Required</div>
+    </div>
+    <div class='ln-billing-div'>
     <input name='last name' id='last-name-billing' type='text' placeholder='Last name' required/>
+    <div class='ln-billing-float-label'>Last Name</div>
+    <img class='warning' id='ln-billing-warning-logo' src='warning.png' width=25 />
+     <div class='warning-label' id='ln-billing-warning-label'>Required</div>
+    </div>
+    <div class='addy-billing-div'>
     <input name='address' id='address-billing' type='text' placeholder='Street address' required/>
-    <input name='apt' id='apt-billing' type='text' placeholder='Apt./ bldg.'/>
-    <input name='city' id='city-billing' type='text' placeholder='City' required/>
+    <div class='addy-billing-float-label'>Address</div>
+    <img class='warning' id='addy-billing-warning-logo' src='warning.png' width=25 />
+    <div class='warning-label' id='addy-billing-warning-label'>Required</div>
+    </div>
+     <div class='apt-billing-div'>
+    <input name='apt' id='apt-billing' type='text' placeholder='Apt./ bldg.' required/>
+    <div class='apt-billing-float-label'>Apartment / Building # </div>
+    <img class='warning' id='apt-billing-warning-logo' src='warning.png' width=25 />
+    <div class='warning-label' id='apt-billing-warning-label'>Required</div>
+    </div>
+     <div class='city-billing-div'>
+    <input name='city' id='city-billing' type='text' placeholder='City' required />
+    <div class='city-billing-float-label'>City </div>
+    <img class='warning' id='city-billing-warning-logo' src='warning.png' width=25 />
+    <div class='warning-label' id='city-billing-warning-label'>Required</div>
+    </div>
+     <div class='state-billing-div'>
     <input name='state' id='state-billing' type='text' placeholder='State' required/>
-     <input name='zip' id='zip-billing' type='tel' placeholder='ZIP code' minlength=5 maxlength=5 required/>
-     <input name='phone' type='tel' placeholder='Mobile' minlength=10 maxlength=10 required/>
-      <input name='email' type='text' placeholder='Email' required/>
+    <div class='state-billing-float-label'>State </div>
+    <img class='warning' id='state-billing-warning-logo' src='warning.png' width=25 />
+    <div class='warning-label' id='state-billing-warning-label'>Required</div>
+    </div>
+    <div class='zip-billing-div'>
+    <input name='zip' id='zip-billing' type='tel' placeholder='ZIP code' minlength=5 maxlength=5 required/>
+    <div class='zip-billing-float-label'> ZIP Code </div>
+    <img class='warning' id='zip-billing-warning-logo' src='warning.png' width=25 />
+    <div class='warning-label' id='zip-billing-warning-label'>Required</div>
+     </div>
+     <div class='phone-div'>
+     <input name='phone' id='phone' type='tel' placeholder='Phone' minlength=10 maxlength=10 required/>
+      <div class='phone-float-label'> Phone </div>
+    <img class='warning' id='phone-warning-logo' src='warning.png' width=25 />
+    <div class='warning-label' id='zip-billing-warning-label'>Required</div>
+     </div>
+     <div class='email-div'>
+      <input name='email' id='email' type='text' placeholder='Email' required/>
+       <div class='email-float-label'> Email </div>
+      <img class='warning' id='phone-warning-logo' src='warning.png' width=25 />
+      <div class='warning-label' id='phone-warning-label'>Required</div>
+      </div>
        <button class='pay-now-btn' id='shipping-pay-btn'>Pay Now</button>
-      <input type='checkbox' /><span>Ship to Shipping Address</span>
+      <input type='checkbox' class='shipping-checkbox' /><span>Ship to Shipping Address</span>
     </form>
-    <form class='shipping-addy'>
+    <form class='shipping-form'>
     <select class='country-select'> choose country </select>
     <p>Shipping Address</p>
+     <div class='fn-shipping-div'>
     <input name='first name' id='first-name-shipping' type='text' placeholder='First name' required/>
+    <div class='fn-shipping-float-label'>First Name</div>
+     <img class='warning' id='fn-shipping-warning-logo' src='warning.png' width=25 />
+      <div class='warning-label' id='fn-shipping-warning-label'>Required</div>
+    </div>
+    <div class='ln-shipping-div'>
     <input name='last name' id='last-name-shipping'  type='text' placeholder='Last name' required/>
+    <div class='ln-shipping-float-label'>Last Name</div>
+    <img class='warning' id='ln-shipping-warning-logo' src='warning.png' width=25 />
+     <div class='warning-label' id='ln-shipping-warning-label'>Required</div>
+    </div>
+    <div class='addy-shipping-div'>
     <input name='address' id='address-shipping'  type='text' placeholder='Street address' required/>
-    <input name='apt' id='apt-shipping'  type='text' placeholder='Apt./ bldg.'/>
+     <div class='addy-shipping-float-label'>Address</div>
+    <img class='warning' id='addy-shipping-warning-logo' src='warning.png' width=25 />
+     <div class='warning-label' id='addy-shipping-warning-label'>Required</div>
+    </div>
+     <div class='apt-shipping-div'>
+    <input name='apt' id='apt-shipping'  type='text' placeholder='Apt./ bldg.' required />
+    <div class='apt-shipping-float-label'>Apartment / Building # </div>
+    <img class='warning' id='apt-shipping-warning-logo' src='warning.png' width=25 />
+    <div class='warning-label' id='apt-shipping-warning-label'>Required</div>
+    </div>
+    <div class='city-shipping-div'>
     <input name='city' id='city-shipping' type='text' placeholder='City' required/>
+    <div class='city-shipping-float-label'>City</div>
+    <img class='warning' id='city-shipping-warning-logo' src='warning.png' width=25 />
+    <div class='warning-label' id='city-shipping-warning-label'>Required</div>
+    </div>
+     <div class='state-shipping-div'>
     <input name='state' id='state-shipping' type='text' placeholder='State' required/>
+     <div class='state-shipping-float-label'>State </div>
+    <img class='warning' id='state-shipping-warning-logo' src='warning.png' width=25 />
+    <div class='warning-label' id='state-shipping-warning-label'>Required</div>
+    </div>
+    <div class='zip-shipping-div'>
      <input name='zip' id='zip-shipping' type='tel' placeholder='ZIP code' minlength=5 maxlength=5 required/>
+     <div class='zip-shipping-float-label'> ZIP Code </div>
+    <img class='warning' id='zip-shipping-warning-logo' src='warning.png' width=25 />
+    <div class='warning-label' id='zip-shipping-warning-label'>Required</div>
+     </div>
      <p class='age-disclaimer'>By continiuing, you confirm that you're 18 years or older.</p>
      <button class='pay-now-btn' id='shipping-pay-btn'>Pay Now</button>
     </form>
