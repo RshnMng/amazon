@@ -3,68 +3,11 @@ const PAYMENT = {
 		const ELEMENTS = this.getElements();
 		const PAYMENT_CHECKBOX = ELEMENTS.PAYMENT_DIV.childNodes[1].childNodes[3];
 		ELEMENTS.PAYPAL_CREDIT_DIV.hidden = true;
+
 		PAYMENT_CHECKBOX.addEventListener("click", () => this.showPayButtons(PAYMENT_CHECKBOX));
-		ELEMENTS.CARD_NUMBER_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.CARD_NUMBER_ELEM, ELEMENTS.CARD_NUM_FLOAT_LABEL));
 		ELEMENTS.CARD_NUMBER_ELEM.addEventListener("keydown", (event) => this.onlyAddNumbers_andSpaces(event, ELEMENTS));
-		ELEMENTS.CARD_NUMBER_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.CARD_NUMBER_ELEM, ELEMENTS.CARD_WARNING_LOGO, ELEMENTS.CARD_WARNING_LABEL));
-
-		ELEMENTS.EXPIRES_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.EXPIRES_ELEM, ELEMENTS.EXPIRES_FLOAT_LABEL));
-		ELEMENTS.EXPIRES_ELEM.addEventListener("keydown", (event) => this.check(event, ELEMENTS.EXPIRES_ELEM));
-		ELEMENTS.EXPIRES_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.EXPIRES_ELEM, ELEMENTS.EXPIRES_WARNING_LOGO, ELEMENTS.EXPIRES_WARNING_LABEL));
-
-		ELEMENTS.CVV_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.CVV_ELEM, ELEMENTS.CVV_FLOAT_LABEL));
-		ELEMENTS.CVV_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.CVV_ELEM, ELEMENTS.CVV_WARNING_LOGO, ELEMENTS.CVV_WARNING_LABEL));
-
-		ELEMENTS.FIRST_NAME_BILLING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.FIRST_NAME_BILLING_ELEM, ELEMENTS.FN_BILLING_FLOAT_LABEL));
-		ELEMENTS.FIRST_NAME_BILLING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.FIRST_NAME_BILLING_ELEM, ELEMENTS.FN_BILLING_WARNING_LOGO, ELEMENTS.FN_BILLING_WARNING_LABEL));
-
-		ELEMENTS.LAST_NAME_BILLING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.LAST_NAME_BILLING_ELEM, ELEMENTS.LN_BILLING_FLOAT_LABEL));
-		ELEMENTS.LAST_NAME_BILLING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.LAST_NAME_BILLING_ELEM, ELEMENTS.LN_BILLING_WARNING_LOGO, ELEMENTS.FN_BILLING_WARNING_LABEL));
-
-		ELEMENTS.ADDRESS_BILLING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.ADDRESS_BILLING_ELEM, ELEMENTS.ADDY_BILLING_FLOAT_LABEL));
-		ELEMENTS.ADDRESS_BILLING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.ADDRESS_BILLING_ELEM, ELEMENTS.ADDY_BILLING_WARNING_LOGO, ELEMENTS.ADDY_BILLING_WARNING_LABEL));
-
-		ELEMENTS.APT_BILLING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.APT_BILLING_ELEM, ELEMENTS.APT_BILLING_FLOAT_LABEL));
-		ELEMENTS.APT_BILLING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.APT_BILLING_ELEM, ELEMENTS.APT_BILLING_WARNING_LOGO, ELEMENTS.APT_BILLING_WARNING_LABEL));
-
-		ELEMENTS.CITY_BILLING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.CITY_BILLING_ELEM, ELEMENTS.CITY_BILLING_FLOAT_LABEL));
-		ELEMENTS.CITY_BILLING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.CITY_BILLING_ELEM, ELEMENTS.CITY_BILLING_WARNING_LOGO, ELEMENTS.CITY_BILLING_WARNING_LABEL));
-
-		ELEMENTS.STATE_BILLING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.STATE_BILLING_ELEM, ELEMENTS.STATE_BILLING_FLOAT_LABEL));
-		ELEMENTS.STATE_BILLING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.STATE_BILLING_ELEM, ELEMENTS.STATE_BILLING_WARNING_LOGO, ELEMENTS.STATE_BILLING_WARNING_LABEL));
-
-		ELEMENTS.ZIP_BILLING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.ZIP_BILLING_ELEM, ELEMENTS.ZIP_BILLING_FLOAT_LABEL));
-		ELEMENTS.ZIP_BILLING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.ZIP_BILLING_ELEM, ELEMENTS.ZIP_BILLING_WARNING_LOGO, ELEMENTS.ZIP_BILLING_WARNING_LABEL));
-
-		ELEMENTS.PHONE_BILLING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.PHONE_BILLING_ELEM, ELEMENTS.PHONE_BILLING_FLOAT_LABEL));
-
-		ELEMENTS.EMAIL_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.EMAIL_ELEM, ELEMENTS.EMAIL_FLOAT_LABEL));
-
-		ELEMENTS.FIRST_NAME_SHIPPING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.FIRST_NAME_SHIPPING_ELEM, ELEMENTS.FN_SHIPPING_FLOAT_LABEL));
-		ELEMENTS.FIRST_NAME_SHIPPING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.FIRST_NAME_SHIPPING_ELEM, ELEMENTS.FN_SHIPPING_WARNING_LOGO, ELEMENTS.FN_SHIPPING_WARNING_LABEL));
-
-		ELEMENTS.LAST_NAME_SHIPPING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.LAST_NAME_SHIPPING_ELEM, ELEMENTS.LN_SHIPPING_FLOAT_LABEL));
-		ELEMENTS.LAST_NAME_SHIPPING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.LAST_NAME_SHIPPING_ELEM, ELEMENTS.LN_SHIPPING_WARNING_LOGO, ELEMENTS.LN_SHIPPING_WARNING_LABEL));
-
-		ELEMENTS.ADDRESS_SHIPPING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.ADDRESS_SHIPPING_ELEM, ELEMENTS.ADDY_SHIPPING_FLOAT_LABEL));
-		ELEMENTS.ADDRESS_SHIPPING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.ADDRESS_SHIPPING_ELEM, ELEMENTS.ADDY_SHIPPING_WARNING_LOGO, ELEMENTS.ADDY_SHIPPING_WARNING_LABEL));
-
-		ELEMENTS.APT_SHIPPING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.APT_SHIPPING_ELEM, ELEMENTS.APT_SHIPPING_FLOAT_LABEL));
-		ELEMENTS.APT_SHIPPING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.APT_SHIPPING_ELEM, ELEMENTS.APT_SHIPPING_WARNING_LOGO, ELEMENTS.APT_SHIPPING_WARNING_LABEL));
-
-		ELEMENTS.CITY_SHIPPING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.CITY_SHIPPING_ELEM, ELEMENTS.CITY_SHIPPING_FLOAT_LABEL));
-		ELEMENTS.CITY_SHIPPING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.CITY_SHIPPING_ELEM, ELEMENTS.CITY_SHIPPING_WARNING_LOGO, ELEMENTS.CITY_SHIPPING_WARNING_LABEL));
-
-		ELEMENTS.STATE_SHIPPING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.STATE_SHIPPING_ELEM, ELEMENTS.STATE_SHIPPING_FLOAT_LABEL));
-		ELEMENTS.STATE_SHIPPING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.STATE_SHIPPING_ELEM, ELEMENTS.STATE_SHIPPING_WARNING_LOGO, ELEMENTS.STATE_SHIPPING_WARNING_LABEL));
-
-		ELEMENTS.ZIP_SHIPPING_ELEM.addEventListener("click", () => this.handleInputLabels(ELEMENTS.ZIP_SHIPPING_ELEM, ELEMENTS.ZIP_SHIPPING_FLOAT_LABEL));
-		ELEMENTS.ZIP_SHIPPING_ELEM.addEventListener("invalid", (event) => this.throwValidationError(event, ELEMENTS.ZIP_SHIPPING_ELEM, ELEMENTS.ZIP_SHIPPING_WARNING_LOGO, ELEMENTS.ZIP_SHIPPING_WARNING_LABEL));
-
+		ELEMENTS.EXPIRES_ELEM.addEventListener("keydown", (event) => this.handleExpiration(event, ELEMENTS.EXPIRES_ELEM));
 		ELEMENTS.DEBIT_BTN.addEventListener("click", () => this.showBillingAddy(ELEMENTS));
-
-		ELEMENTS.SHIPPING_CHECKBOX.addEventListener("click", () => this.showShippingAddy(ELEMENTS));
-
 		ELEMENTS.X_BTN.addEventListener("click", () => this.XOUT(ELEMENTS));
 	},
 
@@ -273,19 +216,23 @@ const PAYMENT = {
 			ELEMENTS.CARD_NUMBER_ELEM.classList.remove("warning-border");
 		}
 	},
-	handleInputLabels: function (element, label) {
-		element.removeAttribute("placeholder");
+	handleInputLabels: function (event) {
+		event.target.removeAttribute("placeholder");
+		let label = event.target.parentElement.childNodes[3];
 		label.style.display = "inline";
 		label.classList.add("float-label");
 	},
 
-	throwValidationError: function (event, element, logo, label) {
+	throwValidationError: function (event) {
+		let element = event.target;
+		let logo = event.target.parentElement.childNodes[5];
+		this.handleInputLabels(event);
+		event.target.removeAttribute("placeholder");
 		event.preventDefault();
 		logo.style.display = "inline";
 		element.classList.add("warning-border");
-		label.style.display = "inline";
 	},
-	check: function (event, element) {
+	handleExpiration: function (event, element) {
 		if (event.key.match(/[0-9]/g) || event.key == "Backspace") {
 		} else {
 			event.preventDefault();
@@ -300,6 +247,11 @@ const PAYMENT = {
 	},
 	showBillingAddy: function (ELEMENTS) {
 		ELEMENTS.BILLING_ADDY.style.display = "inline";
+		const ALL_USER_INPUTS = document.getElementsByClassName("pay-form");
+		const USER_INPUTS = Array.from(ALL_USER_INPUTS);
+		USER_INPUTS.forEach((input) => input.addEventListener("click", (event) => this.handleInputLabels(event)));
+		USER_INPUTS.forEach((input) => input.addEventListener("invalid", (event) => this.throwValidationError(event)));
+		ELEMENTS.SHIPPING_CHECKBOX.addEventListener("click", () => this.showShippingAddy(ELEMENTS));
 	},
 	showShippingAddy: function (ELEMENTS) {
 		if (ELEMENTS.SHIPPING_ADDY.classList.contains("selected") == false) {
@@ -313,14 +265,13 @@ const PAYMENT = {
 	},
 	XOUT: function (ELEMENTS) {
 		ELEMENTS.BILLING_ADDY.style.display = "none";
+		ELEMENTS.SHIPPING_ADDY.style.display = "none";
 	},
 };
 
 export { PAYMENT };
 
-// 1. style page
-// 2. make required elements show red border and warning logo if not filled
-// on click of pay now
+// 1. style PAY NOW Buttons
 // 3 make pay pal and credit card buttons disabled if no items in cart
 // 4. {checkout display}
 // when the item quantity is updated in the checkout display, the date goes to
