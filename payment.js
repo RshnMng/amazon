@@ -4,16 +4,36 @@ const PAYMENT = {
 		const PAYMENT_CHECKBOX = ELEMENTS.PAYMENT_DIV.childNodes[1].childNodes[3];
 		ELEMENTS.PAYPAL_CREDIT_DIV.hidden = true;
 
-		PAYMENT_CHECKBOX.addEventListener("click", () => this.showPayButtons(PAYMENT_CHECKBOX));
+		PAYMENT_CHECKBOX.addEventListener("click", () => this.showPayButtons(PAYMENT_CHECKBOX, ELEMENTS));
 		ELEMENTS.CARD_NUMBER_ELEM.addEventListener("keydown", (event) => this.onlyAddNumbers_andSpaces(event, ELEMENTS));
+		ELEMENTS.CVV_ELEM.addEventListener("keydown", (event) => this.produceOnlyNumbers(event));
+		ELEMENTS.ZIP_BILLING_ELEM.addEventListener("keydown", (event) => this.produceOnlyNumbers(event));
+		ELEMENTS.ZIP_SHIPPING_ELEM.addEventListener("keydown", (event) => this.produceOnlyNumbers(event));
+		ELEMENTS.FIRST_NAME_BILLING_ELEM.addEventListener("keydown", (event) => this.produceOnlyLetters(event));
+		ELEMENTS.LAST_NAME_BILLING_ELEM.addEventListener("keydown", (event) => this.produceOnlyLetters(event));
+		ELEMENTS.FIRST_NAME_SHIPPING_ELEM.addEventListener("keydown", (event) => this.produceOnlyLetters(event));
+		ELEMENTS.LAST_NAME_SHIPPING_ELEM.addEventListener("keydown", (event) => this.produceOnlyLetters(event));
+		ELEMENTS.CITY_BILLING_ELEM.addEventListener("keydown", (event) => this.produceOnlyLetters(event));
+		ELEMENTS.CITY_SHIPPING_ELEM.addEventListener("keydown", (event) => this.produceOnlyLetters(event));
+		ELEMENTS.STATE_BILLING_ELEM.addEventListener("keydown", (event) => this.produceOnlyLetters(event));
+		ELEMENTS.STATE_SHIPPING_ELEM.addEventListener("keydown", (event) => this.produceOnlyLetters(event));
 		ELEMENTS.EXPIRES_ELEM.addEventListener("keydown", (event) => this.handleExpiration(event, ELEMENTS.EXPIRES_ELEM));
 		ELEMENTS.DEBIT_BTN.addEventListener("click", () => this.showBillingAddy(ELEMENTS));
 		ELEMENTS.X_BTN.addEventListener("click", () => this.XOUT(ELEMENTS));
+		ELEMENTS.PHONE_BILLING_ELEM.addEventListener("keydown", (event) => this.handlePhoneNumber(event));
 	},
 
-	showPayButtons: function (PAYMENT_CHECKBOX) {
+	showPayButtons: function (PAYMENT_CHECKBOX, ELEMENTS) {
+		ELEMENTS.SHIPPING_ADDY.hidden = true;
+		ELEMENTS.BILLING_ADDY.hidden = true;
+		const ALL_USER_INPUTS = document.getElementsByClassName("pay-form");
+		const USER_INPUTS = Array.from(ALL_USER_INPUTS);
+		USER_INPUTS.forEach((input) => input.addEventListener("click", (event) => this.handleInputLabels(event)));
+		USER_INPUTS.forEach((input) => input.addEventListener("invalid", (event) => this.throwValidationError(event)));
+		ELEMENTS.SHIPPING_CHECKBOX.addEventListener("click", () => this.showShippingAddy(ELEMENTS));
 		const PLACE_ORDER_BTN = document.querySelector(".place-order");
 		const PAYPAL_CREDIT_DIV = document.querySelector(".paypal-credit-div");
+
 		if (PAYMENT_CHECKBOX.classList.contains("selected") == false) {
 			PAYMENT_CHECKBOX.classList.add("selected");
 			PLACE_ORDER_BTN.hidden = true;
@@ -22,6 +42,109 @@ const PAYMENT = {
 			PAYMENT_CHECKBOX.classList.remove("selected");
 			PLACE_ORDER_BTN.hidden = false;
 			PAYPAL_CREDIT_DIV.hidden = true;
+		}
+	},
+	onlyAddNumbers_andSpaces: function (event, ELEMENTS) {
+		ELEMENTS.CARD_NUMBER_ELEM.value;
+		if (event.key.match(/[0-9]/g) || event.key == "Backspace") {
+		} else {
+			event.preventDefault();
+		}
+
+		if ((ELEMENTS.CARD_NUMBER_ELEM.value.length == 4 && event.key != "Backspace") || (ELEMENTS.CARD_NUMBER_ELEM.value.length == 9 && event.key != "Backspace") || (ELEMENTS.CARD_NUMBER_ELEM.value.length == 14 && event.key != "Backspace")) {
+			ELEMENTS.CARD_NUMBER_ELEM.value = ELEMENTS.CARD_NUMBER_ELEM.value + " ";
+		}
+
+		if (ELEMENTS.CARD_NUMBER_ELEM.value.length == 18) {
+			ELEMENTS.CARD_WARNING_LABEL.style.display = "none";
+			ELEMENTS.CARD_WARNING_LOGO.style.display = "none";
+			ELEMENTS.CARD_NUMBER_ELEM.classList.remove("warning-border");
+		}
+	},
+
+	produceOnlyNumbers: function (event) {
+		if (event.key.match(/[0-9]/g) || event.key == "Backspace") {
+			return;
+		} else {
+			event.preventDefault();
+		}
+	},
+
+	produceOnlyLetters: function (event) {
+		document.querySelector("#state-billing").addEventListener("input", function (event) {
+			event.target.value = event.target.value.toLocaleUpperCase();
+		});
+		document.querySelector("#state-shipping").addEventListener("input", function (event) {
+			event.target.value = event.target.value.toLocaleUpperCase();
+		});
+		if (!event.key.match(/[0-9]/g)) {
+			return;
+		} else {
+			event.preventDefault();
+		}
+	},
+
+	handleInputLabels: function (event) {
+		event.target.removeAttribute("placeholder");
+		let label = event.target.parentElement.childNodes[3];
+		label.style.display = "inline";
+		label.classList.add("float-label");
+	},
+
+	throwValidationError: function (event) {
+		let element = event.target;
+		let logo = event.target.parentElement.childNodes[5];
+		this.handleInputLabels(event);
+		event.target.removeAttribute("placeholder");
+		event.preventDefault();
+		logo.style.display = "inline";
+		element.classList.add("warning-border");
+	},
+	handleExpiration: function (event, element) {
+		if (event.key.match(/[0-9]/g) || event.key == "Backspace") {
+		} else {
+			event.preventDefault();
+		}
+		if (element.value.length == 0 && event.key >= 2 && event.key <= 10) {
+			element.value = 0 + element.value;
+		} else if (element.value.length == 1 && event.key > 2 && element.value != 0) {
+			event.preventDefault();
+		} else if (element.value.length == 2 && event.key != "Backspace") {
+			element.value = element.value + "/";
+		}
+	},
+	showBillingAddy: function (ELEMENTS) {
+		ELEMENTS.BILLING_ADDY.hidden = false;
+	},
+	showShippingAddy: function (ELEMENTS) {
+		console.log(ELEMENTS.SHIPPING_CHECKBOX);
+		if (ELEMENTS.SHIPPING_ADDY.classList.contains("selected") == false) {
+			ELEMENTS.SHIPPING_ADDY.hidden = false;
+			ELEMENTS.SHIPPING_ADDY.classList.add("selected");
+		} else {
+			ELEMENTS.SHIPPING_ADDY.hidden = true;
+			ELEMENTS.SHIPPING_ADDY.classList.remove("selected");
+		}
+	},
+	XOUT: function (ELEMENTS) {
+		ELEMENTS.BILLING_ADDY.hidden = true;
+		ELEMENTS.SHIPPING_ADDY.hidden = true;
+		ELEMENTS.SHIPPING_CHECKBOX.checked = false;
+		ELEMENTS.SHIPPING_ADDY.classList.remove("selected");
+	},
+
+	handlePhoneNumber: function (event) {
+		if (event.key.match(/[0-9]/g) || event.key == "Backspace") {
+		} else {
+			event.preventDefault();
+		}
+
+		if (event.target.value.length == 3 && event.key != "Backspace") {
+			let areaCode = `(${event.target.value})-`;
+			event.target.value = areaCode;
+		} else if (event.target.value.length == 9 && event.key != "Backspace") {
+			let first6 = `${event.target.value}-`;
+			event.target.value = first6;
 		}
 	},
 	getElements: function () {
@@ -199,79 +322,11 @@ const PAYMENT = {
 			X_BTN,
 		};
 	},
-	onlyAddNumbers_andSpaces: function (event, ELEMENTS) {
-		ELEMENTS.CARD_NUMBER_ELEM.value;
-		if (event.key.match(/[0-9]/g) || event.key == "Backspace") {
-		} else {
-			event.preventDefault();
-		}
-
-		if ((ELEMENTS.CARD_NUMBER_ELEM.value.length == 4 && event.key != "Backspace") || (ELEMENTS.CARD_NUMBER_ELEM.value.length == 9 && event.key != "Backspace") || (ELEMENTS.CARD_NUMBER_ELEM.value.length == 14 && event.key != "Backspace")) {
-			ELEMENTS.CARD_NUMBER_ELEM.value = ELEMENTS.CARD_NUMBER_ELEM.value + " ";
-		}
-
-		if (ELEMENTS.CARD_NUMBER_ELEM.value.length == 18) {
-			ELEMENTS.CARD_WARNING_LABEL.style.display = "none";
-			ELEMENTS.CARD_WARNING_LOGO.style.display = "none";
-			ELEMENTS.CARD_NUMBER_ELEM.classList.remove("warning-border");
-		}
-	},
-	handleInputLabels: function (event) {
-		event.target.removeAttribute("placeholder");
-		let label = event.target.parentElement.childNodes[3];
-		label.style.display = "inline";
-		label.classList.add("float-label");
-	},
-
-	throwValidationError: function (event) {
-		let element = event.target;
-		let logo = event.target.parentElement.childNodes[5];
-		this.handleInputLabels(event);
-		event.target.removeAttribute("placeholder");
-		event.preventDefault();
-		logo.style.display = "inline";
-		element.classList.add("warning-border");
-	},
-	handleExpiration: function (event, element) {
-		if (event.key.match(/[0-9]/g) || event.key == "Backspace") {
-		} else {
-			event.preventDefault();
-		}
-		if (element.value.length == 0 && event.key >= 2 && event.key <= 10) {
-			element.value = 0 + element.value;
-		} else if (element.value.length == 1 && event.key > 2 && element.value != 0) {
-			event.preventDefault();
-		} else if (element.value.length == 2 && event.key != "Backspace") {
-			element.value = element.value + "/";
-		}
-	},
-	showBillingAddy: function (ELEMENTS) {
-		ELEMENTS.BILLING_ADDY.style.display = "inline";
-		const ALL_USER_INPUTS = document.getElementsByClassName("pay-form");
-		const USER_INPUTS = Array.from(ALL_USER_INPUTS);
-		USER_INPUTS.forEach((input) => input.addEventListener("click", (event) => this.handleInputLabels(event)));
-		USER_INPUTS.forEach((input) => input.addEventListener("invalid", (event) => this.throwValidationError(event)));
-		ELEMENTS.SHIPPING_CHECKBOX.addEventListener("click", () => this.showShippingAddy(ELEMENTS));
-	},
-	showShippingAddy: function (ELEMENTS) {
-		if (ELEMENTS.SHIPPING_ADDY.classList.contains("selected") == false) {
-			ELEMENTS.SHIPPING_ADDY.style.display = "inline";
-			ELEMENTS.SHIPPING_ADDY.classList.add("selected");
-		} else {
-			console.log("naww bruh");
-			ELEMENTS.SHIPPING_ADDY.style.display = "none";
-			ELEMENTS.SHIPPING_ADDY.classList.remove("selected");
-		}
-	},
-	XOUT: function (ELEMENTS) {
-		ELEMENTS.BILLING_ADDY.style.display = "none";
-		ELEMENTS.SHIPPING_ADDY.style.display = "none";
-	},
 };
 
 export { PAYMENT };
 
-// 1. style PAY NOW Buttons
+// shipping checkout button not working after x button is clicked and is running multiple times
 // 3 make pay pal and credit card buttons disabled if no items in cart
 // 4. {checkout display}
 // when the item quantity is updated in the checkout display, the date goes to

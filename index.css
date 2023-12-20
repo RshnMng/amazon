@@ -41,11 +41,6 @@ body {
     font-family: 'Roboto', 'Arial';
 }
 
-.billing-form {
-    display: none;
-    margin-top: 60px;
-}
-
 .billing-header{
     margin-bottom: 15px;
 }
@@ -588,8 +583,28 @@ p {
      display: inline-block
  }
 
+ .pay-now-div {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    margin-left:auto;
+    margin-right: auto;
+    
+ }
+
  .pay-now-btn {
     cursor: pointer;
+    height: 48px;
+    width: 100%;
+    margin-top: 18px;
+    margin-bottom: 18px;
+    border-radius: 23px;
+    border: none;
+    background-color: rgb(60, 106, 129);
+    color: white;
+    font-size: 15px;
+    
+
  }
 
  .pay-form {
@@ -650,6 +665,7 @@ p {
 
  .shipping-checkbox {
     cursor: pointer;
+    margin-bottom: 22px;
  }
 
 
@@ -657,9 +673,7 @@ p {
     color: rgb(120, 120, 120);
 }
 
-.shipping-form {
-    display: none;
-}
+
 .search-div {
         flex: 1;
         display: flex;

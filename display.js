@@ -149,7 +149,7 @@ const DISPLAY = {
     <div class='warning-label' id='city-billing-warning-label'>Required</div>
     </div>
      <div class='state-billing-div input-div'>
-    <input class='pay-form' name='state' id='state-billing' type='text' placeholder='State' required/>
+    <input class='pay-form' name='state' id='state-billing' type='text' placeholder='State' minlength=2 maxlength=2 required/>
     <div class='input-label'>State </div>
     <img class='warning' id='state-billing-warning-logo' src='warning.png' width=25 />
     <div class='warning-label' id='state-billing-warning-label'>Required</div>
@@ -161,7 +161,7 @@ const DISPLAY = {
     <div class='warning-label' id='zip-billing-warning-label'>Required</div>
      </div>
      <div class='phone-div input-div'>
-     <input class='pay-form' name='phone' id='phone' type='tel' placeholder='Phone' minlength=10 maxlength=10 required/>
+     <input class='pay-form' name='phone' id='phone' type='tel' placeholder='Phone' minlength=14 maxlength=14 required/>
       <div class='input-label'> Phone </div>
     <img class='warning' id='phone-warning-logo' src='warning.png' width=25 />
     <div class='warning-label' id='zip-billing-warning-label'>Required</div>
@@ -172,7 +172,10 @@ const DISPLAY = {
       <img class='warning' id='phone-warning-logo' src='warning.png' width=25 />
       <div class='warning-label' id='phone-warning-label'>Required</div>
       </div>
+       <p class='age-disclaimer'>By continiuing, you confirm that you're 18 years or older.</p>
+      <div class='pay-now-div'>
        <button class='pay-now-btn' id='shipping-pay-btn'>Pay Now</button>
+       </div>
       <input type='checkbox' class='shipping-checkbox' /><span>Ship to Shipping Address</span>
     </form>
     <form class='shipping-form'>
@@ -210,7 +213,7 @@ const DISPLAY = {
     <div class='warning-label' id='city-shipping-warning-label'>Required</div>
     </div>
      <div class='state-shipping-div input-div'>
-    <input class='pay-form' name='state' id='state-shipping' type='text' placeholder='State' required/>
+    <input class='pay-form' name='state' id='state-shipping' type='text' placeholder='State' minlength=2 maxlength=2 required/>
      <div class='input-label'>State </div>
     <img class='warning' id='state-shipping-warning-logo' src='warning.png' width=25 />
     <div class='warning-label' id='state-shipping-warning-label'>Required</div>
@@ -222,7 +225,9 @@ const DISPLAY = {
     <div class='warning-label' id='zip-shipping-warning-label'>Required</div>
      </div> 
      <p class='age-disclaimer'>By continiuing, you confirm that you're 18 years or older.</p>
+      <div class='pay-now-div'>
      <button class='pay-now-btn' id='shipping-pay-btn'>Pay Now</button> 
+     </div>
     </form> 
       <div class='power-div'>
     <span class='power-text'>Powered By</span><img class='power-logo' src='Logo-PayPal-transparent-PNG.png' width=50/> 
