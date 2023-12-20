@@ -1,9 +1,11 @@
+import { LOCAL_STORAGE } from "./localStorage.js";
+
 const PAYMENT = {
 	addEventsToPayPal: function () {
 		const ELEMENTS = this.getElements();
 		const PAYMENT_CHECKBOX = ELEMENTS.PAYMENT_DIV.childNodes[1].childNodes[3];
 		ELEMENTS.PAYPAL_CREDIT_DIV.hidden = true;
-
+		this.disablePaymentBtns(ELEMENTS);
 		PAYMENT_CHECKBOX.addEventListener("click", () => this.showPayButtons(PAYMENT_CHECKBOX, ELEMENTS));
 		ELEMENTS.CARD_NUMBER_ELEM.addEventListener("keydown", (event) => this.onlyAddNumbers_andSpaces(event, ELEMENTS));
 		ELEMENTS.CVV_ELEM.addEventListener("keydown", (event) => this.produceOnlyNumbers(event));
@@ -22,7 +24,14 @@ const PAYMENT = {
 		ELEMENTS.X_BTN.addEventListener("click", () => this.XOUT(ELEMENTS));
 		ELEMENTS.PHONE_BILLING_ELEM.addEventListener("keydown", (event) => this.handlePhoneNumber(event));
 	},
-
+	disablePaymentBtns: function (ELEMENTS) {
+		let cartQuantity = LOCAL_STORAGE.getNumberOfCartItems();
+		if (cartQuantity == 0) {
+			ELEMENTS.PAYMENT_DIV.hidden = true;
+		} else {
+			ELEMENTS.PAYMENT_DIV.hidden = false;
+		}
+	},
 	showPayButtons: function (PAYMENT_CHECKBOX, ELEMENTS) {
 		ELEMENTS.SHIPPING_ADDY.hidden = true;
 		ELEMENTS.BILLING_ADDY.hidden = true;
@@ -326,8 +335,6 @@ const PAYMENT = {
 
 export { PAYMENT };
 
-// shipping checkout button not working after x button is clicked and is running multiple times
-// 3 make pay pal and credit card buttons disabled if no items in cart
 // 4. {checkout display}
 // when the item quantity is updated in the checkout display, the date goes to
 // free shipping/default value... make it so the date stays on whatever date is selected

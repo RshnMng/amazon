@@ -3,6 +3,7 @@ import { TOTALS } from "./totals.js";
 import { DISPLAY } from "./display.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
 import { DATES } from "./dates.js";
+import { PAYMENT } from "./payment.js";
 
 const UPDATE = {
 	localStorageIndex: 0,
@@ -204,6 +205,8 @@ const UPDATE = {
 		TOTALS.calculateTotal(CHECKOUT.tax, CHECKOUT.preTaxPrice, CHECKOUT.shippingTotal);
 		UPDATE.addEventsToBtns();
 		TOTALS.saveLocalTotals();
+		const ELEMENTS = PAYMENT.getElements();
+		PAYMENT.disablePaymentBtns(ELEMENTS);
 
 		const EMPTY_DIV = document.createElement("div");
 		EMPTY_DIV.hidden = true;
