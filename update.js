@@ -172,13 +172,31 @@ const UPDATE = {
 
 		this.updateTotals();
 	},
+
+	correctShippingDate: function () {
+		let productDisplaysCollection = document.querySelectorAll(".product-display");
+		let productDisplays = Array.from(productDisplaysCollection);
+		let shippingOptions = this.getLocalShippingOptions();
+		console.log(shippingOptions);
+		let i = 0;
+		productDisplays.map((product, i) => {
+			let date_div = product.childNodes[1];
+			let buttontype = shippingOptions[i];
+			this.getClickedButton(buttontype, date_div);
+			i++;
+		});
+	},
 	changeDeliveryDate: function (event) {
 		let DATE_DIV = event.target.parentElement.parentElement;
 		let DATE_ELEM = DATE_DIV.parentElement.parentElement.childNodes[1];
 
+		// console.log(DATE_DIV, DATE_ELEM);
+
 		let classes = DATE_DIV.getAttribute("class");
 		let classArr = classes.split(" ");
 		let buttonType = classArr[0];
+
+		// console.log(buttonType, DATE_ELEM);
 		this.getClickedButton(buttonType, DATE_ELEM);
 	},
 	getClickedButton: function (buttonType, DATE_ELEM) {
@@ -207,7 +225,7 @@ const UPDATE = {
 		TOTALS.saveLocalTotals();
 		const ELEMENTS = PAYMENT.getElements();
 		PAYMENT.disablePaymentBtns(ELEMENTS);
-
+		this.correctShippingDate();
 		const EMPTY_DIV = document.createElement("div");
 		EMPTY_DIV.hidden = true;
 	},
@@ -228,6 +246,7 @@ const UPDATE = {
 		} else {
 			this.displayStoredShippingOptions(shippingOptions);
 		}
+		return shippingOptions;
 	},
 
 	displayStoredShippingOptions: function (shippingOptions) {
@@ -265,16 +284,9 @@ const UPDATE = {
 };
 export { UPDATE };
 
-//1. when use pay pal is clicked bring a paypal button and
-// and a credit card button instead of place order button
+// 4. {checkout display}
+// when the item quantity is updated in the checkout display, the date goes to
+// free shipping/default value... make it so the date stays on whatever date is selected
 
-//2. when paypal is clicked - go to pay pal page to login
-
-//3 when credit card button is clicked drop down a form that
-//takes user credit card information
-
-// 4. make ship to billing button in form. make checked by default
-// if unchecked drop down another form where a person can place
-// thier information =-- make items required to be filled out
-
-// 5. style new elements nad forms
+// 5 add functionality to Pay Now and Place Order buttons that take you to the
+//Order page // begin order page

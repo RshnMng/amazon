@@ -334,10 +334,3 @@ const PAYMENT = {
 };
 
 export { PAYMENT };
-
-// 4. {checkout display}
-// when the item quantity is updated in the checkout display, the date goes to
-// free shipping/default value... make it so the date stays on whatever date is selected
-
-// 5 add functionality to Pay Now and Place Order buttons that take you to the
-//Order page // begin order page
