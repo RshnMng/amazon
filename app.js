@@ -11,7 +11,7 @@ const APP = (function () {
 
 	// CART //
 	let savedCartQuantity = LOCAL_STORAGE.getNumberOfCartItems();
-	LOCAL_STORAGE.getCartStyling(savedCartQuantity);
+	LOCAL_STORAGE.getCartStyling(savedCartQuantity, LOCAL_STORAGE.cartCount);
 
 	// SEARCH //
 	const SEARCH_BAR = SEARCH.getSEARCH_BAR();

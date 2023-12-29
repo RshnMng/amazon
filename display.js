@@ -2,12 +2,12 @@ import { CHECKOUT } from "./checkout.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
 import { DATES } from "./dates.js";
 import { UPDATE } from "./update.js";
-import { PAYMENT } from "./payment.js";
 
 const DISPLAY = {
 	firstLoad: true,
 	hideHomePage: function () {
 		CHECKOUT.HOME_PAGE.hidden = true;
+		CHECKOUT.NAV_BAR.hidden = true;
 	},
 	setUpPage: function () {
 		DISPLAY.hideHomePage();
@@ -393,6 +393,7 @@ const DISPLAY = {
 	goToCheckoutPage: function () {
 		let CHECKOUT_PAGE = document.querySelector(".checkout-page");
 		CHECKOUT.HOME_PAGE.hidden = true;
+		CHECKOUT.NAV_BAR.hidden = true;
 		CHECKOUT_PAGE.hidden = false;
 		UPDATE.updateTotals();
 	},
@@ -400,9 +401,40 @@ const DISPLAY = {
 		let CHECKOUT_PAGE = document.querySelector(".checkout-page");
 		LOCAL_STORAGE.cartCount.textContent = LOCAL_STORAGE.getNumberOfCartItems();
 		CHECKOUT.cartQuantity = LOCAL_STORAGE.getNumberOfCartItems();
-		LOCAL_STORAGE.getCartStyling(CHECKOUT.cartQuantity);
+		LOCAL_STORAGE.getCartStyling(CHECKOUT.cartQuantity, LOCAL_STORAGE.cartCount);
 		CHECKOUT.HOME_PAGE.hidden = false;
+		CHECKOUT.NAV_BAR.hidden = false;
 		CHECKOUT_PAGE.hidden = true;
+	},
+	goToOrdersPage: function (event) {
+		if (event.target.classList.contains("place-order")) {
+			let CHECKOUT_PAGE = document.querySelector(".checkout-page");
+			CHECKOUT_PAGE.hidden = true;
+			CHECKOUT.NAV_BAR.hidden = false;
+			this.setUpOrdersPage();
+		} else {
+			CHECKOUT.HOME_PAGE.hidden = true;
+			this.setUpOrdersPage();
+		}
+	},
+	setUpOrdersPage: function () {
+		let ordersPage = document.createElement("div");
+		ordersPage.classList.add("orders-page");
+		ordersPage.textContent = "ORDERS PAGE";
+		CHECKOUT.BODY.append(ordersPage);
+		this.displayOrder();
+	},
+	displayOrder: function () {
+		// let currentDate = new Date().toDateString();
+		// let productDisplays = document.querySelectorAll(".product-display");
+
+		// productDisplays.forEach((product) => {
+		// 	console.log(product);
+		// });
+
+		const ORDER_MAIN = document.createElement("div");
+		ORDER_MAIN.classList.add("order-main");
+		CHECKOUT.BODY.append(ORDER_MAIN);
 	},
 };
 

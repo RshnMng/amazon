@@ -71,7 +71,6 @@ const UPDATE = {
 			}
 		});
 
-		console.log(shippingChoice);
 		this.storeLocalShipping(shippingChoice);
 		return shippingArr;
 	},
@@ -177,7 +176,6 @@ const UPDATE = {
 		let productDisplaysCollection = document.querySelectorAll(".product-display");
 		let productDisplays = Array.from(productDisplaysCollection);
 		let shippingOptions = this.getLocalShippingOptions();
-		console.log(shippingOptions);
 		let i = 0;
 		productDisplays.map((product, i) => {
 			let date_div = product.childNodes[1];
@@ -190,13 +188,9 @@ const UPDATE = {
 		let DATE_DIV = event.target.parentElement.parentElement;
 		let DATE_ELEM = DATE_DIV.parentElement.parentElement.childNodes[1];
 
-		// console.log(DATE_DIV, DATE_ELEM);
-
 		let classes = DATE_DIV.getAttribute("class");
 		let classArr = classes.split(" ");
 		let buttonType = classArr[0];
-
-		// console.log(buttonType, DATE_ELEM);
 		this.getClickedButton(buttonType, DATE_ELEM);
 	},
 	getClickedButton: function (buttonType, DATE_ELEM) {
@@ -212,7 +206,7 @@ const UPDATE = {
 		let cartItems = LOCAL_STORAGE.getCartItems();
 		UPDATE.emptyValues();
 		DISPLAY.displayCheckoutAmount();
-		LOCAL_STORAGE.getCartStyling();
+		// LOCAL_STORAGE.getCartStyling();
 		DISPLAY.displayCart(cartItems);
 		this.getLocalShippingOptions();
 		TOTALS.getPriceBeforeTaxArr(cartItems);
@@ -283,10 +277,3 @@ const UPDATE = {
 	},
 };
 export { UPDATE };
-
-// 4. {checkout display}
-// when the item quantity is updated in the checkout display, the date goes to
-// free shipping/default value... make it so the date stays on whatever date is selected
-
-// 5 add functionality to Pay Now and Place Order buttons that take you to the
-//Order page // begin order page

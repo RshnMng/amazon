@@ -18,7 +18,7 @@ const LOCAL_STORAGE = {
 			this.isItemAlreadyInCart(cartItems);
 		}
 		CHECKOUT.cartQuantity = this.getNumberOfCartItems();
-		this.getCartStyling(CHECKOUT.cartQuantity);
+		this.getCartStyling(CHECKOUT.cartQuantity, LOCAL_STORAGE.cartCount);
 	},
 	addFirstProductToCart: function (cartItems) {
 		let productID = event.target.id;
@@ -91,26 +91,27 @@ const LOCAL_STORAGE = {
 			return total;
 		}
 	},
-	getCartStyling: function (numberOfItemsInCart) {
+	getCartStyling: function (numberOfItemsInCart, cartCount_elem) {
 		if (numberOfItemsInCart == null || numberOfItemsInCart == undefined) {
 			numberOfItemsInCart = 0;
-			this.cartCount.classList.add("cart-count-under-ten");
-			this.cartCount.classList.remove("cart-count-over-100");
-			this.cartCount.classList.remove("cart-count-over-ten");
+			cartCount_elem.classList.add("cart-count-under-ten");
+			cartCount_elem.classList.remove("cart-count-over-100");
+			cartCount_elem.classList.remove("cart-count-over-ten");
 		} else if (numberOfItemsInCart < 10) {
-			this.cartCount.classList.add("cart-count-under-ten");
-			this.cartCount.classList.remove("cart-count-over-100");
-			this.cartCount.classList.remove("cart-count-over-ten");
+			cartCount_elem.classList.add("cart-count-under-ten");
+			cartCount_elem.classList.remove("cart-count-over-100");
+			cartCount_elem.classList.remove("cart-count-over-ten");
 		} else if (numberOfItemsInCart > 9 && numberOfItemsInCart < 100) {
-			this.cartCount.classList.add("cart-count-over-ten");
-			this.cartCount.classList.remove("cart-count-under-ten");
-			this.cartCount.classList.remove("cart-count-over-100");
+			cartCount_elem.classList.add("cart-count-over-ten");
+			cartCount_elem.classList.remove("cart-count-under-ten");
+			cartCount_elem.classList.remove("cart-count-over-100");
 		} else {
-			this.cartCount.classList.add("cart-count-over-100");
-			this.cartCount.classList.remove("cart-count-over-ten");
-			this.cartCount.classList.remove("cart-count-under-ten");
+			cartCount_elem.classList.add("cart-count-over-100");
+			cartCount_elem.classList.remove("cart-count-over-ten");
+			cartCount_elem.classList.remove("cart-count-under-ten");
 		}
-		this.cartCount.textContent = ` ${numberOfItemsInCart}`;
+		cartCount_elem.textContent = ` ${numberOfItemsInCart}`;
+		return numberOfItemsInCart;
 	},
 	getCartItems: function () {
 		let cartItems = localStorage.getItem("cartItems");

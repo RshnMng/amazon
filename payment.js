@@ -1,4 +1,5 @@
 import { LOCAL_STORAGE } from "./localStorage.js";
+import { DISPLAY } from "./display.js";
 
 const PAYMENT = {
 	addEventsToPayPal: function () {
@@ -23,6 +24,9 @@ const PAYMENT = {
 		ELEMENTS.DEBIT_BTN.addEventListener("click", () => this.showBillingAddy(ELEMENTS));
 		ELEMENTS.X_BTN.addEventListener("click", () => this.XOUT(ELEMENTS));
 		ELEMENTS.PHONE_BILLING_ELEM.addEventListener("keydown", (event) => this.handlePhoneNumber(event));
+		ELEMENTS.PLACE_ORDER_BTN.addEventListener("click", (event) => {
+			DISPLAY.goToOrdersPage(event);
+		});
 	},
 	disablePaymentBtns: function (ELEMENTS) {
 		let cartQuantity = LOCAL_STORAGE.getNumberOfCartItems();
@@ -126,7 +130,6 @@ const PAYMENT = {
 		ELEMENTS.BILLING_ADDY.hidden = false;
 	},
 	showShippingAddy: function (ELEMENTS) {
-		console.log(ELEMENTS.SHIPPING_CHECKBOX);
 		if (ELEMENTS.SHIPPING_ADDY.classList.contains("selected") == false) {
 			ELEMENTS.SHIPPING_ADDY.hidden = false;
 			ELEMENTS.SHIPPING_ADDY.classList.add("selected");
@@ -243,6 +246,7 @@ const PAYMENT = {
 		const ZIP_SHIPPING_WARNING_LOGO = document.querySelector("#zip-shipping-warning-logo");
 		const ZIP_SHIPPING_WARNING_LABEL = document.querySelector("#zip-shipping-warning-label");
 
+		const PLACE_ORDER_BTN = document.querySelector(".place-order");
 		const DEBIT_BTN = document.querySelector(".credit-card-btn");
 		const BILLING_ADDY = document.querySelector(".billing-form");
 		const SHIPPING_ADDY = document.querySelector(".shipping-form");
@@ -329,6 +333,7 @@ const PAYMENT = {
 			SHIPPING_ADDY,
 			SHIPPING_CHECKBOX,
 			X_BTN,
+			PLACE_ORDER_BTN,
 		};
 	},
 };

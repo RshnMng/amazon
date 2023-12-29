@@ -3,7 +3,8 @@ import { PAYMENT } from "./payment.js";
 
 const CHECKOUT = {
 	CART_LINK: document.querySelector(".cart-link"),
-	HOME_PAGE: document.querySelector(".home-page"),
+	HOME_PAGE: document.querySelector(".main-page"),
+	NAV_BAR: document.querySelector(".nav-div"),
 	BODY: document.querySelector("body"),
 	cartDisplayElem: document.querySelector(".cart-display"),
 	cartCount: document.querySelector(".cart-count"),

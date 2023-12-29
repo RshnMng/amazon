@@ -8,6 +8,8 @@ const SET_UP_DATA = {
 	BODY: document.querySelector("body"),
 	ERROR_DIV: document.querySelector(".error-div"),
 	PRODUCT_GRID: document.querySelector(".product-grid"),
+	NAV_BAR: document.querySelector(".nav-bar"),
+	AMAZON_LOGO_DIV: document.querySelector(".logo-div"),
 	firstLoad: true,
 	setUpPage(products) {
 		let id = 0;
@@ -56,6 +58,7 @@ const SET_UP_DATA = {
 		SET_UP_DATA.postNOT_FOUND();
 		// SET_UP_DATA.handleSearchBTNS();
 		SET_UP_DATA.ADD_OPTIONS();
+		SET_UP_DATA.AMAZON_LOGO_DIV.addEventListener("click", () => DISPLAY.goToHomePage());
 	},
 	ADD_OPTIONS: function () {
 		let optionDivs = this.getAllOptionDivs();
@@ -134,6 +137,8 @@ const SET_UP_DATA = {
 				ADD_CART_BTN.removeAttribute("disabled");
 			});
 		});
+		let leftDiv = document.querySelector(".left-div");
+		leftDiv.addEventListener("click", (event) => DISPLAY.goToOrdersPage(event));
 	},
 	showAdded: function (index, ADD_DIVS) {
 		const CHECKMARK = ADD_DIVS[index].childNodes[1];
