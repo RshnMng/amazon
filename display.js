@@ -411,10 +411,11 @@ const DISPLAY = {
 			let CHECKOUT_PAGE = document.querySelector(".checkout-page");
 			CHECKOUT_PAGE.hidden = true;
 			CHECKOUT.NAV_BAR.hidden = false;
-			this.setUpOrdersPage();
+			this.saveOrderToLocal();
+			// this.setUpOrdersPage();
 		} else {
 			CHECKOUT.HOME_PAGE.hidden = true;
-			this.setUpOrdersPage();
+			// this.setUpOrdersPage();
 		}
 	},
 	setUpOrdersPage: function () {
@@ -424,14 +425,30 @@ const DISPLAY = {
 		CHECKOUT.BODY.append(ordersPage);
 		this.displayOrder();
 	},
+	saveOrderToLocal: function () {
+		let currentCart = LOCAL_STORAGE.getCartItems();
+		let currentDate = new Date().toDateString();
+		let orderTotal = CHECKOUT.totalPrice;
+		let uniqueID = Date.now();
+
+		let deliveryDates = document.querySelectorAll(".delivery-date");
+		let i = 0;
+		deliveryDates.forEach((date) => {
+			currentCart[i].deliveryDate = deliveryDates[i].textContent;
+			i++;
+		});
+		let totalOrder = {
+			currentDate,
+			orderTotal,
+			uniqueID,
+			currentCart,
+		};
+
+		let currentOrder = JSON.stringify(totalOrder);
+		CHECKOUT.savedOrders.push(currentOrder);
+		localStorage.setItem("savedOrders", CHECKOUT.savedOrders);
+	},
 	displayOrder: function () {
-		// let currentDate = new Date().toDateString();
-		// let productDisplays = document.querySelectorAll(".product-display");
-
-		// productDisplays.forEach((product) => {
-		// 	console.log(product);
-		// });
-
 		const ORDER_MAIN = document.createElement("div");
 		ORDER_MAIN.classList.add("order-main");
 		CHECKOUT.BODY.append(ORDER_MAIN);
@@ -439,3 +456,5 @@ const DISPLAY = {
 };
 
 export { DISPLAY };
+
+// EMPTY CURRENT CART ONCE ORDER IS PLACED AND UPDATE TOTALS

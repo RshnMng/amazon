@@ -16,6 +16,7 @@ const CHECKOUT = {
 	totalPrice: 0,
 	totalArr: [],
 	shippingArr: [],
+	savedOrders: [],
 	loadCheckoutPage: function () {
 		DISPLAY.setUpPage();
 		PAYMENT.addEventsToPayPal();
