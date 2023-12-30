@@ -419,6 +419,7 @@ const DISPLAY = {
 		}
 	},
 	setUpOrdersPage: function () {
+		console.log("set up orders page ran");
 		let ordersPage = document.createElement("div");
 		ordersPage.classList.add("orders-page");
 		ordersPage.textContent = "ORDERS PAGE";
@@ -479,6 +480,7 @@ const DISPLAY = {
 		UPDATE.emptyValues();
 	},
 	displayOrder: function () {
+		console.log("display order ran");
 		const ORDER_MAIN = document.createElement("div");
 		ORDER_MAIN.classList.add("order-main");
 		CHECKOUT.BODY.append(ORDER_MAIN);
@@ -486,3 +488,6 @@ const DISPLAY = {
 };
 
 export { DISPLAY };
+
+//begin building the orders page -- the local storage has all the orders functionality
+// that you need, no we just need to just build the display first and then the styling
