@@ -2,6 +2,7 @@ import { CHECKOUT } from "./checkout.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
 import { DATES } from "./dates.js";
 import { UPDATE } from "./update.js";
+import { SET_UP_DATA } from "./setPage.js";
 
 const DISPLAY = {
 	firstLoad: true,
@@ -376,8 +377,6 @@ const DISPLAY = {
 		EMPTY_DIV.append(EMPTY_HEADER);
 		EMPTY_DIV.append(EMPTY_BUTTON);
 		CHECKOUT_MAIN.append(EMPTY_DIV);
-		const ADD_CART_BTN = document.querySelector(".place-order");
-		ADD_CART_BTN.setAttribute("disabled", "");
 		EMPTY_BUTTON.addEventListener("click", () => {
 			DISPLAY.goToHomePage();
 			EMPTY_DIV.remove();
@@ -409,13 +408,14 @@ const DISPLAY = {
 	goToOrdersPage: function (event) {
 		if (event.target.classList.contains("place-order")) {
 			let CHECKOUT_PAGE = document.querySelector(".checkout-page");
+			let PRODUCT_DISPLAY_DIV = document.querySelector(".product-display-div");
+			this.saveOrderToLocal();
+			PRODUCT_DISPLAY_DIV.innerHTML = "";
 			CHECKOUT_PAGE.hidden = true;
 			CHECKOUT.NAV_BAR.hidden = false;
-			this.saveOrderToLocal();
-			// this.setUpOrdersPage();
 		} else {
 			CHECKOUT.HOME_PAGE.hidden = true;
-			// this.setUpOrdersPage();
+			this.setUpOrdersPage();
 		}
 	},
 	setUpOrdersPage: function () {
@@ -444,9 +444,39 @@ const DISPLAY = {
 			currentCart,
 		};
 
-		let currentOrder = JSON.stringify(totalOrder);
-		CHECKOUT.savedOrders.push(currentOrder);
-		localStorage.setItem("savedOrders", CHECKOUT.savedOrders);
+		CHECKOUT.savedOrders.push(totalOrder);
+		let currentOrderJSON = JSON.stringify(CHECKOUT.savedOrders);
+		localStorage.setItem("savedOrders", currentOrderJSON);
+		let currentTotals = {
+			cartItems: null,
+			cartQuantity: 0,
+			preTaxPrice: "0.00",
+			shippingArr: [],
+			shippingTotal: 0,
+			tax: "0.00",
+			totalArr: [],
+			totalPrice: "0.00",
+		};
+
+		let selectedShipping = [];
+		let selectedShippingJSON = JSON.stringify(selectedShipping);
+
+		let cartItems = [];
+		let cartItemsJSON = JSON.stringify(cartItems);
+
+		let currentTotalsJSON = JSON.stringify(currentTotals);
+		localStorage.setItem("currentTotals", currentTotalsJSON);
+		localStorage.setItem("selectedShipping", selectedShippingJSON);
+		localStorage.setItem("cartItems", cartItemsJSON);
+		CHECKOUT.cartCount.textContent = 0;
+	},
+
+	resetCart: function () {
+		CHECKOUT.cartItems = "";
+		let cartItems = [];
+		let cartItemsJSON = JSON.stringify(cartItems);
+		LOCAL_STORAGE.setLocalStorageCartItems(cartItemsJSON);
+		UPDATE.emptyValues();
 	},
 	displayOrder: function () {
 		const ORDER_MAIN = document.createElement("div");
@@ -456,5 +486,3 @@ const DISPLAY = {
 };
 
 export { DISPLAY };
-
-// EMPTY CURRENT CART ONCE ORDER IS PLACED AND UPDATE TOTALS

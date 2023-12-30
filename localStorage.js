@@ -78,6 +78,7 @@ const LOCAL_STORAGE = {
 	},
 	getNumberOfCartItems: function () {
 		let cartItems = localStorage.getItem("cartItems");
+
 		if (cartItems == null) {
 			return 0;
 		} else {

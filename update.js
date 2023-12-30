@@ -208,7 +208,6 @@ const UPDATE = {
 		DISPLAY.displayCheckoutAmount();
 		// LOCAL_STORAGE.getCartStyling();
 		DISPLAY.displayCart(cartItems);
-		this.getLocalShippingOptions();
 		TOTALS.getPriceBeforeTaxArr(cartItems);
 		TOTALS.getTotalBeforeTax(CHECKOUT.totalArr);
 		DISPLAY.displayTotalBeforeTax(CHECKOUT.preTaxPrice);

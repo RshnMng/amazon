@@ -134,7 +134,6 @@ const SET_UP_DATA = {
 				this.showAdded(index, ADD_DIVS);
 				LOCAL_STORAGE.addSelectedItemToStorage(event);
 				const ADD_CART_BTN = document.querySelector(".place-order");
-				ADD_CART_BTN.removeAttribute("disabled");
 			});
 		});
 		let leftDiv = document.querySelector(".left-div");
