@@ -440,19 +440,15 @@ const DISPLAY = {
 			CHECKOUT.NAV_BAR.hidden = false;
 			CHECKOUT.NAV_BAR.classList.add("move-up");
 			this.setUpOrdersPage();
-
-			console.log("place order button pressed");
 		} else {
 			CHECKOUT.HOME_PAGE.hidden = true;
 			CHECKOUT.NAV_BAR.classList.add("move-up");
 
-			console.log("return linked pressed");
 			this.setUpOrdersPage();
 		}
 	},
 	setUpOrdersPage: function () {
 		if (this.ordersFirstLoad == true) {
-			console.log("first time going to order page");
 			let ordersPage = document.createElement("div");
 			ordersPage.classList.add("orders-page");
 			CHECKOUT.BODY.append(ordersPage);
@@ -469,14 +465,13 @@ const DISPLAY = {
 
 			// above sets up header on order page regardless if page has any previous saved orders
 
-			// this.displayOrder(ORDER_PAGE_DISPLAY_DIV);
+			this.displayOrder(ORDER_PAGE_DISPLAY_DIV);
 			this.ordersFirstLoad = false;
 		} else {
-			console.log("not the first time goin to orders page");
-			// const ORDER_PAGE_DISPLAY_DIV = document.querySelector(".order-page-display-div");
-			// this.displayOrder(ORDER_PAGE_DISPLAY_DIV);
-
-			console.log("testing");
+			const ORDER_PAGE_DISPLAY_DIV = document.querySelector(".order-page-display-div");
+			const ORDERS_PAGE = document.querySelector(".orders-page");
+			this.displayOrder(ORDER_PAGE_DISPLAY_DIV);
+			ORDERS_PAGE.hidden = false;
 		}
 	},
 	saveOrderToLocal: function () {
@@ -506,9 +501,6 @@ const DISPLAY = {
 		} else {
 			CHECKOUT.savedOrders = savedOrders;
 		}
-
-		// JUST MADE ABOVE WORK SO SAVED CART UPDATES PROPERLY IN LOCAL STORAGE EVEN AFTER REFRESH//
-		//CONTINUE TO DEBUG ORDERS PAGE DISPLAY
 
 		CHECKOUT.savedOrders.push(totalOrder);
 		let currentOrderJSON = JSON.stringify(CHECKOUT.savedOrders);
@@ -549,6 +541,7 @@ const DISPLAY = {
 
 	test: function (savedOrders, ORDER_PAGE_DISPLAY_DIV) {
 		let orderHtml = "";
+		let i = 0;
 		savedOrders.forEach((order) => {
 			orderHtml += `
         <div class='order-page-display'>
@@ -567,27 +560,57 @@ const DISPLAY = {
                         <div class='order-id-text'>${order.uniqueID}</div>
                   </div> 
         </div>
-        <div class='order-product-div'>
+        <div class='order-product-div' id='order-div-${i}'>
         <h1>product information goes here</h1>
         </div>
-    
-        
-        
-        
+        </div>
         `;
+			let thisCart = order.savedCart;
+
+			this.displayPurchasedProducts(thisCart, i);
+			i++;
 		});
+
 		ORDER_PAGE_DISPLAY_DIV.innerHTML = orderHtml;
-		console.log(savedOrders);
+		this.loopOrderProductDiv();
+	},
+
+	displayPurchasedProducts: function (thisCart, i) {
+		let cartHtml = "";
+		thisCart.forEach((product) => {
+			cartHtml += `
+		<div class='bought-product-div' id="bought-product-div${i}">
+		      <div class='photo-div'>
+            <div>${product.chosenProduct.name}</div>
+		          <img src='${product.chosenProduct.image}'/>
+		      </div>
+		      <div class='product-info-div'>
+		      </div>
+		</div>
+		`;
+		});
+
+		console.log(cartHtml);
+	},
+
+	// The CARTHTML is stuck inside the looping fucntionlality - the divs that it needs to be added to
+	// doesnt register until the looping is done, so we might have to see if we can return the data of CARTHTML
+	// and store it in somewhere and then grab the option divs and iterate through thme and using the id's to
+	// make sure the right products go with the right options.
+
+	loopOrderProductDiv: function (l) {
+		let test = document.querySelectorAll(".order-product-div");
+
+		test.forEach((div) => {
+			console.log(div);
+		});
 	},
 
 	emptyOrderPageDisplay: function () {
 		let orderPageDisplayDiv = document.querySelector(".order-page-display-div");
-		console.log(orderPageDisplayDiv);
 	},
 
-	showEmptyOrders: function () {
-		console.log("empty order page should be shown");
-	},
+	showEmptyOrders: function () {},
 };
 
 export { DISPLAY };
