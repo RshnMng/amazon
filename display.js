@@ -542,7 +542,7 @@ const DISPLAY = {
 	test: function (savedOrders, ORDER_PAGE_DISPLAY_DIV) {
 		let orderHtml = "";
 		let i = 0;
-		savedOrders.forEach((order) => {
+		let thisCart = savedOrders.map((order) => {
 			orderHtml += `
         <div class='order-page-display'>
              <div class='order-info'>
@@ -566,43 +566,48 @@ const DISPLAY = {
         </div>
         `;
 			let thisCart = order.savedCart;
-
-			this.displayPurchasedProducts(thisCart, i);
 			i++;
+			return thisCart;
 		});
-
 		ORDER_PAGE_DISPLAY_DIV.innerHTML = orderHtml;
 		this.loopOrderProductDiv();
+		this.displayPurchasedProducts(thisCart);
 	},
 
-	displayPurchasedProducts: function (thisCart, i) {
+	displayPurchasedProducts: function (thisCart) {
 		let cartHtml = "";
-		thisCart.forEach((product) => {
-			cartHtml += `
-		<div class='bought-product-div' id="bought-product-div${i}">
-		      <div class='photo-div'>
-            <div>${product.chosenProduct.name}</div>
-		          <img src='${product.chosenProduct.image}'/>
-		      </div>
-		      <div class='product-info-div'>
-		      </div>
-		</div>
-		`;
-		});
+		let i = 0;
+		thisCart.forEach((cart) => {
+			let j = 0;
+			let testing = cart.map((product) => {
+				// console.log(product);
+				cartHtml = `
+				<div class='bought-product-div' id="bought-product-div${i}">
+				      <div class='photo-div'>
+				        <div>${product.chosenProduct.name}</div>
+				          <img src='${product.chosenProduct.image}'/>
+				      </div>
+				      <div class='product-info-div'>
+				      </div>
+				</div>
+				`;
+				j++;
+				return cartHtml;
+			});
 
-		console.log(cartHtml);
+			testing.map((item) => {
+				this.loopOrderProductDiv(item);
+			});
+
+			i++;
+		});
 	},
 
-	// The CARTHTML is stuck inside the looping fucntionlality - the divs that it needs to be added to
-	// doesnt register until the looping is done, so we might have to see if we can return the data of CARTHTML
-	// and store it in somewhere and then grab the option divs and iterate through thme and using the id's to
-	// make sure the right products go with the right options.
+	loopOrderProductDiv: function (item) {
+		let productDivs = document.querySelectorAll(".order-product-div");
 
-	loopOrderProductDiv: function (l) {
-		let test = document.querySelectorAll(".order-product-div");
-
-		test.forEach((div) => {
-			console.log(div);
+		productDivs.forEach((div) => {
+			console.log(item);
 		});
 	},
 
