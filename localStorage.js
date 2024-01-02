@@ -131,8 +131,14 @@ const LOCAL_STORAGE = {
 		const SHIPPING_OPTIONS_JSON = localStorage.getItem("selectedShipping");
 		let selectedShipping = JSON.parse(SHIPPING_OPTIONS_JSON);
 
-		selectedShipping.push("option-1");
-		UPDATE.storeLocalShipping(selectedShipping);
+		if (selectedShipping == null) {
+			selectedShipping = [];
+			selectedShipping.push("option-1");
+			UPDATE.storeLocalShipping(selectedShipping);
+		} else {
+			selectedShipping.push("option-1");
+			UPDATE.storeLocalShipping(selectedShipping);
+		}
 	},
 };
 

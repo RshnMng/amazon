@@ -6,6 +6,7 @@ import { SET_UP_DATA } from "./setPage.js";
 
 const DISPLAY = {
 	firstLoad: true,
+	ordersFirstLoad: true,
 	hideHomePage: function () {
 		CHECKOUT.HOME_PAGE.hidden = true;
 		CHECKOUT.NAV_BAR.hidden = true;
@@ -17,6 +18,14 @@ const DISPLAY = {
 		DISPLAY.displayCheckoutAmount();
 		DATES.getDates();
 		UPDATE.updateTotals();
+
+		const ORDERS_PAGE = document.querySelector(".orders-page");
+
+		if (ORDERS_PAGE == null) {
+			return;
+		} else {
+			ORDERS_PAGE.hidden = true;
+		}
 	},
 	displayCheckoutAmount: function () {
 		let checkOutHeader = document.querySelector(".checkout-header");
@@ -391,10 +400,18 @@ const DISPLAY = {
 
 	goToCheckoutPage: function () {
 		let CHECKOUT_PAGE = document.querySelector(".checkout-page");
+		let ORDERS_PAGE = document.querySelector(".orders-page");
 		CHECKOUT.HOME_PAGE.hidden = true;
 		CHECKOUT.NAV_BAR.hidden = true;
 		CHECKOUT_PAGE.hidden = false;
 		UPDATE.updateTotals();
+		// this.emptyOrderPageDisplay();
+
+		if (ORDERS_PAGE == null) {
+			return;
+		} else {
+			ORDERS_PAGE.hidden = true;
+		}
 	},
 	goToHomePage: function () {
 		let CHECKOUT_PAGE = document.querySelector(".checkout-page");
@@ -402,8 +419,16 @@ const DISPLAY = {
 		CHECKOUT.cartQuantity = LOCAL_STORAGE.getNumberOfCartItems();
 		LOCAL_STORAGE.getCartStyling(CHECKOUT.cartQuantity, LOCAL_STORAGE.cartCount);
 		CHECKOUT.HOME_PAGE.hidden = false;
+		CHECKOUT.NAV_BAR.classList.remove("move-up");
 		CHECKOUT.NAV_BAR.hidden = false;
-		CHECKOUT_PAGE.hidden = true;
+
+		if (CHECKOUT_PAGE == null) {
+			return;
+		} else {
+			CHECKOUT_PAGE.hidden = true;
+		}
+
+		// this.emptyOrderPageDisplay();
 	},
 	goToOrdersPage: function (event) {
 		if (event.target.classList.contains("place-order")) {
@@ -413,37 +438,77 @@ const DISPLAY = {
 			PRODUCT_DISPLAY_DIV.innerHTML = "";
 			CHECKOUT_PAGE.hidden = true;
 			CHECKOUT.NAV_BAR.hidden = false;
+			CHECKOUT.NAV_BAR.classList.add("move-up");
+			this.setUpOrdersPage();
+
+			console.log("place order button pressed");
 		} else {
 			CHECKOUT.HOME_PAGE.hidden = true;
+			CHECKOUT.NAV_BAR.classList.add("move-up");
+
+			console.log("return linked pressed");
 			this.setUpOrdersPage();
 		}
 	},
 	setUpOrdersPage: function () {
-		console.log("set up orders page ran");
-		let ordersPage = document.createElement("div");
-		ordersPage.classList.add("orders-page");
-		ordersPage.textContent = "ORDERS PAGE";
-		CHECKOUT.BODY.append(ordersPage);
-		this.displayOrder();
+		if (this.ordersFirstLoad == true) {
+			console.log("first time going to order page");
+			let ordersPage = document.createElement("div");
+			ordersPage.classList.add("orders-page");
+			CHECKOUT.BODY.append(ordersPage);
+			const ORDER_MAIN = document.createElement("div");
+			ORDER_MAIN.classList.add("order-main");
+			ordersPage.append(ORDER_MAIN);
+			const HEADER = document.createElement("div");
+			HEADER.classList.add("order-page-header");
+			HEADER.innerHTML = ` <p class='order-page-header-text'> Your Orders </p> `;
+			ORDER_MAIN.append(HEADER);
+			const ORDER_PAGE_DISPLAY_DIV = document.createElement("div");
+			ORDER_PAGE_DISPLAY_DIV.classList.add("order-page-display-div");
+			ORDER_MAIN.append(ORDER_PAGE_DISPLAY_DIV);
+
+			// above sets up header on order page regardless if page has any previous saved orders
+
+			// this.displayOrder(ORDER_PAGE_DISPLAY_DIV);
+			this.ordersFirstLoad = false;
+		} else {
+			console.log("not the first time goin to orders page");
+			// const ORDER_PAGE_DISPLAY_DIV = document.querySelector(".order-page-display-div");
+			// this.displayOrder(ORDER_PAGE_DISPLAY_DIV);
+
+			console.log("testing");
+		}
 	},
 	saveOrderToLocal: function () {
-		let currentCart = LOCAL_STORAGE.getCartItems();
-		let currentDate = new Date().toDateString();
+		let savedCart = LOCAL_STORAGE.getCartItems();
+		let orderDate = new Date().toDateString();
 		let orderTotal = CHECKOUT.totalPrice;
 		let uniqueID = Date.now();
 
 		let deliveryDates = document.querySelectorAll(".delivery-date");
 		let i = 0;
 		deliveryDates.forEach((date) => {
-			currentCart[i].deliveryDate = deliveryDates[i].textContent;
+			savedCart[i].deliveryDate = deliveryDates[i].textContent;
 			i++;
 		});
 		let totalOrder = {
-			currentDate,
+			orderDate,
 			orderTotal,
 			uniqueID,
-			currentCart,
+			savedCart,
 		};
+
+		let savedOrdersJSON = localStorage.getItem("savedOrders");
+		let savedOrders = JSON.parse(savedOrdersJSON);
+
+		if (savedOrders == null) {
+			CHECKOUT.savedOrders = [];
+		} else {
+			CHECKOUT.savedOrders = savedOrders;
+		}
+
+		// JUST MADE ABOVE WORK SO SAVED CART UPDATES PROPERLY IN LOCAL STORAGE EVEN AFTER REFRESH//
+		//CONTINUE TO DEBUG ORDERS PAGE DISPLAY
 
 		CHECKOUT.savedOrders.push(totalOrder);
 		let currentOrderJSON = JSON.stringify(CHECKOUT.savedOrders);
@@ -471,23 +536,58 @@ const DISPLAY = {
 		localStorage.setItem("cartItems", cartItemsJSON);
 		CHECKOUT.cartCount.textContent = 0;
 	},
+	displayOrder: function (ORDER_PAGE_DISPLAY_DIV) {
+		let savedOrdersJSON = localStorage.getItem("savedOrders");
+		let savedOrders = JSON.parse(savedOrdersJSON);
 
-	resetCart: function () {
-		CHECKOUT.cartItems = "";
-		let cartItems = [];
-		let cartItemsJSON = JSON.stringify(cartItems);
-		LOCAL_STORAGE.setLocalStorageCartItems(cartItemsJSON);
-		UPDATE.emptyValues();
+		if (savedOrders == null) {
+			this.showEmptyOrders();
+		} else {
+			this.test(savedOrders, ORDER_PAGE_DISPLAY_DIV);
+		}
 	},
-	displayOrder: function () {
-		console.log("display order ran");
-		const ORDER_MAIN = document.createElement("div");
-		ORDER_MAIN.classList.add("order-main");
-		CHECKOUT.BODY.append(ORDER_MAIN);
+
+	test: function (savedOrders, ORDER_PAGE_DISPLAY_DIV) {
+		let orderHtml = "";
+		savedOrders.forEach((order) => {
+			orderHtml += `
+        <div class='order-page-display'>
+             <div class='order-info'>
+                 <div class='order-placed-div'>
+                     <div class='order-placed-label'>Order Placed:</div>
+                     <div class='order-placed-text'> ${order.orderDate}</div>
+                  </div>
+
+                  <div class='order-total-div'>
+                       <div class='order-total-label'>Total:</div>
+                       <div class='order-total-text'>${order.orderTotal}</div>
+                  </div>
+                  <div class='order-id-div'>
+                        <div class='order-id-label'>Order Id:</div>
+                        <div class='order-id-text'>${order.uniqueID}</div>
+                  </div> 
+        </div>
+        <div class='order-product-div'>
+        <h1>product information goes here</h1>
+        </div>
+    
+        
+        
+        
+        `;
+		});
+		ORDER_PAGE_DISPLAY_DIV.innerHTML = orderHtml;
+		console.log(savedOrders);
+	},
+
+	emptyOrderPageDisplay: function () {
+		let orderPageDisplayDiv = document.querySelector(".order-page-display-div");
+		console.log(orderPageDisplayDiv);
+	},
+
+	showEmptyOrders: function () {
+		console.log("empty order page should be shown");
 	},
 };
 
 export { DISPLAY };
-
-//begin building the orders page -- the local storage has all the orders functionality
-// that you need, no we just need to just build the display first and then the styling

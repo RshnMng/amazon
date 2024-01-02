@@ -1,3 +1,5 @@
+
+
 .amazon-logo-img {
     border: none;
     margin-top: 12px;
@@ -5,6 +7,11 @@
     width: 100px;
     padding-bottom: 10px;
 
+}
+
+.move-up {
+    bottom: 5px;
+    position: relative;
 }
 
 .add-btn {
@@ -302,7 +309,6 @@ body {
         animation-fill-mode: forwards;
          position: absolute;
      }
-
 html {
     margin: 0;
 }
@@ -431,6 +437,23 @@ html {
     color: rgb(177, 39, 4);
  }
 
+ .order-main {
+    position: relative;
+    top: 80px;
+    left: 15px;
+ }
+
+ .order-info {
+    border: 2px solid green;
+    display: flex;
+    justify-content: space-evenly;
+ }
+
+ .order-page-display-div {
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+ }
 
  .shipping-option-div, .option-div {
      display: block;
@@ -744,12 +767,6 @@ p {
    .shipping-price, .tax-div {
     border-bottom: 1px solid rgb(222, 222, 222);
     padding-bottom: 15px;
-   }
-
-   .orders-page {
-    position: absolute;
-    top: 60px;
-    background-color: red;
    }
 
    .update-link , .delete-link, .save-link {
