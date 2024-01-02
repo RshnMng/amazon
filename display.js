@@ -414,7 +414,9 @@ const DISPLAY = {
 		}
 	},
 	goToHomePage: function () {
+		console.log("go to home page ran ");
 		let CHECKOUT_PAGE = document.querySelector(".checkout-page");
+		const ORDERS_PAGE = document.querySelector(".orders-page");
 		LOCAL_STORAGE.cartCount.textContent = LOCAL_STORAGE.getNumberOfCartItems();
 		CHECKOUT.cartQuantity = LOCAL_STORAGE.getNumberOfCartItems();
 		LOCAL_STORAGE.getCartStyling(CHECKOUT.cartQuantity, LOCAL_STORAGE.cartCount);
@@ -427,6 +429,8 @@ const DISPLAY = {
 		} else {
 			CHECKOUT_PAGE.hidden = true;
 		}
+
+		// the ordrs page doesnt become hidden when this function runs // fix that
 
 		// this.emptyOrderPageDisplay();
 	},
@@ -561,7 +565,6 @@ const DISPLAY = {
                   </div> 
         </div>
         <div class='order-product-div' id='order-div-${i}'>
-        <h1>product information goes here</h1>
         </div>
         </div>
         `;
@@ -570,22 +573,20 @@ const DISPLAY = {
 			return thisCart;
 		});
 		ORDER_PAGE_DISPLAY_DIV.innerHTML = orderHtml;
-		this.loopOrderProductDiv();
 		this.displayPurchasedProducts(thisCart);
 	},
 
 	displayPurchasedProducts: function (thisCart) {
 		let cartHtml = "";
 		let i = 0;
-		thisCart.forEach((cart) => {
+		let secTest = thisCart.map((cart) => {
 			let j = 0;
 			let testing = cart.map((product) => {
-				// console.log(product);
 				cartHtml = `
 				<div class='bought-product-div' id="bought-product-div${i}">
 				      <div class='photo-div'>
 				        <div>${product.chosenProduct.name}</div>
-				          <img src='${product.chosenProduct.image}'/>
+				          <img src='${product.chosenProduct.image}' width=60 />
 				      </div>
 				      <div class='product-info-div'>
 				      </div>
@@ -594,20 +595,21 @@ const DISPLAY = {
 				j++;
 				return cartHtml;
 			});
-
-			testing.map((item) => {
-				this.loopOrderProductDiv(item);
-			});
-
 			i++;
+			return testing;
 		});
+		this.loopOrderProductDiv(secTest);
 	},
 
-	loopOrderProductDiv: function (item) {
+	loopOrderProductDiv: function (secTest) {
 		let productDivs = document.querySelectorAll(".order-product-div");
-
-		productDivs.forEach((div) => {
-			console.log(item);
+		let i = 0;
+		secTest.map((cart) => {
+			cart.map((cartItem) => {
+				let productDiv = productDivs[i];
+				productDiv.innerHTML += cartItem;
+			});
+			i++;
 		});
 	},
 
