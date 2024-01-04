@@ -2,7 +2,7 @@ import { CHECKOUT } from "./checkout.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
 import { DATES } from "./dates.js";
 import { UPDATE } from "./update.js";
-import { SET_UP_DATA } from "./setPage.js";
+import { ORDERS } from "./orders.js";
 
 const DISPLAY = {
 	firstLoad: true,
@@ -627,11 +627,30 @@ const DISPLAY = {
 		});
 	},
 
-	emptyOrderPageDisplay: function () {
+	showEmptyOrders: function () {
 		let orderPageDisplayDiv = document.querySelector(".order-page-display-div");
-	},
+		let emptyLogodiv = document.createElement("div");
+		emptyLogodiv.classList.add("empty-orders-logo-div");
+		let emptyLogo = document.createElement("img");
+		emptyLogo.setAttribute("src", "https://stylesage.co/blog/content/images/2018/10/sad_amazon.0.png");
+		emptyLogo.classList.add("empty-logo-img");
+		emptyLogodiv.append(emptyLogo);
+		orderPageDisplayDiv.append(emptyLogodiv);
+		let emptyOrdersLabelDiv = document.createElement("div");
+		emptyOrdersLabelDiv.classList.add("empty-label-div");
+		emptyOrdersLabelDiv.innerHTML = `<p class='empty-order-label'>Oh No! You haven't made <span class='any-text'>any orders</span> yet! Go back to the home page and keep shopping!</p>`;
+		orderPageDisplayDiv.append(emptyOrdersLabelDiv);
+		let homeBTN = document.createElement("button");
 
-	showEmptyOrders: function () {},
+		let emptyBtnDiv = document.createElement("div");
+		emptyBtnDiv.classList.add("empty-btn-div");
+		homeBTN.classList.add("empty-order-btn");
+		homeBTN.textContent = "View Products";
+		emptyBtnDiv.append(homeBTN);
+		orderPageDisplayDiv.append(emptyBtnDiv);
+		let headerText = document.querySelector(".order-page-header-text");
+		headerText.hidden = true;
+	},
 };
 
 export { DISPLAY };
