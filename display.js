@@ -550,17 +550,17 @@ const DISPLAY = {
 			orderHtml += `
         <div class='order-page-display'>
              <div class='order-info'>
-                 <div class='order-placed-div'>
-                     <div class='order-placed-label'>Order Placed:</div>
+                 <div class='order-placed-div order-label-divs'>
+                     <div class='order-placed-label order-label'>Order Placed:</div>
                      <div class='order-placed-text'> ${order.orderDate}</div>
                   </div>
 
-                  <div class='order-total-div'>
-                       <div class='order-total-label'>Total:</div>
+                  <div class='order-total-div order-label-divs'>
+                       <div class='order-total-label order-label'>Total:</div>
                        <div class='order-total-text'>${order.orderTotal}</div>
                   </div>
-                  <div class='order-id-div'>
-                        <div class='order-id-label'>Order Id:</div>
+                  <div class='order-id-div order-label-divs'>
+                        <div class='order-id-label order-label'>Order Id:</div>
                         <div class='order-id-text'>${order.uniqueID}</div>
                   </div> 
         </div>
@@ -584,12 +584,26 @@ const DISPLAY = {
 			let testing = cart.map((product) => {
 				cartHtml = `
 				<div class='bought-product-div' id="bought-product-div${i}">
-				      <div class='photo-div'>
-				        <div>${product.chosenProduct.name}</div>
-				          <img src='${product.chosenProduct.image}' width=60 />
-				      </div>
-				      <div class='product-info-div'>
-				      </div>
+				    <div class='order-photo-div'>
+                <img class='order-item-img' src='${product.chosenProduct.image}'/>
+            </div>
+            <div class='order-info-div'>
+                <div class='order-name-div  order-facts'> 
+                      <p class='order-item-name'>${product.chosenProduct.name}</p>
+                </div>
+                <div class='order-arrive-div> order-facts'>
+                      <p class='order-arrive-date'>${product.deliveryDate}</p>
+                      <p class='order-item-count'>Quantity: ${product.itemQuantity}</p>
+                </div>
+                <div class='order-track-div order-facts'>
+                      <button class='buy-again-btn'>
+                            <img class='buy-again-logo' src='	https://supersimple.dev/projects/amazon/images/icons/buy-again.png' >
+                      <p class='buy-btn-label'>Buy it again</p>
+                      
+                      </button>
+                      <button class='tracking-btn'>Track Package</button>
+                </div>
+            </div>
 				</div>
 				`;
 				j++;

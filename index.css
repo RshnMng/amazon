@@ -437,24 +437,6 @@ html {
     color: rgb(177, 39, 4);
  }
 
- .order-main {
-    position: relative;
-    top: 80px;
-    left: 15px;
- }
-
- .order-info {
-    border: 2px solid green;
-    display: flex;
-    justify-content: space-evenly;
- }
-
- .order-page-display-div {
-    width: 85%;
-    margin-left: auto;
-    margin-right: auto;
- }
-
  .shipping-option-div, .option-div {
      display: block;
  }
@@ -810,9 +792,114 @@ p {
 
 
 
+/* Styling for Saved Order Display*/
 
 
 
+.order-info {
+        padding: 18px 25px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        background-color: rgb(240, 242, 242);
+        border: 1px solid rgb(213, 217, 217);
+        border-bottom: none;
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between
+}
+
+.order-product-div {
+    border: 1px solid rgb(213, 217, 217);
+    padding: 40px 30px;
+}
+
+.order-label {
+    font-weight: bold;
+}
+
+.order-main {
+    position: relative;
+    top: 80px;
+}
+
+
+.order-page-display-div {
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.order-item-img {
+    width: 85%;
+    /* border: 3px solid blue; */
+}
+
+.bought-product-div {
+    /* border: 2px solid red; */
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.order-photo-div {
+    /* background-color: pink; */
+    width: 25%;
+    padding:  20px; 
+
+}
+
+.order-info-div {
+    /* background-color: cyan; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-top: 12px;
+    width: 100%;
+}
+
+.order-facts {
+    /* border: 3px solid blue; */
+}
+
+.order-item-name {
+    font-weight: bold;
+}
+
+.buy-again-btn {
+    background-color: rgb(255, 216, 20);
+    border: 1px solid rgb(252, 210, 0);
+    margin-bottom: 8px;
+    border-radius: 7px;
+    box-shadow:  2px 5px rgba(213, 217, 217, 0.5);
+    display: flex;
+    width: 40%;
+    padding: 3px 0 3px 10px;
+    cursor: pointer;
+}
+
+.order-track-div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.buy-again-logo {
+    width: 21%;
+}
+
+.tracking-btn {
+    margin-bottom: 10px;
+        border-radius: 7px;
+        box-shadow: 2px 5px rgba(213, 217, 217, 0.5);
+        border: 1px solid rgb(213, 217, 217);
+        width: 40%;
+        padding: 8px 0 8px 10px;
+        cursor: pointer;
+}
+
+.order-page-header-text {
+    font-size: 32px;
+    font-weight: bold;
+}
 
 
 
