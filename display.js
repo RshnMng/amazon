@@ -414,15 +414,17 @@ const DISPLAY = {
 		}
 	},
 	goToHomePage: function () {
-		console.log("go to home page ran ");
 		let CHECKOUT_PAGE = document.querySelector(".checkout-page");
 		const ORDERS_PAGE = document.querySelector(".orders-page");
+		const ORDERS_PAGE_DISPLAY = document.querySelector(".order-page-display-div");
 		LOCAL_STORAGE.cartCount.textContent = LOCAL_STORAGE.getNumberOfCartItems();
 		CHECKOUT.cartQuantity = LOCAL_STORAGE.getNumberOfCartItems();
 		LOCAL_STORAGE.getCartStyling(CHECKOUT.cartQuantity, LOCAL_STORAGE.cartCount);
 		CHECKOUT.HOME_PAGE.hidden = false;
 		CHECKOUT.NAV_BAR.classList.remove("move-up");
 		CHECKOUT.NAV_BAR.hidden = false;
+		ORDERS_PAGE_DISPLAY.innerHTML = "";
+		ORDERS_PAGE.hidden = true;
 
 		if (CHECKOUT_PAGE == null) {
 			return;
@@ -506,7 +508,7 @@ const DISPLAY = {
 			CHECKOUT.savedOrders = savedOrders;
 		}
 
-		CHECKOUT.savedOrders.push(totalOrder);
+		CHECKOUT.savedOrders.unshift(totalOrder);
 		let currentOrderJSON = JSON.stringify(CHECKOUT.savedOrders);
 		localStorage.setItem("savedOrders", currentOrderJSON);
 		let currentTotals = {
@@ -616,6 +618,7 @@ const DISPLAY = {
 	},
 
 	loopOrderProductDiv: function (secTest) {
+		console.log(secTest, "this is secTest");
 		let productDivs = document.querySelectorAll(".order-product-div");
 		let i = 0;
 		secTest.map((cart) => {
