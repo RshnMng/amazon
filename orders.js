@@ -1,16 +1,31 @@
 import { products } from "./product.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
+import { UPDATE } from "./update.js";
 
 const ORDERS = {
 	addEventsToBuyBtns: function () {
 		const BUY_BTNS = document.querySelectorAll(".buy-again-btn");
 		BUY_BTNS.forEach((button) => {
-			button.addEventListener("click", (event) => {
-				let target = event.target.parentElement;
-				console.log(target);
-				let index = target.getAttribute("homepageindex");
-				let selectedProduct = products[index];
-				console.log(selectedProduct);
+			console.log(button);
+			button.addEventListener("click", (item) => {
+				let index = item.currentTarget.getAttribute("homepageindex");
+				let itemQuantitiy = 1;
+				let id = item.currentTarget.getAttribute("id");
+				console.log(index, itemQuantitiy, id);
+				let chosenProduct = products[index];
+				console.log(chosenProduct);
+				let cartItem = { itemQuantitiy, chosenProduct, id };
+				let oldCart = LOCAL_STORAGE.getCartItems();
+				let newCart = [...oldCart, cartItem];
+				LOCAL_STORAGE.setLocalStorageCartItems(newCart);
+				// UPDATE.updateTotals();
+
+				// make it so if a item is bought again, it consolidates the item quqntity and not get added
+				// again to cart
+
+				//fix the ordery summary calculations when item bought again ,
+
+				// fix cart caluculstions as well
 			});
 		});
 	},

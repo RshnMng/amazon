@@ -479,7 +479,6 @@ const DISPLAY = {
 			CHECKOUT.NAV_BAR.classList.add("move-up");
 
 			this.setUpOrdersPage();
-			ORDERS.addEventsToBuyBtns();
 		}
 	},
 	setUpOrdersPage: function () {
@@ -629,11 +628,13 @@ const DISPLAY = {
                       <p class='order-item-count'>Quantity: ${product.itemQuantity}</p>
                 </div>
                 <div class='order-track-div order-facts'>
-                      <button class='buy-again-btn' homePageIndex='${product.id - 1}'>
+				<div class='buy-div'>
+                      <button class='buy-again-btn' id='${product.id}' quantity='${product.itemQuantity}' homepageindex='${product.id - 1}'>
                             <img class='buy-again-logo' src='	https://supersimple.dev/projects/amazon/images/icons/buy-again.png' >
                       <p class='buy-btn-label'>Buy it again</p>
                       
                       </button>
+				</div>
                       <button class='tracking-btn'>Track Package</button>
                 </div>
             </div>
@@ -646,6 +647,7 @@ const DISPLAY = {
 			return testing;
 		});
 		this.loopOrderProductDiv(secTest);
+		ORDERS.addEventsToBuyBtns();
 	},
 
 	loopOrderProductDiv: function (secTest) {

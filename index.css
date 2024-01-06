@@ -351,6 +351,7 @@ html {
    background-color: white;
 }
 
+
 .logo-container {
     width: 100px;
 }
@@ -865,6 +866,11 @@ p {
     font-weight: bold;
 }
 
+.buy-div {
+    display: flex;
+   
+}
+
 .buy-again-btn {
     background-color: rgb(255, 216, 20);
     border: 1px solid rgb(252, 210, 0);
@@ -872,7 +878,7 @@ p {
     border-radius: 7px;
     box-shadow:  2px 5px rgba(213, 217, 217, 0.5);
     display: flex;
-    width: 40%;
+    width: 70%;
     padding: 3px 0 3px 10px;
     cursor: pointer;
 }
