@@ -10,7 +10,7 @@ const APP = (function () {
 	SET_UP_DATA.setUpPage(products);
 
 	// CART //
-	let savedCartQuantity = LOCAL_STORAGE.getNumberOfCartItems();
+	let savedCartQuantity = LOCAL_STORAGE.getNumberOfCartItems(event);
 	LOCAL_STORAGE.getCartStyling(savedCartQuantity, LOCAL_STORAGE.cartCount);
 
 	// SEARCH //

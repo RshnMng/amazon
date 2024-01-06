@@ -7,6 +7,7 @@ import { ORDERS } from "./orders.js";
 const DISPLAY = {
 	firstLoad: true,
 	ordersFirstLoad: true,
+	ordersPageExist: false,
 	hideHomePage: function () {
 		CHECKOUT.HOME_PAGE.hidden = true;
 		CHECKOUT.NAV_BAR.hidden = true;
@@ -260,6 +261,7 @@ const DISPLAY = {
 		if (cartItems == null || cartItems.length == 0) {
 			this.showEmpty();
 		} else {
+			console.log("show empty not ran");
 			let productHtml = "";
 			cartItems.map((product) => {
 				productHtml += `
@@ -401,16 +403,32 @@ const DISPLAY = {
 	goToCheckoutPage: function () {
 		let CHECKOUT_PAGE = document.querySelector(".checkout-page");
 		let ORDERS_PAGE = document.querySelector(".orders-page");
+		let emptyDiv = document.querySelector(".empty");
 		CHECKOUT.HOME_PAGE.hidden = true;
 		CHECKOUT.NAV_BAR.hidden = true;
 		CHECKOUT_PAGE.hidden = false;
 		UPDATE.updateTotals();
-		// this.emptyOrderPageDisplay();
 
 		if (ORDERS_PAGE == null) {
-			return;
+			console.log("testing");
 		} else {
+			console.log("orders page should be shut down");
 			ORDERS_PAGE.hidden = true;
+		}
+		let cartItems = LOCAL_STORAGE.getCartItems();
+		console.log(cartItems);
+
+		if (cartItems == null || cartItems.length == 0) {
+			console.log(emptyDiv);
+			console.log("this ran");
+			emptyDiv.hidden = false;
+		}
+	},
+	hideEmptyDiv: function (emptyDiv) {
+		if (emptyDiv == null) {
+			console.log("testing");
+		} else {
+			emptyDiv.hidden = true;
 		}
 	},
 	goToHomePage: function () {
@@ -423,11 +441,21 @@ const DISPLAY = {
 		CHECKOUT.HOME_PAGE.hidden = false;
 		CHECKOUT.NAV_BAR.classList.remove("move-up");
 		CHECKOUT.NAV_BAR.hidden = false;
-		ORDERS_PAGE_DISPLAY.innerHTML = "";
-		ORDERS_PAGE.hidden = true;
+		let emptyDiv = document.querySelector(".empty");
 
+		if (emptyDiv == null) {
+			console.log("whatever");
+		} else {
+			emptyDiv.hidden = true;
+		}
+
+		if (ORDERS_PAGE == null) {
+			console.log("order page doesnt exist");
+		} else {
+			ORDERS_PAGE.hidden = true;
+		}
 		if (CHECKOUT_PAGE == null) {
-			return;
+			console.log("testing");
 		} else {
 			CHECKOUT_PAGE.hidden = true;
 		}
@@ -451,6 +479,7 @@ const DISPLAY = {
 			CHECKOUT.NAV_BAR.classList.add("move-up");
 
 			this.setUpOrdersPage();
+			ORDERS.addEventsToBuyBtns();
 		}
 	},
 	setUpOrdersPage: function () {
@@ -478,13 +507,15 @@ const DISPLAY = {
 			const ORDERS_PAGE = document.querySelector(".orders-page");
 			this.displayOrder(ORDER_PAGE_DISPLAY_DIV);
 			ORDERS_PAGE.hidden = false;
+			let headerText = document.querySelector(".order-page-header-text");
+			headerText.hidden = false;
 		}
 	},
 	saveOrderToLocal: function () {
 		let savedCart = LOCAL_STORAGE.getCartItems();
 		let orderDate = new Date().toDateString();
-		let orderTotal = CHECKOUT.totalPrice;
 		let uniqueID = Date.now();
+		let orderTotal = document.querySelector(".total-cost").textContent;
 
 		let deliveryDates = document.querySelectorAll(".delivery-date");
 		let i = 0;
@@ -598,7 +629,7 @@ const DISPLAY = {
                       <p class='order-item-count'>Quantity: ${product.itemQuantity}</p>
                 </div>
                 <div class='order-track-div order-facts'>
-                      <button class='buy-again-btn'>
+                      <button class='buy-again-btn' homePageIndex='${product.id - 1}'>
                             <img class='buy-again-logo' src='	https://supersimple.dev/projects/amazon/images/icons/buy-again.png' >
                       <p class='buy-btn-label'>Buy it again</p>
                       
@@ -618,7 +649,6 @@ const DISPLAY = {
 	},
 
 	loopOrderProductDiv: function (secTest) {
-		console.log(secTest, "this is secTest");
 		let productDivs = document.querySelectorAll(".order-product-div");
 		let i = 0;
 		secTest.map((cart) => {
@@ -631,28 +661,37 @@ const DISPLAY = {
 	},
 
 	showEmptyOrders: function () {
-		let orderPageDisplayDiv = document.querySelector(".order-page-display-div");
-		let emptyLogodiv = document.createElement("div");
-		emptyLogodiv.classList.add("empty-orders-logo-div");
-		let emptyLogo = document.createElement("img");
-		emptyLogo.setAttribute("src", "https://stylesage.co/blog/content/images/2018/10/sad_amazon.0.png");
-		emptyLogo.classList.add("empty-logo-img");
-		emptyLogodiv.append(emptyLogo);
-		orderPageDisplayDiv.append(emptyLogodiv);
-		let emptyOrdersLabelDiv = document.createElement("div");
-		emptyOrdersLabelDiv.classList.add("empty-label-div");
-		emptyOrdersLabelDiv.innerHTML = `<p class='empty-order-label'>Oh No! You haven't made <span class='any-text'>any orders</span> yet! Go back to the home page and keep shopping!</p>`;
-		orderPageDisplayDiv.append(emptyOrdersLabelDiv);
-		let homeBTN = document.createElement("button");
+		console.log(DISPLAY.ordersPageExist);
+		if (DISPLAY.ordersPageExist == false) {
+			let orderPageDisplayDiv = document.querySelector(".order-page-display-div");
+			let emptyLogodiv = document.createElement("div");
+			emptyLogodiv.classList.add("empty-orders-logo-div");
+			let emptyLogo = document.createElement("img");
+			emptyLogo.setAttribute("src", "https://stylesage.co/blog/content/images/2018/10/sad_amazon.0.png");
+			emptyLogo.classList.add("empty-logo-img");
+			emptyLogodiv.append(emptyLogo);
+			orderPageDisplayDiv.append(emptyLogodiv);
+			let emptyOrdersLabelDiv = document.createElement("div");
+			emptyOrdersLabelDiv.classList.add("empty-label-div");
+			emptyOrdersLabelDiv.innerHTML = `<p class='empty-order-label'>Oh No! You haven't made <span class='any-text'>any orders</span> yet! Go back to the home page and keep shopping!</p>`;
+			orderPageDisplayDiv.append(emptyOrdersLabelDiv);
+			let homeBTN = document.createElement("button");
 
-		let emptyBtnDiv = document.createElement("div");
-		emptyBtnDiv.classList.add("empty-btn-div");
-		homeBTN.classList.add("empty-order-btn");
-		homeBTN.textContent = "View Products";
-		emptyBtnDiv.append(homeBTN);
-		orderPageDisplayDiv.append(emptyBtnDiv);
-		let headerText = document.querySelector(".order-page-header-text");
-		headerText.hidden = true;
+			let emptyBtnDiv = document.createElement("div");
+			emptyBtnDiv.classList.add("empty-btn-div");
+			homeBTN.classList.add("empty-order-btn");
+			homeBTN.textContent = "View Products";
+			emptyBtnDiv.append(homeBTN);
+			orderPageDisplayDiv.append(emptyBtnDiv);
+			let headerText = document.querySelector(".order-page-header-text");
+			headerText.hidden = true;
+			DISPLAY.ordersPageExist = true;
+			console.log(DISPLAY.ordersPageExist);
+		} else {
+			const ORDERS_PAGE = document.querySelector(".orders-page");
+			ORDERS_PAGE.hidden = false;
+			headerText.hidden = false;
+		}
 	},
 };
 

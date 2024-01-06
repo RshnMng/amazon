@@ -17,7 +17,7 @@ const LOCAL_STORAGE = {
 		} else {
 			this.isItemAlreadyInCart(cartItems);
 		}
-		CHECKOUT.cartQuantity = this.getNumberOfCartItems();
+		CHECKOUT.cartQuantity = this.getNumberOfCartItems(event);
 		this.getCartStyling(CHECKOUT.cartQuantity, LOCAL_STORAGE.cartCount);
 	},
 	addFirstProductToCart: function (cartItems) {
@@ -79,7 +79,7 @@ const LOCAL_STORAGE = {
 	getNumberOfCartItems: function () {
 		let cartItems = localStorage.getItem("cartItems");
 
-		if (cartItems == null) {
+		if (cartItems == null || cartItems == undefined) {
 			return 0;
 		} else {
 			let itemsInCart = JSON.parse(cartItems);

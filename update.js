@@ -158,6 +158,14 @@ const UPDATE = {
 		PRODUCT_DISPLAY_DIV.innerHTML = "";
 
 		LOCAL_STORAGE.setLocalStorageCartItems(newCartItems);
+
+		const EMPTY_DIV = document.querySelector(".empty");
+
+		if (newCartItems.length == 0 && EMPTY_DIV == null) {
+			console.log("make empty div");
+		} else if (newCartItems.length == 0 && EMPTY_DIV != null) {
+			EMPTY_DIV.hidden = false;
+		}
 	},
 	deleteShipping: function (event) {
 		const SHIPPING_OPTIONS_JSON = localStorage.getItem("selectedShipping");
@@ -276,3 +284,6 @@ const UPDATE = {
 	},
 };
 export { UPDATE };
+
+// the total amount for the order page of a saved order needs to be properly caluculated when the
+// cart that was modified by using the delete link

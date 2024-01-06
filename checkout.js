@@ -20,6 +20,12 @@ const CHECKOUT = {
 	loadCheckoutPage: function () {
 		DISPLAY.setUpPage();
 		PAYMENT.addEventsToPayPal();
+		let ORDERS_PAGE = document.querySelector(".orders-page");
+		if (ORDERS_PAGE == null) {
+			console.log("testing");
+		} else {
+			ORDERS_PAGE.hidden = true;
+		}
 	},
 };
 
