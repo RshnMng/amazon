@@ -1,6 +1,5 @@
 import { products } from "./product.js";
 import { LOCAL_STORAGE } from "./localStorage.js";
-import { UPDATE } from "./update.js";
 
 const ORDERS = {
 	addEventsToBuyBtns: function () {
