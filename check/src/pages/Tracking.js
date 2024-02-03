@@ -1,5 +1,16 @@
 import React from "react";
 
 export default function Tracking() {
-  return <>This is the Tracking page</>;
+  return (
+    <>
+      <div className="home-page">
+        <div className="main-page">
+          <main className="product-grid js-product-grid">
+            <div>This is the Tracking Page</div>
+          </main>
+        </div>
+        <div className="error-div"></div>
+      </div>
+    </>
+  );
 }
