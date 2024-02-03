@@ -1,3 +1,4 @@
+import { createContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layouts/Layout";
 import Checkout from "./pages/Checkout";
@@ -5,6 +6,10 @@ import Orders from "./pages/Orders";
 import Tracking from "./pages/Tracking";
 import OrdersLayout from "./components/Layouts/OrdersLayout";
 import Home from "./pages/Home";
+import { products } from "./data/product";
+
+const productsContext = createContext(products);
+export { productsContext };
 
 function App() {
   return (
