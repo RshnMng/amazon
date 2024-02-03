@@ -1,5 +1,5 @@
 import { SET_UP_DATA } from "./setPage.js";
-import { products } from "./product.js";
+import { products } from "./amazon-react/src/data/product.js";
 
 const SEARCH = {
   searchResults: [],
@@ -13,12 +13,8 @@ const SEARCH = {
     return SEARCH_BAR;
   },
   addSEARCH_EVENT_LISTENERS: function (searchBar, searchBtn) {
-    searchBar.addEventListener("keyup", (event) =>
-      this.handleSearch(searchBar)
-    );
-    searchBtn.addEventListener("click", (event) =>
-      this.handleSearch(searchBar)
-    );
+    searchBar.addEventListener("keyup", (event) => this.handleSearch(searchBar));
+    searchBtn.addEventListener("click", (event) => this.handleSearch(searchBar));
   },
   handleSearch: function (searchBar) {
     let searchArr = SEARCH.getSearchText(searchBar);
@@ -51,10 +47,7 @@ const SEARCH = {
       let productKeyWords = product.keywords;
       productKeyWords.forEach((keyword) => {
         searchArr.forEach((searchWord) => {
-          if (
-            searchWord.includes(keyword) &&
-            !this.searchResults.includes(product)
-          ) {
+          if (searchWord.includes(keyword) && !this.searchResults.includes(product)) {
             this.searchResults.push(product);
           } else {
             return;
