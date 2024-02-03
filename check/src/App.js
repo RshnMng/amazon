@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
+import Layout from "./components/Layouts/Layout";
 import Checkout from "./pages/Checkout";
 import Orders from "./pages/Orders";
 import Tracking from "./pages/Tracking";
-import OrdersLayout from "./components/OrdersLayout";
+import OrdersLayout from "./components/Layouts/OrdersLayout";
 import Home from "./pages/Home";
 
 function App() {

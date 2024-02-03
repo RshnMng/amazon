@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 export default function LeftDiv() {
   return (
     <>
-      <div class="left-div">
+      <div className="left-div">
         <Link to="orders" className="return-link">
-          <div class="return-text">Returns</div>
-          <div class="order-text">& Orders</div>
+          <div className="return-text">Returns</div>
+          <div className="order-text">& Orders</div>
         </Link>
       </div>
     </>

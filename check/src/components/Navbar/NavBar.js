@@ -6,8 +6,8 @@ import CartDiv from "./CartDiv";
 export default function NavBar() {
   return (
     <>
-      <div class="nav-div">
-        <div class="nav-bar">
+      <div className="nav-div">
+        <div className="nav-bar">
           <LogoDiv />
           <SearchDiv />
           <CartDiv />

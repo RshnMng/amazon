@@ -5,7 +5,7 @@ import RightDiv from "./RightDiv";
 export default function CartDiv() {
   return (
     <>
-      <div class="cart-div">
+      <div className="cart-div">
         <LeftDiv />
         <RightDiv />
       </div>
