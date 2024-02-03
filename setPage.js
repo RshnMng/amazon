@@ -30,7 +30,7 @@ const SET_UP_DATA = {
         </div>
         <div class='product-price js-product-price'>$${DISPLAY.convertIntoFloatNumber(product.priceCents)}</div>
         <div id=${id} class='quantity-div js-quantity-div'>
-        <select class='drop-menu js-drop-menu'>
+        <select class='drop-menu js-drop-menu' name='drop-menu' id='drop-menu-${id}'>
         <option value="1">1</option>
         <option value="2">2</option>
           <option value="3">3</option>

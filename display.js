@@ -189,7 +189,7 @@ const DISPLAY = {
        </div>
       <input type='checkbox' class='shipping-checkbox' /><span>Ship to Shipping Address</span>
     </form>
-    <form class='shipping-form'>
+    <form class='shipping-form' name='user-info' id='user-info'>
     <p>Shipping Address</p>
     <div class='name-div'>
      <div class='fn-shipping-div'>

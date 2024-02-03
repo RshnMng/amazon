@@ -46,6 +46,7 @@
 body {
     margin: 0;
     font-family: 'Roboto', 'Arial';
+    font-size: 50px;
 }
 
 .billing-header{
@@ -951,7 +952,11 @@ p {
   
 }
 
+.check {
+    display: flex;
+    flex-direction: column;
 
+}
 
  
 
