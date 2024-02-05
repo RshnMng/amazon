@@ -5,21 +5,6 @@ import { DISPLAY } from "./display.js";
 import { SEARCH } from "./search.js";
 
 const SET_UP_DATA = {
-  BODY: document.querySelector("body"),
-  ERROR_DIV: document.querySelector(".error-div"),
-  PRODUCT_GRID: document.querySelector(".product-grid"),
-  NAV_BAR: document.querySelector(".nav-bar"),
-  AMAZON_LOGO_DIV: document.querySelector(".logo-div"),
-  firstLoad: true,
-
-  setUpPage() {
-    SET_UP_DATA.addAndLoopAddedDivs();
-    SET_UP_DATA.createNOT_FOUND();
-    SET_UP_DATA.postNOT_FOUND();
-    // SET_UP_DATA.handleSearchBTNS();
-    SET_UP_DATA.ADD_OPTIONS();
-    SET_UP_DATA.AMAZON_LOGO_DIV.addEventListener("click", () => DISPLAY.goToHomePage());
-  },
   ADD_OPTIONS: function () {
     let optionDivs = this.getAllOptionDivs();
     this.getOptions(optionDivs, products);
@@ -70,12 +55,6 @@ const SET_UP_DATA = {
     });
   },
 
-  addAndLoopAddedDivs: function () {
-    const ADD_DIVS = this.getADD_DIVS();
-    const ALL_BTNS = this.getALL_BTNS();
-    this.loopAddDiv(ADD_DIVS);
-    this.addClickEvent(ALL_BTNS, ADD_DIVS);
-  },
   loopAddDiv: function (ADD_DIVS) {
     ADD_DIVS.forEach((div) => {
       this.hideAddDiv(div);

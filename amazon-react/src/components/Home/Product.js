@@ -8,7 +8,7 @@ export default function Product(props) {
   const { id, image, name, rating, priceCents } = props;
   return (
     <>
-      <div id={id} class="product-div js-product-div">
+      <div id={id} className="product-div js-product-div">
         <ImageDiv image={image} name={name} />
         <RatingPriceDiv rating={rating} priceCents={priceCents} />
         <QuantityDiv id={id} />

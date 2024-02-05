@@ -1,9 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { productsContext } from "../App";
 import Product from "../components/Home/Product";
+import { HomeData } from "../data/HomeData";
 
 export default function Home() {
   const products = useContext(productsContext);
+  const [firstLoad, setFirstLoad] = useState(true);
+
+  useEffect(() => {
+    setFirstLoad((prevState) => !prevState);
+  }, []);
 
   let id = 0;
   const productElements = products.map((product) => {

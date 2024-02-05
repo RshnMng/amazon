@@ -3,8 +3,8 @@ import React from "react";
 export default function QuantityDiv({ id }) {
   return (
     <>
-      <div id={id} class="quantity-div js-quantity-div">
-        <select class="drop-menu js-drop-menu" name="drop-menu" id={`drop-menu-${id}`}>
+      <div id={id} className="quantity-div js-quantity-div">
+        <select className="drop-menu js-drop-menu" name="drop-menu" id={`drop-menu-${id}`}>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
