@@ -11,48 +11,8 @@ const SET_UP_DATA = {
   NAV_BAR: document.querySelector(".nav-bar"),
   AMAZON_LOGO_DIV: document.querySelector(".logo-div"),
   firstLoad: true,
-  setUpPage(products) {
-    let id = 0;
-    let product_html = "";
-    products.forEach((product) => {
-      id = id += 1;
-      product_html += `
-        <div id=${id} class="product-div js-product-div">
-        <div class='img-div'>
-        <img class='product-img' src="${product.image}" />
-        </div>
-        <div class='product-name-div'>
-        <p class='product-name js-product-name limit-to-2-lines'>${product.name}</p>
-        </div>
-        <div class='product-review'>
-        <img src='${product.rating.stars}' class='product-stars js-product-stars'>
-        <div class='product-count js-product-count'>${product.rating.count}</div>
-        </div>
-        <div class='product-price js-product-price'>$${DISPLAY.convertIntoFloatNumber(product.priceCents)}</div>
-        <div id=${id} class='quantity-div js-quantity-div'>
-        <select class='drop-menu js-drop-menu' name='drop-menu' id='drop-menu-${id}'>
-        <option value="1">1</option>
-        <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          </select>
-          </div>
-          <div  id=${OPTIONS.getOPTION_ID(product)} class='option-div'></div>
-          <div id=${id} class='added-div js-added-div'>
-          <img class='checkmark' src='https://www.supersimple.dev/projects/amazon/images/icons/checkmark.png'>
-          <p class='added-text'>Added</p>
-          </div>
-          <button id=${product.id} class='add-btn js-add-btn'>Add to Cart</button>
-          </div>
-          `;
-    });
-    SET_UP_DATA.PRODUCT_GRID.innerHTML = product_html;
+
+  setUpPage() {
     SET_UP_DATA.addAndLoopAddedDivs();
     SET_UP_DATA.createNOT_FOUND();
     SET_UP_DATA.postNOT_FOUND();

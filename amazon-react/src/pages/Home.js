@@ -1,21 +1,21 @@
 import React, { useContext } from "react";
 import { productsContext } from "../App";
+import Product from "../components/Home/Product";
 
 export default function Home() {
   const products = useContext(productsContext);
-  console.log(products);
 
-  // take products array here and map through them
-  // for each item in array create a <Product /> component while passing down props, we can pass down props
-  // in this instance because the items are uniform and wont change or be affected dynamically
+  let id = 0;
+  const productElements = products.map((product) => {
+    id = id + 1;
+    return <Product id={product.id} key={product.id} name={product.name} rating={product.rating} image={product.image} priceCents={product.priceCents} />;
+  });
 
   return (
     <>
       <div className="home-page">
         <div className="main-page">
-          <main className="product-grid js-product-grid">
-            <div>This is the Home Page</div>
-          </main>
+          <main className="product-grid js-product-grid">{productElements}</main>
         </div>
         <div className="error-div"></div>
       </div>
