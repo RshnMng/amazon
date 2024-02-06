@@ -11,6 +11,9 @@ import { products } from "./data/product";
 const productsContext = createContext(products);
 export { productsContext };
 
+const localStorageContext = createContext([]);
+export { localStorageContext };
+
 function App() {
   return (
     <>

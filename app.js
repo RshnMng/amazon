@@ -1,4 +1,3 @@
-import { products } from "./amazon-react/src/data/product.js";
 import { SET_UP_DATA } from "./setPage.js";
 import { SEARCH } from "./search.js";
 import { CHECKOUT } from "./checkout.js";
