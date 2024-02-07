@@ -9,12 +9,14 @@ export default function OptionDiv({ id, options }) {
   const [selected, setSelected] = useState(false);
   const [choiceElements, setChoiceElements] = useState("");
   const cartItems = useContext(localStorageContext);
+  const updateCount = useContext(CountContext);
 
   useEffect(() => {
     if (options) {
       let keys = Object.keys(options);
-      let choiceElements = keys.map((key) => {
-        return <Choices keys={key} choices={options[key]} />;
+      let choiceElements = keys.map((name) => {
+        id += 1;
+        return <Choices keys={name} choices={options[name]} id={id} key={id} />;
       });
 
       setChoiceElements(choiceElements);
@@ -24,6 +26,7 @@ export default function OptionDiv({ id, options }) {
   function handleClick(event) {
     showAdded();
     addProductToLocal(event);
+    console.log(updateCount);
   }
 
   function showAdded() {
@@ -37,25 +40,18 @@ export default function OptionDiv({ id, options }) {
     const productQuantity = document.getElementById(`drop-menu-${id}`).value;
     selectedItem.productQuantity = productQuantity;
     cartItems.push(selectedItem);
-
-    // 3. fix errors in console
-    // 4. fix price cents display so it looks like dollars and cents
-
     LOCAL_STORAGE.saveToLocalStorage("cartItems", cartItems);
   }
 
   return (
     <>
-      <div key={id}>
-        <div id={id} key={id} className="option-div">
-          {choiceElements}
-        </div>
-        {/* above id was set to by [OPTIONS.getOPTION_ID(product)] */}
-        {selected && <AddedDiv id={id} />}
-        <button id={id} className="add-btn js-add-btn" onClick={handleClick}>
-          Add to Cart
-        </button>
+      <div id={id} className="option-div">
+        {choiceElements}
       </div>
+      {selected && <AddedDiv id={id} />}
+      <button id={id} className="add-btn js-add-btn" onClick={handleClick}>
+        Add to Cart
+      </button>
     </>
   );
 }

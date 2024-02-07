@@ -5,45 +5,45 @@ import { UPDATE } from "./update.js";
 import { ORDERS } from "./orders.js";
 
 const DISPLAY = {
-	firstLoad: true,
-	ordersFirstLoad: true,
-	ordersPageExist: false,
-	hideHomePage: function () {
-		CHECKOUT.HOME_PAGE.hidden = true;
-		CHECKOUT.NAV_BAR.hidden = true;
-	},
-	setUpPage: function () {
-		DISPLAY.hideHomePage();
-		DISPLAY.loadHeader();
-		DISPLAY.hideUpdateDropMenu();
-		DISPLAY.displayCheckoutAmount();
-		DATES.getDates();
-		UPDATE.updateTotals();
+  firstLoad: true,
+  ordersFirstLoad: true,
+  ordersPageExist: false,
+  hideHomePage: function () {
+    CHECKOUT.HOME_PAGE.hidden = true;
+    CHECKOUT.NAV_BAR.hidden = true;
+  },
+  setUpPage: function () {
+    DISPLAY.hideHomePage();
+    DISPLAY.loadHeader();
+    DISPLAY.hideUpdateDropMenu();
+    DISPLAY.displayCheckoutAmount();
+    DATES.getDates();
+    UPDATE.updateTotals();
 
-		const ORDERS_PAGE = document.querySelector(".orders-page");
+    const ORDERS_PAGE = document.querySelector(".orders-page");
 
-		if (ORDERS_PAGE == null) {
-			return;
-		} else {
-			ORDERS_PAGE.hidden = true;
-		}
-	},
-	displayCheckoutAmount: function () {
-		let checkOutHeader = document.querySelector(".checkout-header");
-		let itemsDisplay = document.querySelector(".items");
-		checkOutHeader.innerHTML = `Checkout (<span class= 'checkout-count'>${LOCAL_STORAGE.getNumberOfCartItems()} items </span>)`;
-		itemsDisplay.innerHTML = `Items(${LOCAL_STORAGE.getNumberOfCartItems()})`;
-	},
-	hideUpdateDropMenu: function () {
-		const UPDATE_DIV = document.querySelectorAll(".update");
-		UPDATE_DIV.forEach((update) => {
-			update.hidden = true;
-		});
-	},
-	loadHeader: function () {
-		let CHECKOUT_PAGE = document.createElement("div");
-		CHECKOUT_PAGE.classList.add("checkout-page");
-		let headerHtml = `
+    if (ORDERS_PAGE == null) {
+      return;
+    } else {
+      ORDERS_PAGE.hidden = true;
+    }
+  },
+  displayCheckoutAmount: function () {
+    let checkOutHeader = document.querySelector(".checkout-header");
+    let itemsDisplay = document.querySelector(".items");
+    checkOutHeader.innerHTML = `Checkout (<span class= 'checkout-count'>${LOCAL_STORAGE.getNumberOfCartItems()} items </span>)`;
+    itemsDisplay.innerHTML = `Items(${LOCAL_STORAGE.getNumberOfCartItems()})`;
+  },
+  hideUpdateDropMenu: function () {
+    const UPDATE_DIV = document.querySelectorAll(".update");
+    UPDATE_DIV.forEach((update) => {
+      update.hidden = true;
+    });
+  },
+  loadHeader: function () {
+    let CHECKOUT_PAGE = document.createElement("div");
+    CHECKOUT_PAGE.classList.add("checkout-page");
+    let headerHtml = `
     <div class='checkout-page'>
     <nav class="header-content">
       <div class="logo-container">
@@ -251,20 +251,20 @@ const DISPLAY = {
     </div>
    </main>
     `;
-		CHECKOUT_PAGE.innerHTML = headerHtml;
-		CHECKOUT.BODY.append(CHECKOUT_PAGE);
-	},
-	displayCart: function (cartItems) {
-		this.firstLoad = false;
-		let PRODUCT_DISPLAY_DIV = document.querySelector(".product-display-div");
-		let i = 0;
-		if (cartItems == null || cartItems.length == 0) {
-			this.showEmpty();
-		} else {
-			console.log("show empty not ran");
-			let productHtml = "";
-			cartItems.map((product) => {
-				productHtml += `
+    CHECKOUT_PAGE.innerHTML = headerHtml;
+    CHECKOUT.BODY.append(CHECKOUT_PAGE);
+  },
+  displayCart: function (cartItems) {
+    this.firstLoad = false;
+    let PRODUCT_DISPLAY_DIV = document.querySelector(".product-display-div");
+    let i = 0;
+    if (cartItems == null || cartItems.length == 0) {
+      this.showEmpty();
+    } else {
+      console.log("show empty not ran");
+      let productHtml = "";
+      cartItems.map((product) => {
+        productHtml += `
         <div class='product-display' productIndex=${product.chosenProduct.id} localStorageIndex=${i}>
           <header class='delivery-date'>Delivery date: ${DATES.fiveDay}, ${DATES.fiveDayMonth} ${DATES.fiveDayDate}</header>  
               <div class='product-info-div'>
@@ -345,241 +345,235 @@ const DISPLAY = {
          </div>
       `;
 
-				i += 1;
-				PRODUCT_DISPLAY_DIV.innerHTML = productHtml;
-				let CHECKOUT_MAIN = document.querySelector(".checkout-main");
-				CHECKOUT_MAIN.append(PRODUCT_DISPLAY_DIV);
-			});
-		}
-	},
-	showEmpty: function () {
-		const EMPTY_DIV = document.querySelector(".empty");
-		const ESTIMATED_TAX = document.querySelector(".tax-total-price");
-		const BEFORE_TAX_DIV = document.querySelector(".before-tax-total");
-		ESTIMATED_TAX.textContent = `$0.00`;
-		BEFORE_TAX_DIV.textContent = `$0.00`;
+        i += 1;
+        PRODUCT_DISPLAY_DIV.innerHTML = productHtml;
+        let CHECKOUT_MAIN = document.querySelector(".checkout-main");
+        CHECKOUT_MAIN.append(PRODUCT_DISPLAY_DIV);
+      });
+    }
+  },
+  showEmpty: function () {
+    const EMPTY_DIV = document.querySelector(".empty");
+    const ESTIMATED_TAX = document.querySelector(".tax-total-price");
+    const BEFORE_TAX_DIV = document.querySelector(".before-tax-total");
+    ESTIMATED_TAX.textContent = `$0.00`;
+    BEFORE_TAX_DIV.textContent = `$0.00`;
 
-		if (!document.body.contains(EMPTY_DIV)) {
-			DISPLAY.addEmptyCart();
-		}
-	},
-	displayTotalBeforeTax(total) {
-		const BEFORE_TAX_DIV = document.querySelector(".before-tax-total");
-		BEFORE_TAX_DIV.textContent = `$${total}`;
-	},
-	displayShippingTotal(shippingTotal) {
-		let SHIPPING_PRICE_DIV = document.querySelector(".shipping-price");
-		if (shippingTotal == 0 || shippingTotal == null) {
-			SHIPPING_PRICE_DIV.innerText = "$0.00";
-		} else {
-			SHIPPING_PRICE_DIV.innerText = `$${CHECKOUT.shippingTotal}`;
-		}
-	},
-	addEmptyCart: function () {
-		const CHECKOUT_MAIN = document.querySelector(".checkout-main");
-		const EMPTY_DIV = document.createElement("div");
-		EMPTY_DIV.classList.add("empty");
-		const EMPTY_HEADER = document.createElement("div");
-		EMPTY_HEADER.classList.add("empty-header");
-		EMPTY_HEADER.textContent = "Your cart is empty.";
-		const EMPTY_BUTTON = document.createElement("button");
-		EMPTY_BUTTON.classList.add("empty-button");
-		EMPTY_BUTTON.textContent = "View Products";
-		EMPTY_DIV.append(EMPTY_HEADER);
-		EMPTY_DIV.append(EMPTY_BUTTON);
-		CHECKOUT_MAIN.append(EMPTY_DIV);
-		EMPTY_BUTTON.addEventListener("click", () => {
-			DISPLAY.goToHomePage();
-			EMPTY_DIV.remove();
-		});
-	},
-	convertIntoFloatNumber: function (data) {
-		let number = Number(data);
-		let float = number / 100;
-		let price = float.toFixed(2);
-		return price;
-	},
+    if (!document.body.contains(EMPTY_DIV)) {
+      DISPLAY.addEmptyCart();
+    }
+  },
+  displayTotalBeforeTax(total) {
+    const BEFORE_TAX_DIV = document.querySelector(".before-tax-total");
+    BEFORE_TAX_DIV.textContent = `$${total}`;
+  },
+  displayShippingTotal(shippingTotal) {
+    let SHIPPING_PRICE_DIV = document.querySelector(".shipping-price");
+    if (shippingTotal == 0 || shippingTotal == null) {
+      SHIPPING_PRICE_DIV.innerText = "$0.00";
+    } else {
+      SHIPPING_PRICE_DIV.innerText = `$${CHECKOUT.shippingTotal}`;
+    }
+  },
+  addEmptyCart: function () {
+    const CHECKOUT_MAIN = document.querySelector(".checkout-main");
+    const EMPTY_DIV = document.createElement("div");
+    EMPTY_DIV.classList.add("empty");
+    const EMPTY_HEADER = document.createElement("div");
+    EMPTY_HEADER.classList.add("empty-header");
+    EMPTY_HEADER.textContent = "Your cart is empty.";
+    const EMPTY_BUTTON = document.createElement("button");
+    EMPTY_BUTTON.classList.add("empty-button");
+    EMPTY_BUTTON.textContent = "View Products";
+    EMPTY_DIV.append(EMPTY_HEADER);
+    EMPTY_DIV.append(EMPTY_BUTTON);
+    CHECKOUT_MAIN.append(EMPTY_DIV);
+    EMPTY_BUTTON.addEventListener("click", () => {
+      DISPLAY.goToHomePage();
+      EMPTY_DIV.remove();
+    });
+  },
 
-	goToCheckoutPage: function () {
-		let CHECKOUT_PAGE = document.querySelector(".checkout-page");
-		let ORDERS_PAGE = document.querySelector(".orders-page");
-		let emptyDiv = document.querySelector(".empty");
-		CHECKOUT.HOME_PAGE.hidden = true;
-		CHECKOUT.NAV_BAR.hidden = true;
-		CHECKOUT_PAGE.hidden = false;
-		UPDATE.updateTotals();
+  goToCheckoutPage: function () {
+    let CHECKOUT_PAGE = document.querySelector(".checkout-page");
+    let ORDERS_PAGE = document.querySelector(".orders-page");
+    let emptyDiv = document.querySelector(".empty");
+    CHECKOUT.HOME_PAGE.hidden = true;
+    CHECKOUT.NAV_BAR.hidden = true;
+    CHECKOUT_PAGE.hidden = false;
+    UPDATE.updateTotals();
 
-		if (ORDERS_PAGE == null) {
-			console.log("testing");
-		} else {
-			console.log("orders page should be shut down");
-			ORDERS_PAGE.hidden = true;
-		}
-		let cartItems = LOCAL_STORAGE.getCartItems();
-		console.log(cartItems);
+    if (ORDERS_PAGE == null) {
+      console.log("testing");
+    } else {
+      console.log("orders page should be shut down");
+      ORDERS_PAGE.hidden = true;
+    }
+    let cartItems = LOCAL_STORAGE.getCartItems();
+    console.log(cartItems);
 
-		if (cartItems == null || cartItems.length == 0) {
-			console.log(emptyDiv);
-			console.log("this ran");
-			emptyDiv.hidden = false;
-		}
-	},
-	hideEmptyDiv: function (emptyDiv) {
-		if (emptyDiv == null) {
-			console.log("testing");
-		} else {
-			emptyDiv.hidden = true;
-		}
-	},
-	goToHomePage: function () {
-		let CHECKOUT_PAGE = document.querySelector(".checkout-page");
-		const ORDERS_PAGE = document.querySelector(".orders-page");
-		const ORDERS_PAGE_DISPLAY = document.querySelector(".order-page-display-div");
-		LOCAL_STORAGE.cartCount.textContent = LOCAL_STORAGE.getNumberOfCartItems();
-		CHECKOUT.cartQuantity = LOCAL_STORAGE.getNumberOfCartItems();
-		LOCAL_STORAGE.getCartStyling(CHECKOUT.cartQuantity, LOCAL_STORAGE.cartCount);
-		CHECKOUT.HOME_PAGE.hidden = false;
-		CHECKOUT.NAV_BAR.classList.remove("move-up");
-		CHECKOUT.NAV_BAR.hidden = false;
-		let emptyDiv = document.querySelector(".empty");
+    if (cartItems == null || cartItems.length == 0) {
+      console.log(emptyDiv);
+      console.log("this ran");
+      emptyDiv.hidden = false;
+    }
+  },
+  hideEmptyDiv: function (emptyDiv) {
+    if (emptyDiv == null) {
+      console.log("testing");
+    } else {
+      emptyDiv.hidden = true;
+    }
+  },
+  goToHomePage: function () {
+    let CHECKOUT_PAGE = document.querySelector(".checkout-page");
+    const ORDERS_PAGE = document.querySelector(".orders-page");
+    const ORDERS_PAGE_DISPLAY = document.querySelector(".order-page-display-div");
+    LOCAL_STORAGE.cartCount.textContent = LOCAL_STORAGE.getNumberOfCartItems();
+    CHECKOUT.cartQuantity = LOCAL_STORAGE.getNumberOfCartItems();
+    LOCAL_STORAGE.getCartStyling(CHECKOUT.cartQuantity, LOCAL_STORAGE.cartCount);
+    CHECKOUT.HOME_PAGE.hidden = false;
+    CHECKOUT.NAV_BAR.classList.remove("move-up");
+    CHECKOUT.NAV_BAR.hidden = false;
+    let emptyDiv = document.querySelector(".empty");
 
-		if (emptyDiv == null) {
-			console.log("whatever");
-		} else {
-			emptyDiv.hidden = true;
-		}
+    if (emptyDiv == null) {
+      console.log("whatever");
+    } else {
+      emptyDiv.hidden = true;
+    }
 
-		if (ORDERS_PAGE == null) {
-			console.log("order page doesnt exist");
-		} else {
-			ORDERS_PAGE.hidden = true;
-		}
-		if (CHECKOUT_PAGE == null) {
-			console.log("testing");
-		} else {
-			CHECKOUT_PAGE.hidden = true;
-		}
+    if (ORDERS_PAGE == null) {
+      console.log("order page doesnt exist");
+    } else {
+      ORDERS_PAGE.hidden = true;
+    }
+    if (CHECKOUT_PAGE == null) {
+      console.log("testing");
+    } else {
+      CHECKOUT_PAGE.hidden = true;
+    }
 
-		// the ordrs page doesnt become hidden when this function runs // fix that
+    // the ordrs page doesnt become hidden when this function runs // fix that
 
-		// this.emptyOrderPageDisplay();
-	},
-	goToOrdersPage: function (event) {
-		if (event.target.classList.contains("place-order")) {
-			let CHECKOUT_PAGE = document.querySelector(".checkout-page");
-			let PRODUCT_DISPLAY_DIV = document.querySelector(".product-display-div");
-			this.saveOrderToLocal();
-			PRODUCT_DISPLAY_DIV.innerHTML = "";
-			CHECKOUT_PAGE.hidden = true;
-			CHECKOUT.NAV_BAR.hidden = false;
-			CHECKOUT.NAV_BAR.classList.add("move-up");
-			this.setUpOrdersPage();
-		} else {
-			CHECKOUT.HOME_PAGE.hidden = true;
-			CHECKOUT.NAV_BAR.classList.add("move-up");
+    // this.emptyOrderPageDisplay();
+  },
+  goToOrdersPage: function (event) {
+    if (event.target.classList.contains("place-order")) {
+      let CHECKOUT_PAGE = document.querySelector(".checkout-page");
+      let PRODUCT_DISPLAY_DIV = document.querySelector(".product-display-div");
+      this.saveOrderToLocal();
+      PRODUCT_DISPLAY_DIV.innerHTML = "";
+      CHECKOUT_PAGE.hidden = true;
+      CHECKOUT.NAV_BAR.hidden = false;
+      CHECKOUT.NAV_BAR.classList.add("move-up");
+      this.setUpOrdersPage();
+    } else {
+      CHECKOUT.HOME_PAGE.hidden = true;
+      CHECKOUT.NAV_BAR.classList.add("move-up");
 
-			this.setUpOrdersPage();
-		}
-	},
-	setUpOrdersPage: function () {
-		if (this.ordersFirstLoad == true) {
-			let ordersPage = document.createElement("div");
-			ordersPage.classList.add("orders-page");
-			CHECKOUT.BODY.append(ordersPage);
-			const ORDER_MAIN = document.createElement("div");
-			ORDER_MAIN.classList.add("order-main");
-			ordersPage.append(ORDER_MAIN);
-			const HEADER = document.createElement("div");
-			HEADER.classList.add("order-page-header");
-			HEADER.innerHTML = ` <p class='order-page-header-text'> Your Orders </p> `;
-			ORDER_MAIN.append(HEADER);
-			const ORDER_PAGE_DISPLAY_DIV = document.createElement("div");
-			ORDER_PAGE_DISPLAY_DIV.classList.add("order-page-display-div");
-			ORDER_MAIN.append(ORDER_PAGE_DISPLAY_DIV);
+      this.setUpOrdersPage();
+    }
+  },
+  setUpOrdersPage: function () {
+    if (this.ordersFirstLoad == true) {
+      let ordersPage = document.createElement("div");
+      ordersPage.classList.add("orders-page");
+      CHECKOUT.BODY.append(ordersPage);
+      const ORDER_MAIN = document.createElement("div");
+      ORDER_MAIN.classList.add("order-main");
+      ordersPage.append(ORDER_MAIN);
+      const HEADER = document.createElement("div");
+      HEADER.classList.add("order-page-header");
+      HEADER.innerHTML = ` <p class='order-page-header-text'> Your Orders </p> `;
+      ORDER_MAIN.append(HEADER);
+      const ORDER_PAGE_DISPLAY_DIV = document.createElement("div");
+      ORDER_PAGE_DISPLAY_DIV.classList.add("order-page-display-div");
+      ORDER_MAIN.append(ORDER_PAGE_DISPLAY_DIV);
 
-			// above sets up header on order page regardless if page has any previous saved orders
+      // above sets up header on order page regardless if page has any previous saved orders
 
-			this.displayOrder(ORDER_PAGE_DISPLAY_DIV);
-			this.ordersFirstLoad = false;
-		} else {
-			const ORDER_PAGE_DISPLAY_DIV = document.querySelector(".order-page-display-div");
-			const ORDERS_PAGE = document.querySelector(".orders-page");
-			this.displayOrder(ORDER_PAGE_DISPLAY_DIV);
-			ORDERS_PAGE.hidden = false;
-			let headerText = document.querySelector(".order-page-header-text");
-			headerText.hidden = false;
-		}
-	},
-	saveOrderToLocal: function () {
-		let savedCart = LOCAL_STORAGE.getCartItems();
-		let orderDate = new Date().toDateString();
-		let uniqueID = Date.now();
-		let orderTotal = document.querySelector(".total-cost").textContent;
+      this.displayOrder(ORDER_PAGE_DISPLAY_DIV);
+      this.ordersFirstLoad = false;
+    } else {
+      const ORDER_PAGE_DISPLAY_DIV = document.querySelector(".order-page-display-div");
+      const ORDERS_PAGE = document.querySelector(".orders-page");
+      this.displayOrder(ORDER_PAGE_DISPLAY_DIV);
+      ORDERS_PAGE.hidden = false;
+      let headerText = document.querySelector(".order-page-header-text");
+      headerText.hidden = false;
+    }
+  },
+  saveOrderToLocal: function () {
+    let savedCart = LOCAL_STORAGE.getCartItems();
+    let orderDate = new Date().toDateString();
+    let uniqueID = Date.now();
+    let orderTotal = document.querySelector(".total-cost").textContent;
 
-		let deliveryDates = document.querySelectorAll(".delivery-date");
-		let i = 0;
-		deliveryDates.forEach((date) => {
-			savedCart[i].deliveryDate = deliveryDates[i].textContent;
-			i++;
-		});
-		let totalOrder = {
-			orderDate,
-			orderTotal,
-			uniqueID,
-			savedCart,
-		};
+    let deliveryDates = document.querySelectorAll(".delivery-date");
+    let i = 0;
+    deliveryDates.forEach((date) => {
+      savedCart[i].deliveryDate = deliveryDates[i].textContent;
+      i++;
+    });
+    let totalOrder = {
+      orderDate,
+      orderTotal,
+      uniqueID,
+      savedCart,
+    };
 
-		let savedOrdersJSON = localStorage.getItem("savedOrders");
-		let savedOrders = JSON.parse(savedOrdersJSON);
+    let savedOrdersJSON = localStorage.getItem("savedOrders");
+    let savedOrders = JSON.parse(savedOrdersJSON);
 
-		if (savedOrders == null) {
-			CHECKOUT.savedOrders = [];
-		} else {
-			CHECKOUT.savedOrders = savedOrders;
-		}
+    if (savedOrders == null) {
+      CHECKOUT.savedOrders = [];
+    } else {
+      CHECKOUT.savedOrders = savedOrders;
+    }
 
-		CHECKOUT.savedOrders.unshift(totalOrder);
-		let currentOrderJSON = JSON.stringify(CHECKOUT.savedOrders);
-		localStorage.setItem("savedOrders", currentOrderJSON);
-		let currentTotals = {
-			cartItems: null,
-			cartQuantity: 0,
-			preTaxPrice: "0.00",
-			shippingArr: [],
-			shippingTotal: 0,
-			tax: "0.00",
-			totalArr: [],
-			totalPrice: "0.00",
-		};
+    CHECKOUT.savedOrders.unshift(totalOrder);
+    let currentOrderJSON = JSON.stringify(CHECKOUT.savedOrders);
+    localStorage.setItem("savedOrders", currentOrderJSON);
+    let currentTotals = {
+      cartItems: null,
+      cartQuantity: 0,
+      preTaxPrice: "0.00",
+      shippingArr: [],
+      shippingTotal: 0,
+      tax: "0.00",
+      totalArr: [],
+      totalPrice: "0.00",
+    };
 
-		let selectedShipping = [];
-		let selectedShippingJSON = JSON.stringify(selectedShipping);
+    let selectedShipping = [];
+    let selectedShippingJSON = JSON.stringify(selectedShipping);
 
-		let cartItems = [];
-		let cartItemsJSON = JSON.stringify(cartItems);
+    let cartItems = [];
+    let cartItemsJSON = JSON.stringify(cartItems);
 
-		let currentTotalsJSON = JSON.stringify(currentTotals);
-		localStorage.setItem("currentTotals", currentTotalsJSON);
-		localStorage.setItem("selectedShipping", selectedShippingJSON);
-		localStorage.setItem("cartItems", cartItemsJSON);
-		CHECKOUT.cartCount.textContent = 0;
-	},
-	displayOrder: function (ORDER_PAGE_DISPLAY_DIV) {
-		let savedOrdersJSON = localStorage.getItem("savedOrders");
-		let savedOrders = JSON.parse(savedOrdersJSON);
+    let currentTotalsJSON = JSON.stringify(currentTotals);
+    localStorage.setItem("currentTotals", currentTotalsJSON);
+    localStorage.setItem("selectedShipping", selectedShippingJSON);
+    localStorage.setItem("cartItems", cartItemsJSON);
+    CHECKOUT.cartCount.textContent = 0;
+  },
+  displayOrder: function (ORDER_PAGE_DISPLAY_DIV) {
+    let savedOrdersJSON = localStorage.getItem("savedOrders");
+    let savedOrders = JSON.parse(savedOrdersJSON);
 
-		if (savedOrders == null) {
-			this.showEmptyOrders();
-		} else {
-			this.test(savedOrders, ORDER_PAGE_DISPLAY_DIV);
-		}
-	},
+    if (savedOrders == null) {
+      this.showEmptyOrders();
+    } else {
+      this.test(savedOrders, ORDER_PAGE_DISPLAY_DIV);
+    }
+  },
 
-	test: function (savedOrders, ORDER_PAGE_DISPLAY_DIV) {
-		let orderHtml = "";
-		let i = 0;
-		let thisCart = savedOrders.map((order) => {
-			orderHtml += `
+  test: function (savedOrders, ORDER_PAGE_DISPLAY_DIV) {
+    let orderHtml = "";
+    let i = 0;
+    let thisCart = savedOrders.map((order) => {
+      orderHtml += `
         <div class='order-page-display'>
              <div class='order-info'>
                  <div class='order-placed-div order-label-divs'>
@@ -600,21 +594,21 @@ const DISPLAY = {
         </div>
         </div>
         `;
-			let thisCart = order.savedCart;
-			i++;
-			return thisCart;
-		});
-		ORDER_PAGE_DISPLAY_DIV.innerHTML = orderHtml;
-		this.displayPurchasedProducts(thisCart);
-	},
+      let thisCart = order.savedCart;
+      i++;
+      return thisCart;
+    });
+    ORDER_PAGE_DISPLAY_DIV.innerHTML = orderHtml;
+    this.displayPurchasedProducts(thisCart);
+  },
 
-	displayPurchasedProducts: function (thisCart) {
-		let cartHtml = "";
-		let i = 0;
-		let secTest = thisCart.map((cart) => {
-			let j = 0;
-			let testing = cart.map((product) => {
-				cartHtml = `
+  displayPurchasedProducts: function (thisCart) {
+    let cartHtml = "";
+    let i = 0;
+    let secTest = thisCart.map((cart) => {
+      let j = 0;
+      let testing = cart.map((product) => {
+        cartHtml = `
 				<div class='bought-product-div' id="bought-product-div${i}">
 				    <div class='order-photo-div'>
                 <img class='order-item-img' src='${product.chosenProduct.image}'/>
@@ -640,61 +634,61 @@ const DISPLAY = {
             </div>
 				</div>
 				`;
-				j++;
-				return cartHtml;
-			});
-			i++;
-			return testing;
-		});
-		this.loopOrderProductDiv(secTest);
-		ORDERS.addEventsToBuyBtns();
-	},
+        j++;
+        return cartHtml;
+      });
+      i++;
+      return testing;
+    });
+    this.loopOrderProductDiv(secTest);
+    ORDERS.addEventsToBuyBtns();
+  },
 
-	loopOrderProductDiv: function (secTest) {
-		let productDivs = document.querySelectorAll(".order-product-div");
-		let i = 0;
-		secTest.map((cart) => {
-			cart.map((cartItem) => {
-				let productDiv = productDivs[i];
-				productDiv.innerHTML += cartItem;
-			});
-			i++;
-		});
-	},
+  loopOrderProductDiv: function (secTest) {
+    let productDivs = document.querySelectorAll(".order-product-div");
+    let i = 0;
+    secTest.map((cart) => {
+      cart.map((cartItem) => {
+        let productDiv = productDivs[i];
+        productDiv.innerHTML += cartItem;
+      });
+      i++;
+    });
+  },
 
-	showEmptyOrders: function () {
-		console.log(DISPLAY.ordersPageExist);
-		if (DISPLAY.ordersPageExist == false) {
-			let orderPageDisplayDiv = document.querySelector(".order-page-display-div");
-			let emptyLogodiv = document.createElement("div");
-			emptyLogodiv.classList.add("empty-orders-logo-div");
-			let emptyLogo = document.createElement("img");
-			emptyLogo.setAttribute("src", "https://stylesage.co/blog/content/images/2018/10/sad_amazon.0.png");
-			emptyLogo.classList.add("empty-logo-img");
-			emptyLogodiv.append(emptyLogo);
-			orderPageDisplayDiv.append(emptyLogodiv);
-			let emptyOrdersLabelDiv = document.createElement("div");
-			emptyOrdersLabelDiv.classList.add("empty-label-div");
-			emptyOrdersLabelDiv.innerHTML = `<p class='empty-order-label'>Oh No! You haven't made <span class='any-text'>any orders</span> yet! Go back to the home page and keep shopping!</p>`;
-			orderPageDisplayDiv.append(emptyOrdersLabelDiv);
-			let homeBTN = document.createElement("button");
+  showEmptyOrders: function () {
+    console.log(DISPLAY.ordersPageExist);
+    if (DISPLAY.ordersPageExist == false) {
+      let orderPageDisplayDiv = document.querySelector(".order-page-display-div");
+      let emptyLogodiv = document.createElement("div");
+      emptyLogodiv.classList.add("empty-orders-logo-div");
+      let emptyLogo = document.createElement("img");
+      emptyLogo.setAttribute("src", "https://stylesage.co/blog/content/images/2018/10/sad_amazon.0.png");
+      emptyLogo.classList.add("empty-logo-img");
+      emptyLogodiv.append(emptyLogo);
+      orderPageDisplayDiv.append(emptyLogodiv);
+      let emptyOrdersLabelDiv = document.createElement("div");
+      emptyOrdersLabelDiv.classList.add("empty-label-div");
+      emptyOrdersLabelDiv.innerHTML = `<p class='empty-order-label'>Oh No! You haven't made <span class='any-text'>any orders</span> yet! Go back to the home page and keep shopping!</p>`;
+      orderPageDisplayDiv.append(emptyOrdersLabelDiv);
+      let homeBTN = document.createElement("button");
 
-			let emptyBtnDiv = document.createElement("div");
-			emptyBtnDiv.classList.add("empty-btn-div");
-			homeBTN.classList.add("empty-order-btn");
-			homeBTN.textContent = "View Products";
-			emptyBtnDiv.append(homeBTN);
-			orderPageDisplayDiv.append(emptyBtnDiv);
-			let headerText = document.querySelector(".order-page-header-text");
-			headerText.hidden = true;
-			DISPLAY.ordersPageExist = true;
-			console.log(DISPLAY.ordersPageExist);
-		} else {
-			const ORDERS_PAGE = document.querySelector(".orders-page");
-			ORDERS_PAGE.hidden = false;
-			headerText.hidden = false;
-		}
-	},
+      let emptyBtnDiv = document.createElement("div");
+      emptyBtnDiv.classList.add("empty-btn-div");
+      homeBTN.classList.add("empty-order-btn");
+      homeBTN.textContent = "View Products";
+      emptyBtnDiv.append(homeBTN);
+      orderPageDisplayDiv.append(emptyBtnDiv);
+      let headerText = document.querySelector(".order-page-header-text");
+      headerText.hidden = true;
+      DISPLAY.ordersPageExist = true;
+      console.log(DISPLAY.ordersPageExist);
+    } else {
+      const ORDERS_PAGE = document.querySelector(".orders-page");
+      ORDERS_PAGE.hidden = false;
+      headerText.hidden = false;
+    }
+  },
 };
 
 export { DISPLAY };

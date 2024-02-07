@@ -5,6 +5,11 @@ const LOCAL_STORAGE = {
     let itemJSON = JSON.stringify(itemToSave);
     localStorage.setItem(name, itemJSON);
   },
+  getLocalStorage: (name) => {
+    const itemJSON = localStorage.getItem(name);
+    const item = JSON.parse(itemJSON);
+    return item;
+  },
 };
 
 export { LOCAL_STORAGE };
