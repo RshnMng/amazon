@@ -21,19 +21,25 @@ export default function OptionDiv({ id, options }) {
     }
   }, []);
 
-  function showAdded(event) {
-    setSelected((prevState) => !prevState);
-    setTimeout(() => setSelected((prevState) => !prevState), 2000);
+  function handleClick(event) {
+    showAdded();
     addProductToLocal(event);
   }
+
+  function showAdded() {
+    setSelected((prevState) => !prevState);
+    setTimeout(() => setSelected((prevState) => !prevState), 2000);
+  }
+
   function addProductToLocal(event) {
     const productIndex = event.target.id;
     const selectedItem = products[productIndex - 1];
+    const productQuantity = document.getElementById(`drop-menu-${id}`).value;
+    selectedItem.productQuantity = productQuantity;
     cartItems.push(selectedItem);
 
-    // retrieve quantity of product and add it to cart items array before saving it to local
-    // fix errors in console
-    // fix price cents display so it looks like dollars and cents
+    // 3. fix errors in console
+    // 4. fix price cents display so it looks like dollars and cents
 
     LOCAL_STORAGE.saveToLocalStorage("cartItems", cartItems);
   }
@@ -46,7 +52,7 @@ export default function OptionDiv({ id, options }) {
         </div>
         {/* above id was set to by [OPTIONS.getOPTION_ID(product)] */}
         {selected && <AddedDiv id={id} />}
-        <button id={id} className="add-btn js-add-btn" onClick={showAdded}>
+        <button id={id} className="add-btn js-add-btn" onClick={handleClick}>
           Add to Cart
         </button>
       </div>
