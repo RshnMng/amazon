@@ -1,27 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { LOCAL_STORAGE } from "../../functions/LocalStorage";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../../App";
 
 export default function RightDiv() {
-  const [count, setCount] = useState(0);
+  const value = useContext(Context);
+  const count = value.count;
 
-  useEffect(() => {
-    updateCount();
-  }, [count]);
-
-  function updateCount() {
-    let totalQuantity = 0;
-    let cartItems = LOCAL_STORAGE.getLocalStorage("cartItems");
-    cartItems
-      ? cartItems.forEach((item) => {
-          totalQuantity += Number(item.productQuantity);
-        })
-      : setCount(0);
-    setCount(totalQuantity);
-  }
-
-  // 1. we have to make it so update count runs on add button click
-  // 2. make it so correct styling is applied to the cart count depending on the amount
+  const cartClass = count > 100 ? "cart-count cart-count-over-100" : count > 10 ? "cart-count cart-count-over-ten" : "cart-count cart-count-under-ten";
 
   return (
     <>
@@ -29,7 +14,7 @@ export default function RightDiv() {
         <Link to="checkout" className="cart-link">
           <img className="cart-img" src="https://supersimple.dev/projects/amazon/images/icons/cart-icon.png" />
         </Link>
-        <div className="cart-count">{count}</div>
+        <div className={cartClass}>{count}</div>
         <div className="cart-name">cart</div>
       </div>
     </>

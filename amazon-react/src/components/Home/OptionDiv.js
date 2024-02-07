@@ -4,11 +4,14 @@ import AddedDiv from "./AddedDiv";
 import Choices from "./Choices";
 import { LOCAL_STORAGE } from "../../functions/LocalStorage";
 import { localStorageContext } from "../../App.js";
+import { Context } from "../../App.js";
 
 export default function OptionDiv({ id, options }) {
   const [selected, setSelected] = useState(false);
   const [choiceElements, setChoiceElements] = useState("");
   const cartItems = useContext(localStorageContext);
+  const value = useContext(Context);
+  const updateCount = value.updateCount;
 
   useEffect(() => {
     if (options) {
@@ -25,6 +28,7 @@ export default function OptionDiv({ id, options }) {
   function handleClick(event) {
     showAdded();
     addProductToLocal(event);
+    updateCount();
   }
 
   function showAdded() {

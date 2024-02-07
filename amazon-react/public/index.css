@@ -1,5 +1,29 @@
 
+/* NAVBAR - RIGHT DIV */
 
+  .cart-count-under-ten {
+      bottom: 41px;
+      left: 33px;
+
+  }
+
+  .cart-count-over-ten {
+      bottom: 41px;
+      left: 29px;
+  }
+
+
+  .cart-count-over-100 {
+      font-size: 13px;
+      bottom: 39px;
+      left: 26px;
+  }
+
+
+
+
+
+/* NAV BAR - LOGO DIV */
 .amazon-logo-img {
     border: none;
     margin-top: 12px;
@@ -113,23 +137,7 @@ body {
   }
 
 
-  .cart-count-under-ten {
-      bottom: 41px;
-      left: 33px;
 
-  }
-
-  .cart-count-over-ten {
-      bottom: 41px;
-      left: 29px;
-  }
-
-
-  .cart-count-over-100 {
-      font-size: 13px;
-      bottom: 39px;
-      left: 26px;
-  }
 
   .choice-div {
       margin-top: 5px;
