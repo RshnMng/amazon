@@ -9,7 +9,6 @@ export default function OptionDiv({ id, options }) {
   const [selected, setSelected] = useState(false);
   const [choiceElements, setChoiceElements] = useState("");
   const cartItems = useContext(localStorageContext);
-  const updateCount = useContext(CountContext);
 
   useEffect(() => {
     if (options) {
@@ -26,7 +25,6 @@ export default function OptionDiv({ id, options }) {
   function handleClick(event) {
     showAdded();
     addProductToLocal(event);
-    console.log(updateCount);
   }
 
   function showAdded() {
