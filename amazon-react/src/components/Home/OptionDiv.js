@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
-import { products } from "../../data/product";
 import AddedDiv from "./AddedDiv";
 import Choices from "./Choices";
 import { LOCAL_STORAGE } from "../../functions/LocalStorage";
-import { localStorageContext } from "../../App.js";
 import { Context } from "../../App.js";
 
 export default function OptionDiv({ id, options }) {
   const [selected, setSelected] = useState(false);
   const [choiceElements, setChoiceElements] = useState("");
-  const cartItems = useContext(localStorageContext);
-  const value = useContext(Context);
-  const updateCount = value.updateCount;
+  const data = useContext(Context);
+  const products = data.data.products;
+  console.log(products);
+  const cartItems = data.storage;
+  const updateCount = data.updateCount;
 
   useEffect(() => {
     if (options) {
